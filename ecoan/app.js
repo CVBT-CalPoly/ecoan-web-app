@@ -4,13 +4,34 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var Sequelize = require('sequelize');
-
+var Sequelize = require('sequelize')
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
+// Database information
+// Gets the database information from environment variables
+var dbHost = process.env.DB_HOST;
+var dbName = process.env.DB_NAME;
+var dbPort = process.env.DB_PORT;
+var dbUser = process.env.DB_USER;
+var dbPass = process.env.DB_PASS;
 
+var dbLoginCred = 'mysql://' + dbUser + ':' + dbPass + '@' + dbHost + ':' + dbPort + '/' + dbName;
+console.log("Your database login credential is: " + dbLoginCred )
+
+var sequelize = new Sequelize(dbLoginCred);
+// Checks the database connection
+sequelize
+  .authenticate()
+  .then(function(err) {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(function (err) {
+    console.log('Unable to connect to the database:', err);
+  });
+
+// Create the application
+var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -25,21 +46,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-
-
-var sequelize = new Sequelize('database', 'ecoan', 'YJU8XbQP9pSP', {
-  host: 'ecoan.ciqzndzyzwah.us-west-1.rds.amazonaws.com',
-  dialect: 'mysql',
-
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  },
-});
-
-// Or you can simply use a connection uri
-var sequelize = new Sequelize('mysql://ecoan:YJU8XbQP9pSP@ecoan.ciqzndzyzwah.us-west-1.rds.amazonaws.com:3306/ecoan');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
