@@ -1,16 +1,23 @@
-## CVBT Economic Analysis Project
+# CVBT Economic Analysis Project
 
 Developers: Jonathan Molina, Nathan Sylvia, Alex Ye
 
-### Getting Started
+## Getting Started
 
-Our application runs on NodeJS[https://nodejs.org/].
+### Installation
+Our application runs on [NodeJS](https://nodejs.org/).
 
-https://expressjs.com/en/starter/generator.html
-express --view=pug ecoan
-
-To start the server, use the following command:
+When node is installed, simply install the NodeJS project by running the following command on the project's root directory:
+`
+npm install
+`
+### Running
+To start the application server, use the following command:
 
 `DEBUG=myapp:* npm start`
 
-https://www.npmjs.com/package/mustache
+### [Express](http://expressjs.com/)
+
+### [Pug](https://pugjs.org/api/getting-started.html)
+
+### [Sequelize](http://docs.sequelizejs.com/en/v3/)
