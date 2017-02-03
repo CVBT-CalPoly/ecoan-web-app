@@ -14,7 +14,7 @@ When node is installed, simply install the NodeJS project by running the followi
 ### Running
 To start the application server, use the following command:
 
-`DEBUG=myapp:* npm start`
+`DEBUG=ecoan:* npm start`
 
 ### [Express](http://expressjs.com/)
 
