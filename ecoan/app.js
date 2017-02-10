@@ -7,28 +7,11 @@ var bodyParser = require('body-parser');
 var Sequelize = require('sequelize')
 var index = require('./routes/index');
 var users = require('./routes/users');
+var table = require('./routes/table');
+var models  = require('./models');
 
-// Database information
-// Gets the database information from environment variables
-var dbHost = process.env.DB_HOST;
-var dbName = process.env.DB_NAME;
-var dbPort = process.env.DB_PORT;
-var dbUser = process.env.DB_USER;
-var dbPass = process.env.DB_PASS;
 
-var dbLoginCred = 'mysql://' + dbUser + ':' + dbPass + '@' + dbHost + ':' + dbPort + '/' + dbName;
-console.log("Your database login credential is: " + dbLoginCred )
-
-var sequelize = new Sequelize(dbLoginCred);
 // Checks the database connection
-sequelize
-  .authenticate()
-  .then(function(err) {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(function (err) {
-    console.log('Unable to connect to the database:', err);
-  });
 
 // Create the application
 var app = express();
@@ -46,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/table', table);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
