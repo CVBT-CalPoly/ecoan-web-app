@@ -17,23 +17,23 @@ To start the application server, use the following command:
 `DEBUG=ecoan:* npm start`
 
 ### [Express](http://expressjs.com/)
-Our main backend service is written with the Express web framework. Express does _not_, by default, support any traditional web design paradigms, but we simulate a Model-View-Controller paradigms by using Sequelize models and writing dispatching js files to serve our views written with Pug.
+Our main backend service is written with the Express web framework. Express does _not_, by default, support any traditional web design paradigms, but we simulate a Model-View-Controller paradigm by using [Sequelize](http://docs.sequelizejs.com/en/v3/) models and writing dispatching JavaScript files to serve our views written with [Pug](https://pugjs.org/api/getting-started.html).
 
 Creating another page to our site is easy.
 
-In our main app file, `app.js`, create a new listener for our new page, `test_page`.
+In our main app file, `app.js`, create a new listener for our new page, `testpage`.
 
 ```
 var app = express();
 
 ...
 
-app.use('/table', testpage);
+app.use('/testpage', testpage);
 ```
 
 Create a new "controller" for our new page in the `routes/` directory with the same name as your page.
 ```
-dir: /routes
+dir: routes/
 $ ls
 index.js  testpage.js  ...
 ```
@@ -50,9 +50,9 @@ router.get('/', function(req, res, next) {
 
 module.exports = router;
 ```
-Make sure you have a corresponding Pug file in your views that Express will serve to the client.
+Make sure you have a corresponding Pug file in your views that Express will serve to the client. Look at the Pug section below for more information or look at the [Pug documentation](https://pugjs.org/api/getting-started.html).
 ```
-dir: /views
+dir: views/
 $ ls
 index.pug  error.pug  layout.pug  testpage.pug
 ```
