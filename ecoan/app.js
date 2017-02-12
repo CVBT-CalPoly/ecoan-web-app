@@ -4,15 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var Sequelize = require('sequelize')
+// var Sequelize = require('sequelize')
 var index = require('./routes/index');
 var users = require('./routes/users');
 var table = require('./routes/table');
-var models  = require('./models');
+var db  = require('./models/db');
 
 
 // Checks the database connection
+db.findAll(
+  attributes: ['']
 
+);
 // Create the application
 var app = express();
 // view engine setup

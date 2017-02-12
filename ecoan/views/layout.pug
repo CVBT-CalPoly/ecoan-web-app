@@ -1,11 +1,27 @@
 doctype html
 html
   head
-    title= title
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js')
+    script(type="text/javascript", src='js/layout.js')
+    title= title
     block sources
+  
+    div(class="top-bar" id="example-menu")
+      div(class="top-bar-left")
+          ul(class="dropdown menu" data-dropdown-menu)
+            li(class="menu-text") Title Site
+            li
+              a(href="#") One
+              ul(class="menu vertical")
+                li
+                  a(href="#") One
+                li
+                  a(href="#") Two
+                li
+                  a(href="#") Three
+
   body
     block content
     block table
