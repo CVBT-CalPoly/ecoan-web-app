@@ -11,11 +11,6 @@ var table = require('./routes/table');
 var db  = require('./models/db');
 
 
-// Checks the database connection
-db.findAll(
-  attributes: ['']
-
-);
 // Create the application
 var app = express();
 // view engine setup
