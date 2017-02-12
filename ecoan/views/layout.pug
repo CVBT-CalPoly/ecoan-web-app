@@ -2,26 +2,96 @@ doctype html
 html
   head
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation.min.css')
-
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/js/foundation.min.js')
+    div(class="title-bar" id="example-menu")
+      div(class="top-bar-left")
+        ul(class="dropdown menu" data-dropdown-menu)
+          li(class="menu-text")= "CVBT"
+          li
+            a(href="#")= "Tables"
+            ul(class="menu vertical")
+              li
+                a(href="#") History Tables
+                ul(class="menu vertical")
+                  li
+                    a(href="#") Product History
+                  li
+                    a(href="#") Component History
+              li
+                a(href="#") Buckets
+              li
+                a(href="#") Componentusage
+              li
+                a(href="#") Components
+              li
+                a(href="#") Comptype
+              li
+                a(href="#") Emp Salary
+              li
+                a(href="#") Fixed
+              li
+                a(href="#") Mix
+              li
+                a(href="#") Mix Registry
+              li
+                a(href="#") Model Cost Data
+              li
+                a(href="#") Personnel
+              li
+                a(href="#") Prod Grp
+              li
+                a(href="#") Productcolorcostjg
+              li
+                a(href="#") Products
+              li
+                a(href="#") Status
+              li
+                a(href="#") Units
+              li
+                a(href="#") Unittype
+          li
+            a(href="#") Test Materials
+          li
+            a(href="#") Reports
+            ul(class="menu vertical")
+              li
+                a(href="#") Components Reports
+              li
+                a(href="#") Price List
+              li
+                a(href="#") Product Cost Breakdown
+              li
+                a(href="#") Product Group Prices Report
+              li
+                a(href="#") Product Inputs
+              li
+                a(href="#") Labor Rates By Group Report
+              li
+                a(href="#") Mix Registry Report
+              li
+                a(href="#") Production Weight Report
+                  
+          li
+            a(href="#") Temporary Tables
+            ul(class="menu vertical")
+              li
+                a(href="#") Prodcosts
+          li
+            a(href="#") Charts
+            ul(class="menu vertical")
+              li
+                a(href="#") Break Even
+              li
+                a(href="#") Payback Period
+              li
+                a(href="#") Products Chart
+          li
+            a(href="#") Months
+          li
+            a(href="#") Test
     title= title
     block sources
-    
-    div(class="top-bar" id="example-menu")
-      div(class="top-bar-left")
-          ul(class="dropdown menu" data-dropdown-menu)
-            li(class="menu-text") Title Site
-            li
-              a(href="#") One
-              ul(class="menu vertical")
-                li
-                  a(href="#") One
-                li
-                  a(href="#") Two
-                li
-                  a(href="#") Three
-
   body
     block content
     block table
