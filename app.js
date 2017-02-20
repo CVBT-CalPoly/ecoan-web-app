@@ -9,8 +9,6 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var table = require('./routes/table');
 
-
-
 // Create the application
 var app = express();
 // view engine setup
