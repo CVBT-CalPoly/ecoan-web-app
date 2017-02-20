@@ -7,9 +7,13 @@ Developers: Jonathan Molina, Nathan Sylvia, Alex Ye
 ### Installation
 Our application runs on [NodeJS](https://nodejs.org/).
 
-When node is installed, simply install the NodeJS project by running the following command on the project's root directory:  
+When node is installed, simply clone the repository to your local device and install the NodeJS project by running the following commands on the project's root directory:  
 
-`npm install`
+```
+git clone https://github.com/CVBT-CalPoly/ecoan-web-app.git
+cd ecoan-web-app
+npm install
+```
 
 ### Running
 To start the application server, use the following command:
@@ -17,7 +21,7 @@ To start the application server, use the following command:
 `DEBUG=ecoan:* npm start`
 
 ### [Express](http://expressjs.com/)
-Our main backend service is written with the Express web framework. Express does _not_, by default, support any traditional web design paradigms, but we simulate a Model-View-Controller paradigm by using [Sequelize](http://docs.sequelizejs.com/en/v3/) models and writing dispatching JavaScript files to serve our views written with [Pug](https://pugjs.org/api/getting-started.html).
+Our main backend service is written with the Express web framework. Express does _not_, by default, support any traditional web design paradigms, but we simulate a Model-View-Controller paradigm by using [Sequelize](https://github.com/CVBT-CalPoly/cvbt-backend#sequelize) models and writing dispatching JavaScript files to serve our views written with [Pug](https://github.com/CVBT-CalPoly/cvbt-backend#pug).
 
 Creating another page to our site is easy.
 
@@ -106,7 +110,7 @@ is equivalent to
 SELECT BillNo FROM `Status`;
 ```
 
-Please refer to the [Sequelize documentation](http://docs.sequelizejs.com/en/v3/) for specifics on querying capabilities. 
+Please refer to the [Sequelize documentation](http://docs.sequelizejs.com/en/v3/) for specifics on querying capabilities.
 
 ### [Foundation](http://foundation.zurb.com/sites/docs/sass.html)
 
