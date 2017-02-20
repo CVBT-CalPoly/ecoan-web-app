@@ -4,35 +4,18 @@ block sources
    link(rel="stylesheet", type="text/css", href="css/table.css")
    link(rel="stylesheet", type="text/css", href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css")
    script(type="text/javascript", charset="utf8", src='//cdn.datatables.net/1.10.13/js/jquery.dataTables.js')
-
-
-block table
-   div(id="data-table-container")
-      table(id="data-table")
-         thead
-            tr
-               th(width="200") Table Header
-               th Table Header
-               th(width="150") Table Header
-               th(width="150") Table Header
-         tbody
-            tr
-               td Content Goes Here
-               td This is longer content Donec id elit non mi porta gravida at eget metus.
-               td Content Goes Here
-               td Content Goes Here
-            tr
-               td AContent Goes Here
-               td This is longer content Donec id elit non mi porta gravida at eget metus.
-               td Content Goes Here
-               td Content Goes Here
-            tr
-               td Content Goes Here
-               td This is longer content Donec id elit non mi porta gravida at eget metus.
-               td Content Goes Here
-               td Content Goes Here
    script(type="text/javascript", src='js/table.js')
 
-block content
-  h1= title
-  p Welcome to #{title}
+block table
+   div(id="data-table-container", style="display: none")
+      h2= table_name
+      table(id="data-table", class="cell-border", cellspacing="0", width="100%")
+         thead
+            tr
+               each header in table_header
+                  td= header
+         tbody
+            each row in table_data
+               tr
+                  each column in row
+                     td= column
