@@ -8,7 +8,9 @@ html(class="no-js")
     nav(class="title-bar" id="menu-bar-main")
       div(class="top-bar-left")
         ul(class="dropdown menu" data-dropdown-menu)
-          li(class="menu-text")= "CVBT"
+          li
+            b
+              a(href="/", id="menu-bar-home")= "CVBT"
           li
             a(href="#") Tables
             ul(class="menu vertical")
@@ -16,7 +18,7 @@ html(class="no-js")
                 a(href="#") History Tables
                 ul(class="menu vertical")
                   li
-                    a(href="../table") Product History
+                    a(href="../table/prodhistory") Product History
                   li
                     a(href="#") Component History
               li
@@ -97,4 +99,6 @@ html(class="no-js")
   body
       block table
       block sources
-      script(type="text/javascript", src='js/layout.js')
+      block error
+      script(type="text/javascript", src='../js/layout.js')
+      link(rel='stylesheet', href='../css/layout.css')

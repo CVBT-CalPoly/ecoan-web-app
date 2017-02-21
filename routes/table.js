@@ -36,12 +36,19 @@ db.ProductHistory.findAll({
    data = results;
 });
 
-router.get('/', function(req, res, next) {
-  res.render('table', {
-    table_name: 'Product History',
-    table_header: tableColumns,
-    table_data: data,
-  });
+router.get('/:table', function(req, res, next) {
+  if(req.params.table == "prodhistory") {
+    res.render('table', {
+      table_name: 'Product History',
+      table_header: tableColumns,
+      table_data: data,
+    });
+  } else {
+    req.stuts(404).send();
+    res.render('error');
+  }
 });
+
+
 
 module.exports = router;
