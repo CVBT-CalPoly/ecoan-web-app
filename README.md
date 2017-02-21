@@ -7,7 +7,7 @@ Developers: Jonathan Molina, Nathan Sylvia, Alex Ye
 ### Installation
 Our application runs on [NodeJS](https://nodejs.org/).
 
-When node is installed, simply clone the repository to your local device and install the NodeJS project by running the following commands on the project's root directory:  
+When node is installed, clone the repository to your local device and install the NodeJS project by running the following commands:  
 
 ```
 git clone https://github.com/CVBT-CalPoly/ecoan-web-app.git
