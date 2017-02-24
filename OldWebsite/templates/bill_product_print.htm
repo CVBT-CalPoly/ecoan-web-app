@@ -1,0 +1,202 @@
+<!doctype html>
+<html  {$html_attrs}>
+	<head>
+		<title>{$pagetitle}</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=7">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link REL="stylesheet" href="styles/default.css" type="text/css">
+		{BEGIN rtlCSS}
+		<link REL="stylesheet" href="styles/defaultRTL.css" type="text/css">
+		{END rtlCSS}
+		{BEGIN styleCSSFiles}
+		<link REL="stylesheet" href="{$stylepath}" type="text/css">
+		{END styleCSSFiles}
+		{BEGIN pageCSSFiles}
+		<link REL="stylesheet" href="{$pagestylepath}" type="text/css">
+		{END pageCSSFiles}
+		<!--[if IE]>
+			<link REL="stylesheet" href="styles/defaultIE.css" type="text/css">
+			{BEGIN IEcssFiles}
+			<link REL="stylesheet" href="{$stylepathIE}" type="text/css">
+			{END IEcssFiles}
+		<![endif]-->
+	</head>
+	
+	<body class="{$stylename}" {$bodyattrs}>
+	{BEGIN body}
+		{$header}
+		<table   cellpadding="0" class="runner-toptable">
+			<tr class="runner-header">
+				<td class="runner-top" colspan=3>
+					
+
+
+
+
+				</td>
+			</tr>
+			<tr class="runner-body">
+				
+				<td class="runner-left {$blockclass_left}" >
+					
+				</td>	
+				
+				<td class="runner-center {$blockclass_center}">
+					
+
+{BEGIN container_grid}
+
+
+{BEGIN grid_block}
+{BEGIN page}
+<h1>Bill Product</h1>
+<span>
+{BEGIN page_number}
+Page {$pageno} of {$maxpages} 
+{END page_number}
+</span>
+
+	<div class="runner-s-grid">	
+	<table class="runner-c runner-c-grid" cellpadding="0">
+		<thead>
+		{BEGIN grid_header}
+		<tr class="runner-toprow style1">
+			<td class="runner-cl"><img src="images/spacer.gif"></td>
+			{BEGIN record_header}
+					{BEGIN BillNo_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN BillNo_fieldheader}
+	<b>Bill No</b>
+	{END BillNo_fieldheader}
+</th>
+{END BillNo_fieldheadercolumn}
+	{BEGIN ProductNo_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN ProductNo_fieldheader}
+	<b>Product No</b>
+	{END ProductNo_fieldheader}
+</th>
+{END ProductNo_fieldheadercolumn}
+	{BEGIN ProdAmont_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN ProdAmont_fieldheader}
+	<b>Prod Amont</b>
+	{END ProdAmont_fieldheader}
+</th>
+{END ProdAmont_fieldheadercolumn}
+	{BEGIN Price_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN Price_fieldheader}
+	<b>Price</b>
+	{END Price_fieldheader}
+</th>
+{END Price_fieldheadercolumn}
+	{BEGIN Amont_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN Amont_fieldheader}
+	<b>Amont</b>
+	{END Amont_fieldheader}
+</th>
+{END Amont_fieldheadercolumn}
+		
+			{END record_header}
+			<td class="runner-cr"><img src="images/spacer.gif"></td>
+			{BEGIN endrecordheader_block}
+			<td class="runner-cs">&nbsp;</td>
+			{END endrecordheader_block}
+		</tr>
+	{END grid_header}
+		</thead>
+		<tbody>	
+		{BEGIN grid_row}
+	<tr class="runner-row style1" {$rowattrs} {$rowstyle} {$rowstyle}>
+		<td class="runner-cl"></td>
+		{BEGIN grid_record}
+				{BEGIN BillNo_fieldcolumn}
+<td  class="runner-cc {$BillNo_class}" {$BillNo_style}>
+	{$BillNo_value}
+</td>
+{END BillNo_fieldcolumn}
+	{BEGIN ProductNo_fieldcolumn}
+<td  class="runner-cc {$ProductNo_class}" {$ProductNo_style}>
+	{$ProductNo_value}
+</td>
+{END ProductNo_fieldcolumn}
+	{BEGIN ProdAmont_fieldcolumn}
+<td  class="runner-cc {$ProdAmont_class}" {$ProdAmont_style}>
+	{$ProdAmont_value}
+</td>
+{END ProdAmont_fieldcolumn}
+	{BEGIN Price_fieldcolumn}
+<td  class="runner-cc {$Price_class}" {$Price_style}>
+	{$Price_value}
+</td>
+{END Price_fieldcolumn}
+	{BEGIN Amont_fieldcolumn}
+<td  class="runner-cc {$Amont_class}" {$Amont_style}>
+	{$Amont_value}
+</td>
+{END Amont_fieldcolumn}
+
+		{END grid_record}
+		<td class="runner-cr"></td>
+		{BEGIN endrecord_block}
+		<td class="runner-cs">&nbsp;</td>
+		{END endrecord_block}
+	</tr>
+{END grid_row}
+										
+								<tr class="runner-bottomrow style1">
+									<td class="runner-cl"><img src="images/spacer.gif"></td>
+									{BEGIN record_footer}
+									{BEGIN BillNo_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END BillNo_fieldfootercolumn}
+{BEGIN ProductNo_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END ProductNo_fieldfootercolumn}
+{BEGIN ProdAmont_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END ProdAmont_fieldfootercolumn}
+{BEGIN Price_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END Price_fieldfootercolumn}
+{BEGIN Amont_fieldfootercolumn}
+<td class="runner-cc runner-clast"></td>
+{END Amont_fieldfootercolumn}
+
+									{END record_footer}
+									<td class="runner-cr"><img src="images/spacer.gif"></td>
+									{BEGIN endrecordtotals_block}
+									<td class="runner-cs"></td>
+									{END endrecordtotals_block}
+								</tr>
+
+		</tbody>
+	</table>
+</div>	
+{END page}
+
+{END grid_block}
+
+
+
+{END container_grid}
+
+
+				</td>	
+
+				<td class="runner-right {$blockclass_right}">
+					
+				</td>	
+			</tr>
+			<tr class="runner-footer">
+				<td class="runner-bottom" colspan=3>
+					<!--%%bottom%%-->
+				</td>
+			</tr>
+		</table>
+		{$footer}
+	{END body}
+	</body>
+</html>
