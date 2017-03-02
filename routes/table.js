@@ -1,35 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../models/db');
+var helper = require('./tablehelper');
 
 router.get('/:table', function(req, res, next) {
   var tableName = req.params.table;
   if(tableName === "prodhistory") {
-    var tableColumns = [
-      "ProdNo",
-      "ProdGrpCode",
-      "ProdThaiName",
-      "ProdEngName",
-      "Picture",
-      "ThaiModel",
-      "EngModel",
-      "MixNo",
-      "ProdWt",
-      "ColorMixNo",
-      "FaceWt",
-      "Mold",
-      "PiecesPerMould",
-      "ProductCost",
-      "PriceRetail",
-      "PriceWholeSale",
-      "ProdStockGoal",
-      "ThaiCom",
-      "EngCom",
-      "Status",
-      "ChangeType",
-      "ChangeDate",
-      "ChangeTime"
-    ];
+    var tableColumns = helper.getTableHeaders("Product History");
 
     db.ProductHistory.findAll({
       attributes: tableColumns,
@@ -42,25 +19,7 @@ router.get('/:table', function(req, res, next) {
       });
     });
   } else if(tableName === "comphistory") {
-    var cHistoryColumns = [
-      "ComponentNo",
-      "EngName",
-      "ThaiName",
-      "DescriptionEng",
-      "DescriptionThai",
-      "CompTypeNo",
-      "UnitEng",
-      "UnitQty",
-      "CompPurchaseUnitEn",
-      "Cost",
-      "Density",
-      "Source",
-      "SortOrder",
-      "ChangeType",
-      "ChangeDate",
-      "ChangeTime",
-      "SorOrder"
-    ];
+    var cHistoryColumns = helper.getTableHeaders("Component History");
 
     db.ComponentHistory.findAll({
       attributes: cHistoryColumns,
