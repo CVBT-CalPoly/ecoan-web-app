@@ -18,6 +18,7 @@ router.get('/:table', function(req, res, next) {
         table_data: results
       });
     });
+
   } else if(tableName === "comphistory") {
     var cHistoryColumns = helper.getTableHeaders("Component History");
 

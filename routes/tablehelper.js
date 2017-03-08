@@ -1,29 +1,46 @@
-var dict;
+var dict // singleton used for table headers
+var db // database access object for sequelize
 
 function initDict() {
   console.log("calling initDict")
   if (!dict) {
     dict = {}
-    dict["Bucket"] = bucketsTableHeaders
-    dict["CompType"] = compTypeTableHeaders
-    dict["Component History"] = componentHistoryTableHeaders
-    dict["Component Usage"] = componentUsageTableHeaders
-    dict["Components"] = componentsTableHeaders
-    dict["EmpSalary"] = empSalaryTableHeaders
-    dict["FixedAssyUse"] = fixedAssyUseTableHeaders
-    dict["Mix"] = mixTableHeaders
-    dict["MixRegistry"] = mixRegistryTableHeaders
-    dict["ModelCostData"] = modelCostDataTableHeaders
-    dict["Personnel"] = personnelTableHeaders
-    dict["ProdGrp"] = prodGrpTableHeaders
-    dict["ProductsColorCostJg"] = productsColorCostJgTableHeaders
-    dict["Product History"] = productHistoryTableHeaders
-    dict["Products"] = productsTableHeaders
-    dict["Status"] = statusTableHeaders
-    dict["UnitType"] = unitTypeTableHeaders
-    dict["Units"] = unitsTableHeaders
+    db = require('../models/db')
+    dict["Bucket"] = extractTableHeaders(db.Buckets.attributes)
+    dict["CompType"] = extractTableHeaders(db.CompType.attributes)
+    dict["Component History"] = extractTableHeaders(db.ComponentHistory.attributes)
+    dict["Components"] = extractTableHeaders(db.Components.attributes)
+    dict["Component Usage"] = extractTableHeaders(db.ComponentUsage.attributes)
+    dict["EmpSalary"] = extractTableHeaders(db.EmpSalary.attributes)
+    dict["FixedAssyUse"] = extractTableHeaders(db.FixedAssyUse.attributes)
+    dict["Mix"] = extractTableHeaders(db.Mix.attributes)
+    dict["MixRegistry"] = extractTableHeaders(db.MixRegistry.attributes)
+    dict["ModelCostData"] = extractTableHeaders(db.ModelCostData.attributes)
+    dict["Personnel"] = extractTableHeaders(db.Personnel.attributes)
+    dict["ProdGrp"] = extractTableHeaders(db.ProdGrp.attributes)
+    dict["ProductsColorCostJg"] = extractTableHeaders(db.ProductColorCostJg.attributes)
+    dict["Product History"] = extractTableHeaders(db.ProductHistory.attributes)
+    dict["Products"] = extractTableHeaders(db.Products.attributes)
+    dict["Status"] = extractTableHeaders(db.Status.attributes)
+    dict["UnitType"] = extractTableHeaders(db.UnitType.attributes)
+    dict["Units"] = extractTableHeaders(db.Units.attributes)
     console.log("initialized dict")
   }
+}
+
+function extractTableHeaders(attributes) {
+  var array = Object.keys(attributes).map(function (key) { return attributes[key]; })
+  var length = array.length
+  var headers = []
+  for (var ndx = 0; ndx < length; ndx++) {
+    var col = array[ndx]
+    var colName = col.fieldName
+    if (colName != 'id' && colName != 'createdAt' && colName != 'updatedAt') {
+      // faster than headers.push(colName) since small array
+      headers[headers.length] = colName
+    }
+  }
+  return headers
 }
 
 module.exports = {
@@ -34,231 +51,3 @@ module.exports = {
     return dict[table]
   }
 }
-
-var productHistoryTableHeaders = [
-  "ProdGrpCode",
-  "ProdThaiName",
-  "ProdEngName",
-  "Picture",
-  "ThaiModel",
-  "EngModel",
-  "MixNo",
-  "ProdWt",
-  "ColorMixNo",
-  "FaceWt",
-  "Mold",
-  "PiecesPerMould",
-  "ProductCost",
-  "PriceRetail",
-  "PriceWholeSale",
-  "ProdStockGoal",
-  "ThaiCom",
-  "EngCom",
-  "Status",
-  "ChangeType",
-  "ChangeDate",
-  "ChangeTime"
-];
-
-var componentHistoryTableHeaders = [
-  "ComponentNo",
-  "EngName",
-  "ThaiName",
-  "DescriptionEng",
-  "DescriptionThai",
-  "CompTypeNo",
-  "UnitEng",
-  "UnitQty",
-  "CompPurchaseUnitEn",
-  "Cost",
-  "Density",
-  "Source",
-  "SortOrder",
-  "ChangeType",
-  "ChangeDate",
-  "ChangeTime",
-  "SorOrder"
-];
-
-var bucketsTableHeaders = [
-  "Bucket No",
-  "Unit Eng",
-  "Volumne",
-  "Component No",
-  "Dry Weight"
-];
-
-var componentUsageTableHeaders = [
-  "ProdNo",
-  "ComponentNo",
-  "ComponentQty"
-];
-
-var componentsTableHeaders = [
-  "ComponentNo",
-  "EngName",
-  "ThaiName",
-  "DescriptionEng",
-  "DescriptionThai",
-  "CompTypeNo",
-  "UnitEng",
-  "UnitQty",
-  "CompPurchaseUnitEn",
-  "Cost",
-  "PriceSell",
-  "Source",
-  "Density",
-  "SortOrder"
-];
-
-var compTypeTableHeaders = [
-  "CompTypeEng",
-  "CompTypeLL",
-  "DetailsEng",
-  "detailsLL",
-  "CompTypeNo"
-];
-
-var empSalaryTableHeaders = [
-  "Position",
-  "Salary"
-];
-
-var fixedAssyUseTableHeaders = [
-  "ProdGrpCode",
-  "ProdNo",
-  "Qty"
-];
-
-var mixTableHeaders = [
-  "MixNo",
-  "ComponentNo",
-  "Qtty",
-  "UnitOrBucket"
-];
-
-var mixRegistryTableHeaders = [
-  "MixNo",
-  "MixColor",
-  "ProdGrpCode",
-  "Notes",
-  "Status"
-];
-
-var modelCostDataTableHeaders = [
-  "ParameterNo",
-  "EngParameter",
-  "ThaiParameter",
-  "Value"
-];
-
-var personnelTableHeaders = [
-  "FirstName",
-  "lastname",
-  "FirstNmThai",
-  "LastNmThai",
-  "HireDate",
-  "EndDate",
-  "Salarys",
-  "SalaryTimePeriod",
-  "BirthDate",
-  "HouseNo",
-  "Village",
-  "District",
-  "Ampher",
-  "Provence",
-  "ZipC",
-  "Mobie",
-  "sex",
-  "NationaiIDCardNo",
-  "DateofIssue",
-  "DateofExpiry",
-  "DrivingCard",
-  "IssueDate",
-  "ExpiryDate",
-  "Finish",
-  "NameSchool",
-  "EmpPhoto",
-  "AccountNo",
-  "BankName",
-  "EmpNo"
-];
-
-var prodGrpTableHeaders = [
-  "ProdGrpCode",
-  "ThaiProductGroup",
-  "EngProductGroup",
-  "MarkDownWholesale",
-  "MarkDownRetail",
-  "DaysWorked",
-  "NumberWorkers",
-  "QtyMolds",
-  "MouldsPerDay",
-  "Interest",
-  "Period",
-  "DownPay",
-  "MonthsOfCap",
-  "Waste",
-  "Maint",
-  "ItemNotes",
-  "CuringTime",
-  "GAP",
-  "Admin",
-  "Manager",
-  "Clerk"
-];
-
-var productsColorCostJgTableHeaders = [
-  "ProductColor",
-  "ProdGrpCode",
-  "Cost4"
-];
-
-var productsTableHeaders = [
-  "ProdGrpCode",
-  "ProdThaiName",
-  "ProdEngName",
-  "Picture",
-  "ThaiModel",
-  "EngModel",
-  "MixNo",
-  "ProdWt",
-  "ColorMixNo",
-  "FaceWt",
-  "Mold",
-  "PiecesPerMould",
-  "ProductCost",
-  "PriceRetail",
-  "PriceWholeSale",
-  "ProdStockGoal",
-  "ThaiCom",
-  "EngCom",
-  "Status",
-  "MoldWt",
-  "GrayWtMold",
-  "ColorWtMold",
-  "Length",
-  "Width",
-  "Thickness",
-  "ProdNo"
-];
-
-var statusTableHeaders = [
-  "StatusCode",
-  "CodeDescription",
-  "ThaiDescription"
-];
-
-var unitsTableHeaders = [
-  "UnitEng",
-  "Unit_LL",
-  "Unit_English_Full",
-  "Unit_LL_Full",
-  "Unit_Type_English",
-  "Rel_to_Base"
-];
-
-var unitTypeTableHeaders = [
-  "Unit_Type_English",
-  "Unit_Type_LL"
-];
