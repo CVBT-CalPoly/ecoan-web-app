@@ -1,21 +1,28 @@
 extends layout
 
 block sources
-  link(rel="stylesheet", type="text/css", href="../css/table.css")
   link(rel="stylesheet", type="text/css", href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css")
   script(type="text/javascript", charset="utf8", src='//cdn.datatables.net/1.10.13/js/jquery.dataTables.js')
   script(type="text/javascript", src='../js/table.js')
+  link(rel="stylesheet", type="text/css", href="../css/table.css")
 
 block table
+  //- display attribute it set to show after clientside loading
   div(id="data-table-container", style="display: none")
     h2= table_name
     table(id="data-table", class="cell-border", cellspacing="0", width="100%")
       thead
         tr
+          td(id="crud-col", class="edit-col") CRUD
           each header in table_header
             td= header
       tbody
         each row in table_data
           tr
+            td(class="edit-col") 
+              div(class="edit-buttons")
+                //- We can trigger crud action with onclick
+                input(type="image", src="../images/icons/edit.png", class="crud-button")
+                input(type="image", src="../images/icons/delete.png", class="crud-button")
             each column in row
               td= column
