@@ -7,7 +7,7 @@ router.get('/:table', function(req, res, next) {
   var tableName = req.params.table;
   if(tableName === "prodhistory") {
     var tableColumns = helper.getTableHeaders("Product History");
-
+    
     db.ProductHistory.findAll({
       attributes: tableColumns,
       raw: true
