@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<svg id = "graph" width="960" height="500"></svg>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+var dataset = [
+
+      { EngName: "Manager's Salary", CostSuperType: "Fixed Cost", Costyear: 9599.999999931},
+      { EngName: "Clerk's Salary", CostSuperType: "Fixed Cost", Costyear: 2879.999999712},
+      { EngName: "Admin", CostSuperType: "Fixed Cost", Costyear: 17963.999999748},
+      { EngName: "Marketing", CostSuperType: "Fixed Cost", Costyear: 14999.999999985},
+      { EngName: "Vibrating Table Large", CostSuperType: "Fixed Cost", Costyear: 18575.3994140625},
+      { EngName: "Material Storage Bins", CostSuperType: "Fixed Cost", Costyear: 3804.59985351562},
+      { EngName: "Other Equipment", CostSuperType: "Fixed Cost", Costyear: 5659.79999953508},
+      { EngName: "Cement Portland", CostSuperType: "Variable Costs", Costyear: 19201.4268323052},
+      { EngName: "Crushed Stone 1/4", CostSuperType: "Variable Costs", Costyear: 27340.7029193424},
+      { EngName: "Lipon Lemon  Dishwashing Linguid", CostSuperType: "Variable Costs", Costyear: 0.0977684929645438},
+      { EngName: "Plasticizer SIKA F2", CostSuperType: "Variable Costs", Costyear: 1405.234599066596},
+      { EngName: "Sand", CostSuperType: "Variable Costs", Costyear: 10047.8421177875},
+      { EngName: "Water", CostSuperType: "Variable Costs", Costyear: 11.1828844795565},
+      { EngName: "Labor", CostSuperType: "Variable Costs", Costyear: 122364},
+      { EngName: "Labor - Loading", CostSuperType: "Variable Costs", Costyear: 11880},
+      { EngName: "Electricity", CostSuperType: "Variable Costs", Costyear: 187.704},
+      { EngName: "Waste", CostSuperType: "Variable Costs", Costyear: 7657.52764485897},
+      { EngName: "Working Capital", CostSuperType: "Fixed Cost", Costyear: 12624.720703125},
+      { EngName: "Land", CostSuperType: "Fixed Cost", Costyear: 12139.0803222656},
+      { EngName: "Curing Tents", CostSuperType: "Fixed Cost", Costyear: 432.359985351562},
+      { EngName: "Building", CostSuperType: "Fixed Cost", Costyear: 10335.4797363281},
+    ];
+var prodCost = [
+ { ProdNo: 1, sumpiececost: 12.9676413627901}
+];
+
+var productPrice = [ 
+{ PriceRetail: 16}];
+
+
+
+var fixedDataSet = new Array();
+var variableDataSet = new Array();
+
+    for(i = 0; i < dataset.length;i++) {
+     if(dataset[i].CostSuperType == "Variable Costs") {
+        variableDataSet.push(dataset[i]);
+
+      }
+      else {
+        fixedDataSet.push(dataset[i]);
+      }
+    }
+
+console.log(fixedDataSet);
+console.log(variableDataSet);
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 60},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var sumVariable = 0;
+for(i = 0; i < variableDataSet.length; i++) {
+
+   sumVariable += variableDataSet[i].Costyear;
+}
+
+console.log(sumVariable);
+
+    var sumFixed = 0
+
+for(i = 0; i < fixedDataSet.length; i++) {
+
+   sumFixed += fixedDataSet[i].Costyear;
+}
+var y = d3.scaleLinear()
+    y.domain([0, (sumFixed + sumVariable) * 10])
+    .rangeRound([height, 0]);
+  
+
+
+
+var variableRange = new Array();
+
+var fixedLine = d3.line()
+    .x(function (d) {return d.x;})
+    .y(function (d) {return d.y;});
+
+var productLine = d3.line()
+    .x(function (d) {return d.x;})
+    .y(function (d) {return d.y;});
+//var x = d3.scaleLinear();
+var numProd = 30000;
+  console.log("here");
+  //x.domain(d3.extent(percent, function(d) { return d.Max;}));
+  /*var axisScale = d3.scaleLinear()
+                         .domain([0,100])
+                         .range([0,width]);*/
+var x = d3.scaleLinear()
+    .domain([0,numProd])
+    .rangeRound([0, width]);
+
+    var variableRange = new Array();
+    var productRange = new Array();
+    var fixedRange = new Array();
+for(i = 0; i < numProd; i++) {
+        var set = new Object();
+        set.x = x(i);
+        set.y = y(prodCost[0].sumpiececost*i + sumFixed);
+        variableRange.push(set);
+        var set = new Object();
+        set.x = x(i);
+        set.y = y(productPrice[0].PriceRetail*i);
+       // console.log(i);
+        //console.log(productPrice[0].PriceRetail*i);
+        //console.log(set);
+        productRange.push(set);
+        var set = new Object();
+        set.x = x(i);
+        set.y = y(sumFixed);
+        //console.log(set);
+        //num+=1;
+        
+        fixedRange.push(set);
+    }
+    /*var productRange = new Array();
+    for(i = 0; i < numProd; i++) {
+        var set = new Object();
+        set.x = x(i);
+        set.y = y(productPrice[0].PriceRetail*i);
+        //console.log(i);
+        //console.log(prodCost[0].sumpiececost + sumFixed);
+        //num+=1;
+        
+        productRange.push(set);
+    }*/
+
+var variableLine = d3.line()
+    .x(function (d) {return d.x;})
+    .y(function (d) {return d.y;});
+
+  
+
+ /* var fixedRange = new Array();
+for(i = 0; i < numProd; i++) {
+        var set = new Object();
+        set.x = x(i);
+        set.y = y(sumFixed);
+        //console.log(set);
+        //num+=1;
+        
+        fixedRange.push(set);
+}*/
+function getInput() {
+      numProd = document.getElementById("numForm").value;
+      console.log("input"); 
+      console.log(numProd);
+      var submitX = d3.scaleLinear()
+      .domain([0,numProd])
+      .rangeRound([0, width]);
+      variableRange = new Array();
+      fixedRange = new Array();
+      productRange = new Array();
+      for(i = 0; i < numProd; i++) {
+        var set = new Object();
+        set.x = submitX(i);
+        set.y = y(prodCost[0].sumpiececost*i + sumFixed);
+         variableRange.push(set);
+        var set = new Object();
+        set.x = submitX(i);
+        set.y = y(sumFixed);
+        
+        fixedRange.push(set);
+        var set = new Object();
+        set.x = submitX(i);
+        set.y = y(productPrice[0].PriceRetail*i);
+        
+        productRange.push(set);
+        
+     }
+     var variableLine = d3.line()
+     .x(function (d) {return d.x;})
+     .y(function (d) {return d.y;});
+     document.getElementById("xAxis").remove();
+     document.getElementById("variableLine").remove();
+     document.getElementById("fixedLine").remove();
+     document.getElementById("productLine").remove();
+     g.append("g")
+     .attr("id", "xAxis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(submitX))
+    .append("text")
+      .attr("fill", "#000")
+      .attr("x", width)
+      .attr("dy", "-0.71em")
+      .attr("text-anchor", "end")
+      .text("% Production");
+      g.append("path")
+      .attr("id", "fixedLine")
+      .datum(fixedRange)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", fixedLine);
+      g.append("path")
+      .attr("id", "variableLine")
+      .datum(variableRange)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", variableLine);
+      g.append("path")
+      .attr("id", "productLine")
+      .datum(productRange)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", productLine);
+      
+      
+  }
+
+
+  y.domain(d3.extent(dataset, function(d) { return d.Costyear * 10; }));
+
+  console.log("downhere");
+  g.append("g")
+      .attr("id", "xAxis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+    .append("text")
+      .attr("fill", "#000")
+      .attr("x", width)
+      .attr("dy", "-0.71em")
+      .attr("text-anchor", "end")
+      .text("% Production");
+    //.select(".domain")
+      //.remove();
+
+  g.append("g")
+      .call(d3.axisLeft(y))
+    .append("text")
+      .attr("fill", "#000")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end")
+      .text("Money (Baht)");
+
+  g.append("path")
+      .attr("id", "fixedLine")
+      .datum(fixedRange)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", fixedLine);
+
+    g.append("path")
+      .attr("id", "productLine")
+      .datum(productRange)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", productLine);
+
+  g.append("path")
+      .attr("id", "variableLine")
+      .datum(variableRange)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+      .attr("stroke-width", 1.5)
+      .attr("d", variableLine);
+
+      console.log("submit");
+
+
+</script>
+<br>
+Number of Products Produced: <input type="number" id="numForm" value = "30000">
+<button onclick="getInput()"> Submit</button>
+
+
+
+
+
+
