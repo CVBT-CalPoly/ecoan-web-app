@@ -1,6 +1,10 @@
 $(document).ready( function () {
    $('#data-table').DataTable({
       "scrollX": true,
+      "dom": 'Bfrtip',
+      "buttons": [
+            'print'
+      ],
       "columnDefs": [ {
             "searchable": false,
             "orderable": false,
