@@ -32,3 +32,7 @@ thead {
 .crud-button {
   margin: auto;
 }
+
+.dataTables_scroll {
+  border:1px solid #d0d0d0;
+}
