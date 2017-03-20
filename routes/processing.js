@@ -11,7 +11,8 @@ router.post('/', function(req, res) {
   var start = parseInt(req.body.start)
   var length = parseInt(req.body.length)
   //console.log(req.params.table);
-
+  console.log("offset: " + parseInt(start));
+  console.log("limit: " + parseInt(length));
   var tableColumns = helper.getTableHeaders("Product History");
 
   db.ProductHistory.findAndCount({
@@ -21,12 +22,22 @@ router.post('/', function(req, res) {
     raw: true,
     order: 'ProdNo'
   }).then(function(results) {
-    console.log('sending success')
-    //res.send("Success");
-    res.send({"data":results.rows});
+    var newData = {"recordsTotal": 1393};
+    var arr = [];
+    var rows = results.rows;
+
+    rows.forEach(function(data) {
+      var keys = Object.keys(data);
+      var rowData = [];
+      keys.forEach(function(key) {
+        rowData.push(data[key]);
+      });
+      arr.push(rowData);
+    });
+    newData["data"] = arr;
+    res.send(JSON.stringify(newData));
   });
 
-  //res.send("Success");
 });
 
 module.exports = router;

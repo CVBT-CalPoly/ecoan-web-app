@@ -2,7 +2,7 @@ var dict // singleton used for table headers
 var db // database access object for sequelize
 
 function initDict() {
-  console.log("calling initDict")
+  // console.log("calling initDict")
   if (!dict) {
     dict = {}
     db = require('../models/db')

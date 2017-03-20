@@ -12,16 +12,11 @@ router.get('/:table', function(req, res, next) {
       attributes: tableColumns,
       raw: true,
       order: 'ProdNo'
-    }).then(function(results) {
-      console.log("result.count: " + results.count);
-      console.log("result.rows: " + results.rows.length);
-      // console.log(results)
-
-      var rows = results.rows.slice(0, 10)
+    }).then(function(results) {  
       res.render('table', {
         table_name: 'Product History',
         table_header: tableColumns,
-        table_data: rows
+        table_data: (results.rows.slice(0, 10))
       });
     });
 
@@ -36,7 +31,7 @@ router.get('/:table', function(req, res, next) {
         table_name: 'Component History',
         table_header: cHistoryColumns,
         table_data: results,
-        deferLoading: results.count
+        // deferLoading: results.count
       });
     });
   } else {
