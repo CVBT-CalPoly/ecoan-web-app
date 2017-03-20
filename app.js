@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var table = require('./routes/table');
+// var table_processing = require('./api/tables/processing');
+var table_processing = require('./routes/processing');
 
 // Create the application
 var app = express();
@@ -25,7 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/table', table);
+// app.use('/api/tables/processing', table_processing);
+app.use('/table/processing', table_processing);
 
+app.disable('etag');
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

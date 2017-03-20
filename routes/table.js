@@ -8,14 +8,20 @@ router.get('/:table', function(req, res, next) {
   if(tableName === "prodhistory") {
     var tableColumns = helper.getTableHeaders("Product History");
 
-    db.ProductHistory.findAll({
+    db.ProductHistory.findAndCount({
       attributes: tableColumns,
-      raw: true
+      raw: true,
+      order: 'ProdNo'
     }).then(function(results) {
+      console.log("result.count: " + results.count);
+      console.log("result.rows: " + results.rows.length);
+      // console.log(results)
+
+      var rows = results.rows.slice(0, 10)
       res.render('table', {
         table_name: 'Product History',
         table_header: tableColumns,
-        table_data: results
+        table_data: rows
       });
     });
 
@@ -29,7 +35,8 @@ router.get('/:table', function(req, res, next) {
       res.render('table', {
         table_name: 'Component History',
         table_header: cHistoryColumns,
-        table_data: results
+        table_data: results,
+        deferLoading: results.count
       });
     });
   } else {
