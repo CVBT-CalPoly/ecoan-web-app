@@ -46,8 +46,6 @@ function extractTableHeaders(attributes) {
 module.exports = {
   getTableHeaders: function(table) {
     initDict()
-    console.log("table name" + table)
-    console.log(dict[table])
     return dict[table]
   }
 }

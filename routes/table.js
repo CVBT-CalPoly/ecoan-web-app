@@ -16,7 +16,7 @@ router.get('/:table', function(req, res, next) {
       res.render('table', {
         table_name: 'Product History',
         table_header: tableColumns,
-        table_data: (results.rows.slice(0, 10))
+        table_data: results.rows
       });
     });
 

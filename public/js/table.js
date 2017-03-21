@@ -7,7 +7,6 @@ $(document).ready( function () {
         "url": "processing",
         "type": "POST"
       },
-      "deferLoading": 1393
    });
    $('#data-table-container').fadeIn("fast");
 } );
