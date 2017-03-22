@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var table = require('./routes/table');
+var graphs = require('./routes/graphs')
 // var table_processing = require('./api/tables/processing');
 var table_processing = require('./routes/processing');
 
@@ -27,6 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/table', table);
+//app.use('/graphs', graphs)
+app.use('/graphs', express.static('graphs'))
 // app.use('/api/tables/processing', table_processing);
 app.use('/table/processing', table_processing);
 
