@@ -26,20 +26,36 @@ form
     margin:0 auto;
 }
 
+#drop
+{
+    position:fixed;
+    right:2%;
+}
+
+
 #code_hierarchy_legend
 {
+
+    position:fixed; 
+    top:4%; 
+    left:2%;
     height:0px;
     font-size:1.4em;
     text-align:left;
 }
 </style>
 <head>
+<h1>Product Cost Breakdown</h1>
 <body>
     <div id="code_hierarchy_legend">&nbsp;</div>
+    <select id="drop"></select>
     <div id="code_hierarchy">&nbsp;</div>
+
 </body>
  <script data-require="d3@*" data-semver="4.0.0" src="https://d3js.org/d3.v4.min.js"></script>
 <script lang="text/javascript">
+
+
 
 function init_code_hierarchy_plot(element_id,data,count_function,color_function,title_function,legend_function)
 {
@@ -80,18 +96,18 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
         {
             return;
         }
-        data_slices.push([start_deg,stop_deg, "Total", level,prodTotal[0].sumpiececost]);
+        data_slices.push([start_deg,stop_deg, product[0].ProdEngName , level,prodTotal[0].sumpiececost]);
         var child_start_deg = current_deg;
         var child_stop_deg = current_deg;
         var inc_deg = 0;
         level+=1;
-        console.log(prodTotal[0].sumpiececost);
-        console.log(bigDataSet[0].PieceCost);
+        //console.log(prodTotal[0].sumpiececost);
+        //console.log(bigDataSet[0].PieceCost);
         for (var key in bigDataSet)
         {
             child = bigDataSet[key];
 
-            inc_deg = (stop_deg-start_deg)/prodTotal[0].sumpiececost*child.PieceCost;
+            inc_deg = (stop_deg-start_deg)/prodTotal[0].sumpiececost*(child.PieceCost-0.01);
             child_start_deg = current_deg;
             current_deg+=inc_deg;
             child_stop_deg = current_deg;
@@ -104,34 +120,47 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
             for(var item in smallDataSet) {
                 size+=smallDataSet[item].PieceCost;
             }
+            console.log(stop_deg-start_deg);
             inc_deg = (stop_deg-start_deg)/prodTotal[0].sumpiececost*size;
+            console.log(inc_deg);
             child_start_deg = current_deg;
             var small_start_deg = child_start_deg;
             current_deg+=inc_deg;
-            child_stop_deg = current_deg;
+            //child_stop_deg = current_deg;
+            child_stop_deg = stop_deg;
             var span_deg = child_stop_deg-child_start_deg;
+            //console.log(child_start_deg);
+            //console.log(child_stop_deg);
+            //console.log(span_deg);
+            //console.log("span");
             //process_data(level+1,child_start_deg,child_stop_deg);
-            data_slices.push([child_start_deg,child_stop_deg, "Small Data", level,size]);
-            level += 1;
-            current_deg = small_start_deg;
-            for(var item in smallDataSet) {
-                child = smallDataSet[item];
+            
+                data_slices.push([child_start_deg,child_stop_deg, "Small Data", level,size]);
+                level += 1;
+                current_deg = small_start_deg;
+                console.log(current_deg);
+                for(var item in smallDataSet) {
+                    child = smallDataSet[item];
 
-                inc_deg = (stop_deg-start_deg)/prodTotal[0].sumpiececost*child.PieceCost;
-                child_start_deg = current_deg;
-                current_deg+=inc_deg;
-                child_stop_deg = current_deg;
-                var span_deg = child_stop_deg-child_start_deg;
-                //process_data(level+1,child_start_deg,child_stop_deg);
-                data_slices.push([child_start_deg,child_stop_deg,child.EngName, level,child.PieceCost]);
-            }
+                    //inc_deg = (stop_deg-start_deg)/prodTotal[0].sumpiececost*child.PieceCost;
+                    inc_deg = span_deg*child.PieceCost;
+                    console.log(inc_deg);
+                    child_start_deg = current_deg;
+                    current_deg+=inc_deg;
+                    child_stop_deg = current_deg;
+                    //var span_deg = child_stop_deg-child_start_deg;
+                    //process_data(level+1,child_start_deg,child_stop_deg);
+                    data_slices.push([child_start_deg,child_stop_deg,child.EngName, level,child.PieceCost]);
+                }
+                console.log(" ");
+            
 
         }
 
     }
     
     process_data(0,0,360./180.0*Math.PI);
-    console.log(data_slices);
+    //console.log(data_slices);
 
     var ref = data_slices[0];
     var next_ref = ref;
@@ -307,6 +336,7 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
 
 }
 
+var product = [{ProdEngName: "6 mm"}]
 var prodTotal = [{ProdNo: 1, sumpiececost: 12.9676413627901}];
 
     var dataset = [
@@ -377,8 +407,18 @@ function init_plots()
 
     }
     init_code_hierarchy_plot("code_hierarchy",dataset,count_function,color_function,label_function,legend_function);
+    //init_code_hierarchy_plot("code_hierarchy",bigDataset,count_function,color_function,label_function,legend_function);
+    //init_code_hierarchy_plot("small_data",smallDataset,count_function,color_function,label_function,legend_function);
 
 }
+
+$.ajax({
+    function( json ) {
+        $.each(json, function(i, value) {
+            $('#drop').append($('<option>').text(value).attr('value', value));
+        });
+    }
+});
 
 window.onload = init_plots();
 window.onresize = init_plots();
