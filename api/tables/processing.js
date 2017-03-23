@@ -1,32 +1,31 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../models/db');
-var helper = require('../routes/tablehelper');
+var db = require('../../models/db');
+var helper = require('../../routes/tablehelper');
 var drawCounter = 1;
 
 /* GET home page. */
 router.post('/', function(req, res) {
-  var tableColumns = helper.getTableHeaders("Product History");
+  const tableColumns = helper.getTableHeaders(req.body.table);
 
-  db.ProductHistory.findAndCount({
+  helper.getDbObject(req.body.table).findAndCount({
     attributes: tableColumns,
     limit: parseInt(req.body.length),
     offset: parseInt(req.body.start),
     raw: true,
-    order: 'ProdNo'
   }).then(function(results) {
-    var response = {
+    let response = {
       "draw": drawCounter++,
       "recordsTotal": results.count,
       "recordsFiltered": results.count
     };
-    var dataArray = [];
-    var rows = results.rows;
+    let dataArray = [];
+    let rows = results.rows;
 
     // format data response for DataTables into array of array objects [[], []]
     rows.forEach(function(data) {
-      var keys = Object.keys(data);
-      var rowData = [];
+      const keys = Object.keys(data);
+      let rowData = [];
       keys.forEach(function(key) {
         rowData.push(data[key]);
       });
