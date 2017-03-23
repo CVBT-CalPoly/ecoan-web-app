@@ -6,24 +6,24 @@ function initHeadersDict() {
   if (!headersDict) {
     headersDict = {};
     db = require('../models/db');
-    headersDict["Bucket"] = extractTableHeaders(db.Buckets.attributes);
-    headersDict["CompType"] = extractTableHeaders(db.CompType.attributes);
-    headersDict["Component History"] = extractTableHeaders(db.ComponentHistory.attributes);
-    headersDict["Components"] = extractTableHeaders(db.Components.attributes);
-    headersDict["Component Usage"] = extractTableHeaders(db.ComponentUsage.attributes);
-    headersDict["EmpSalary"] = extractTableHeaders(db.EmpSalary.attributes);
-    headersDict["FixedAssyUse"] = extractTableHeaders(db.FixedAssyUse.attributes);
-    headersDict["Mix"] = extractTableHeaders(db.Mix.attributes);
-    headersDict["MixRegistry"] = extractTableHeaders(db.MixRegistry.attributes);
-    headersDict["ModelCostData"] = extractTableHeaders(db.ModelCostData.attributes);
-    headersDict["Personnel"] = extractTableHeaders(db.Personnel.attributes);
-    headersDict["ProdGrp"] = extractTableHeaders(db.ProdGrp.attributes);
-    headersDict["ProductsColorCostJg"] = extractTableHeaders(db.ProductColorCostJg.attributes);
-    headersDict["Product History"] = extractTableHeaders(db.ProductHistory.attributes);
-    headersDict["Products"] = extractTableHeaders(db.Products.attributes);
-    headersDict["Status"] = extractTableHeaders(db.Status.attributes);
-    headersDict["UnitType"] = extractTableHeaders(db.UnitType.attributes);
-    headersDict["Units"] = extractTableHeaders(db.Units.attributes);
+    headersDict["buckets"] = extractTableHeaders(db.Buckets.attributes);
+    headersDict["compType"] = extractTableHeaders(db.CompType.attributes);
+    headersDict["comphistory"] = extractTableHeaders(db.ComponentHistory.attributes);
+    headersDict["components"] = extractTableHeaders(db.Components.attributes);
+    headersDict["componentUsage"] = extractTableHeaders(db.ComponentUsage.attributes);
+    headersDict["empSalary"] = extractTableHeaders(db.EmpSalary.attributes);
+    headersDict["fixedAssyUse"] = extractTableHeaders(db.FixedAssyUse.attributes);
+    headersDict["mix"] = extractTableHeaders(db.Mix.attributes);
+    headersDict["mixRegistry"] = extractTableHeaders(db.MixRegistry.attributes);
+    headersDict["modelCostData"] = extractTableHeaders(db.ModelCostData.attributes);
+    headersDict["personnel"] = extractTableHeaders(db.Personnel.attributes);
+    headersDict["prodGrp"] = extractTableHeaders(db.ProdGrp.attributes);
+    headersDict["productsColorCostJg"] = extractTableHeaders(db.ProductColorCostJg.attributes);
+    headersDict["prodhistory"] = extractTableHeaders(db.ProductHistory.attributes);
+    headersDict["products"] = extractTableHeaders(db.Products.attributes);
+    headersDict["status"] = extractTableHeaders(db.Status.attributes);
+    headersDict["unitType"] = extractTableHeaders(db.UnitType.attributes);
+    headersDict["units"] = extractTableHeaders(db.Units.attributes);
     console.log("initialized headersDict");
   }
 }
@@ -31,25 +31,24 @@ function initHeadersDict() {
 function initDbObjectDict() {
   if (!dbDict) {
     dbDict = {};
-    db = require('../models/db');
-    dbDict["Bucket"] = db.Buckets;
-    dbDict["CompType"] = db.CompType;
-    dbDict["Component History"] = db.ComponentHistory;
-    dbDict["Components"] = db.Components;
-    dbDict["Component Usage"] = db.ComponentUsage;
-    dbDict["EmpSalary"] = db.EmpSalary;
-    dbDict["FixedAssyUse"] = db.FixedAssyUse;
-    dbDict["Mix"] = db.Mix;
-    dbDict["MixRegistry"] = db.MixRegistry;
-    dbDict["ModelCostData"] = db.ModelCostData;
-    dbDict["Personnel"] = db.Personnel;
-    dbDict["ProdGrp"] = db.ProdGrp;
-    dbDict["ProductsColorCostJg"] = db.ProductColorCostJg;
-    dbDict["Product History"] = db.ProductHistory;
-    dbDict["Products"] = db.Products;
-    dbDict["Status"] = db.Status;
-    dbDict["UnitType"] = db.UnitType;
-    dbDict["Units"] = db.Units;
+    dbDict["buckets"] = db.Buckets;
+    dbDict["compType"] = db.CompType;
+    dbDict["comphistory"] = db.ComponentHistory;
+    dbDict["components"] = db.Components;
+    dbDict["componentUsage"] = db.ComponentUsage;
+    dbDict["empSalary"] = db.EmpSalary;
+    dbDict["fixedAssyUse"] = db.FixedAssyUse;
+    dbDict["mix"] = db.Mix;
+    dbDict["mixRegistry"] = db.MixRegistry;
+    dbDict["modelCostData"] = db.ModelCostData;
+    dbDict["personnel"] = db.Personnel;
+    dbDict["prodGrp"] = db.ProdGrp;
+    dbDict["productsColorCostJg"] = db.ProductColorCostJg;
+    dbDict["prodhistory"] = db.ProductHistory;
+    dbDict["products"] = db.Products;
+    dbDict["status"] = db.Status;
+    dbDict["unitType"] = db.UnitType;
+    dbDict["units"] = db.Units;
     console.log("initialized dbDict");
   }
 }
@@ -70,11 +69,11 @@ function extractTableHeaders(attributes) {
 
 module.exports = {
   getTableHeaders: function(table) {
-    initHeadersDict()
-    return headersDict[table]
+    initHeadersDict();
+    return headersDict[table];
   },
   getDbObject: function(table) {
-    initDbObjectDict()
-    return dbDict[table]
+    initDbObjectDict();
+    return dbDict[table];
   }
 }

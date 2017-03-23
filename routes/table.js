@@ -2,19 +2,23 @@ var express = require('express');
 var router = express.Router();
 var db = require('../models/db');
 var helper = require('./tablehelper');
+const tableNames = initTableNames();
 
 router.get('/:table', function(req, res, next) {
-  if (getTableName(req.params.table)) {
-    const tableName = getTableName(req.params.table);
-    const tableColumns = helper.getTableHeaders(tableName);
+  const tableColumns = helper.getTableHeaders(req.params.table);
 
-    helper.getDbObject(tableName).findAndCount({
+  // check for valid table
+  if (tableColumns) {
+    console.log('**** here ****')
+    console.log(tableNames[req.params.table])
+    helper.getDbObject(req.params.table).findAndCount({
       attributes: tableColumns,
       raw: true,
       limit: 10,
     }).then(function(results) {
       res.render('table', {
-        table_name: tableName,
+        table_name: tableNames[req.params.table],
+        table_abrv: req.params.table,
         table_header: tableColumns,
         table_data: results.rows
       });
@@ -26,20 +30,27 @@ router.get('/:table', function(req, res, next) {
   }
 });
 
-function getTableName(table) {
-  let tableName;
-  switch (table) {
-    case 'prodhistory':
-      tableName = 'Product History'
-      break;
-    case 'comphistory':
-      tableName = 'Component History'
-      break;
-    default:
-      tableName = ''
-  }
-  return tableName;
+function initTableNames() {
+  let names = {};
+  names["buckets"] = "Buckets";
+  names["compType"] = "Comp Type";
+  names["comphistory"] = "Component History";
+  names["components"] = "Components"
+  names["componentUsage"] = "Component Usage";
+  names["empSalary"] = "Emp Salary";
+  names["fixedAssyUse"] = "Fixed Assy Use";
+  names["mix"] = "Mix";
+  names["mixRegistry"] = "Mix Registry";
+  names["modelCostData"] = "Model Cost Data";
+  names["personnel"] = "Personnel";
+  names["prodGrp"] = "Prod Grp";
+  names["productsColorCostJg"] = "Products Color Cost Jg";
+  names["prodhistory"] = "Product History";
+  names["products"] = "Products";
+  names["status"] = "Status";
+  names["unitType"] = "Unit Type";
+  names["units"] = "Units";
+  return names;
 }
-
 
 module.exports = router;

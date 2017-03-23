@@ -12,7 +12,8 @@ block sources
 block table
   //- display attribute it set to show after clientside loading
   div(id="data-table-container", style="display: none")
-    h2(id="table-name")= table_name
+    h2= table_name
+    div(id="table-name" style="display: none")= table_abrv
     table(id="data-table", class="cell-border", cellspacing="0", width="100%")
       thead
         tr
