@@ -2,7 +2,7 @@ var dict // singleton used for table headers
 var db // database access object for sequelize
 
 function initDict() {
-  console.log("calling initDict")
+  // console.log("calling initDict")
   if (!dict) {
     dict = {}
     db = require('../models/db')
@@ -46,8 +46,6 @@ function extractTableHeaders(attributes) {
 module.exports = {
   getTableHeaders: function(table) {
     initDict()
-    console.log("table name" + table)
-    console.log(dict[table])
     return dict[table]
   }
 }
