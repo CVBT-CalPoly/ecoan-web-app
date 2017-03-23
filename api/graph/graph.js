@@ -34,4 +34,20 @@ router.get('/retailPrice', function(req, res) {
     res.send(JSON.stringify(results));
   });
 });
+
+router.get('/investCosts', function(req, res) {
+  var id = req.url.substring(req.url.search(":")+4, req.url.search("}")-3);
+  db.sequelize.query("select EngName, CostSuperType, CostYear from ProdCosts where CostType like \"Investment%\" and ProdNo = " + id)
+  .spread(function(results, metadata) {
+    res.send(JSON.stringify(results));
+  });
+});
+
+router.get('/investmentPayback', function(req, res) {
+  var id = req.url.substring(req.url.search(":")+4, req.url.search("}")-3);
+  db.sequelize.query("select Cost from ProdCosts where EngName like \"Repayment%\" and ProdNo = " + id)
+  .spread(function(results, metadata) {
+    res.send(JSON.stringify(results));
+  });
+});
 module.exports = router;
