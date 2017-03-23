@@ -1,1 +1,26 @@
 extends layout
+
+block sources
+  link(rel="stylesheet", type="text/css", href="../css/login.css")
+  script(type="text/javascript", src='../js/login.js')
+
+block content
+  div(class="large-3 large-centered columns")
+    div(class="login-box")
+      div(class="row")
+        div(class="large-12 columns")
+          form
+            div(class="row")
+              div(class="large-12 columns")
+                input(type="text" id="login-id" name="username" placeholder="Username")
+            div(class="row")
+              div(class="large-12 columns")
+                input(type="password" id="login-pass" name="password" placeholder="Password")
+            div(class="row")
+              div(class="large-12 large-centered columns")
+                input(type="button" class="button expand" value="Log In" onclick="login()")
+            
+            
+            
+          
+          

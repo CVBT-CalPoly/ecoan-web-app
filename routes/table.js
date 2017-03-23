@@ -12,7 +12,7 @@ router.get('/:table', function(req, res, next) {
       attributes: tableColumns,
       raw: true,
       limit: 10,
-    }).then(function(results) {  
+    }).then(function(results) {
       res.render('table', {
         table_name: tableName,
         table_header: tableColumns,
