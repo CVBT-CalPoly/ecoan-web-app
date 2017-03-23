@@ -11,6 +11,14 @@ $(document).ready( function () {
             "targets": 0
         } ],
         "order": [[ 1, 'asc' ]]
+
+      "processing": true,
+      "serverSide": true,
+      "ajax": {
+        "url": "processing",
+        "type": "POST"
+      },
+
    });
    $('#data-table-container').fadeIn("fast");
 } );
