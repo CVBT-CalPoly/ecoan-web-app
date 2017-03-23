@@ -9,7 +9,6 @@ router.get('/:table', function(req, res, next) {
 
   // check for valid table
   if (tableColumns) {
-    console.log('**** here ****')
     console.log(tableNames[req.params.table])
     helper.getDbObject(req.params.table).findAndCount({
       attributes: tableColumns,
