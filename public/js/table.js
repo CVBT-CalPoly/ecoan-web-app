@@ -4,7 +4,7 @@ $(document).ready( function () {
       "processing": true,
       "serverSide": true,
       "ajax": {
-        "url": "processing",
+        "url": "http://localhost:3000/api/tables/processing",
         "type": "POST"
       },
    });

@@ -11,6 +11,7 @@ router.get('/:table', function(req, res, next) {
     db.ProductHistory.findAndCount({
       attributes: tableColumns,
       raw: true,
+      limit: 1,
       order: 'ProdNo'
     }).then(function(results) {  
       res.render('table', {
@@ -23,15 +24,15 @@ router.get('/:table', function(req, res, next) {
   } else if(tableName === "comphistory") {
     var cHistoryColumns = helper.getTableHeaders("Component History");
 
-    db.ComponentHistory.findAll({
+    db.ComponentHistory.findAndCount({
       attributes: cHistoryColumns,
-      raw: true
+      raw: true,
+      limit: 1
     }).then(function(results) {
       res.render('table', {
         table_name: 'Component History',
         table_header: cHistoryColumns,
-        table_data: results,
-        // deferLoading: results.count
+        table_data: results.rows,
       });
     });
   } else {

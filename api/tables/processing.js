@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../models/db');
-var helper = require('../routes/tablehelper');
+var db = require('../../models/db');
+var helper = require('../../routes/tablehelper');
 var drawCounter = 1;
 
 /* GET home page. */
