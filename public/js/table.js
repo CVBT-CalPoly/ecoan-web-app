@@ -5,8 +5,11 @@ $(document).ready( function () {
       "serverSide": true,
       "ajax": {
         "url": "http://localhost:3000/api/tables/processing",
-        "type": "POST"
-      },
+        "type": "POST",
+        "data": {
+          "table": $('#table_name')[0].innerHTML
+        }
+      }
    });
    $('#data-table-container').fadeIn("fast");
 } );

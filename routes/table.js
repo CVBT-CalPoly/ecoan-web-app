@@ -8,10 +8,10 @@ router.get('/:table', function(req, res, next) {
   if(tableName === "prodhistory") {
     var tableColumns = helper.getTableHeaders("Product History");
 
-    db.ProductHistory.findAndCount({
+    helper.getDbObject("Product History").findAndCount({
       attributes: tableColumns,
       raw: true,
-      limit: 1,
+      limit: 10,
       order: 'ProdNo'
     }).then(function(results) {  
       res.render('table', {

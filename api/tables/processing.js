@@ -6,14 +6,13 @@ var drawCounter = 1;
 
 /* GET home page. */
 router.post('/', function(req, res) {
-  var tableColumns = helper.getTableHeaders("Product History");
+  var tableColumns = helper.getTableHeaders(req.body.table);
 
-  db.ProductHistory.findAndCount({
+  helper.getDbObject(req.body.table).findAndCount({
     attributes: tableColumns,
     limit: parseInt(req.body.length),
     offset: parseInt(req.body.start),
     raw: true,
-    order: 'ProdNo'
   }).then(function(results) {
     var response = {
       "draw": drawCounter++,

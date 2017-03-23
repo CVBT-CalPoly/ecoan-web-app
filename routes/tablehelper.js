@@ -1,30 +1,56 @@
-var dict // singleton used for table headers
 var db // database access object for sequelize
+var headersDict // singleton used for table headers
+var dbDict
 
-function initDict() {
-  // console.log("calling initDict")
-  if (!dict) {
-    dict = {}
+function initHeadersDict() {
+  if (!headersDict) {
+    headersDict = {}
     db = require('../models/db')
-    dict["Bucket"] = extractTableHeaders(db.Buckets.attributes)
-    dict["CompType"] = extractTableHeaders(db.CompType.attributes)
-    dict["Component History"] = extractTableHeaders(db.ComponentHistory.attributes)
-    dict["Components"] = extractTableHeaders(db.Components.attributes)
-    dict["Component Usage"] = extractTableHeaders(db.ComponentUsage.attributes)
-    dict["EmpSalary"] = extractTableHeaders(db.EmpSalary.attributes)
-    dict["FixedAssyUse"] = extractTableHeaders(db.FixedAssyUse.attributes)
-    dict["Mix"] = extractTableHeaders(db.Mix.attributes)
-    dict["MixRegistry"] = extractTableHeaders(db.MixRegistry.attributes)
-    dict["ModelCostData"] = extractTableHeaders(db.ModelCostData.attributes)
-    dict["Personnel"] = extractTableHeaders(db.Personnel.attributes)
-    dict["ProdGrp"] = extractTableHeaders(db.ProdGrp.attributes)
-    dict["ProductsColorCostJg"] = extractTableHeaders(db.ProductColorCostJg.attributes)
-    dict["Product History"] = extractTableHeaders(db.ProductHistory.attributes)
-    dict["Products"] = extractTableHeaders(db.Products.attributes)
-    dict["Status"] = extractTableHeaders(db.Status.attributes)
-    dict["UnitType"] = extractTableHeaders(db.UnitType.attributes)
-    dict["Units"] = extractTableHeaders(db.Units.attributes)
-    console.log("initialized dict")
+    headersDict["Bucket"] = extractTableHeaders(db.Buckets.attributes)
+    headersDict["CompType"] = extractTableHeaders(db.CompType.attributes)
+    headersDict["Component History"] = extractTableHeaders(db.ComponentHistory.attributes)
+    headersDict["Components"] = extractTableHeaders(db.Components.attributes)
+    headersDict["Component Usage"] = extractTableHeaders(db.ComponentUsage.attributes)
+    headersDict["EmpSalary"] = extractTableHeaders(db.EmpSalary.attributes)
+    headersDict["FixedAssyUse"] = extractTableHeaders(db.FixedAssyUse.attributes)
+    headersDict["Mix"] = extractTableHeaders(db.Mix.attributes)
+    headersDict["MixRegistry"] = extractTableHeaders(db.MixRegistry.attributes)
+    headersDict["ModelCostData"] = extractTableHeaders(db.ModelCostData.attributes)
+    headersDict["Personnel"] = extractTableHeaders(db.Personnel.attributes)
+    headersDict["ProdGrp"] = extractTableHeaders(db.ProdGrp.attributes)
+    headersDict["ProductsColorCostJg"] = extractTableHeaders(db.ProductColorCostJg.attributes)
+    headersDict["Product History"] = extractTableHeaders(db.ProductHistory.attributes)
+    headersDict["Products"] = extractTableHeaders(db.Products.attributes)
+    headersDict["Status"] = extractTableHeaders(db.Status.attributes)
+    headersDict["UnitType"] = extractTableHeaders(db.UnitType.attributes)
+    headersDict["Units"] = extractTableHeaders(db.Units.attributes)
+    console.log("initialized headersDict")
+  }
+}
+
+function initDbObjectDict() {
+  if (!dbDict) {
+    dbDict = {}
+    db = require('../models/db')
+    dbDict["Bucket"] = db.Buckets
+    dbDict["CompType"] = db.CompType
+    dbDict["Component History"] = db.ComponentHistory
+    dbDict["Components"] = db.Components
+    dbDict["Component Usage"] = db.ComponentUsage
+    dbDict["EmpSalary"] = db.EmpSalary
+    dbDict["FixedAssyUse"] = db.FixedAssyUse
+    dbDict["Mix"] = db.Mix
+    dbDict["MixRegistry"] = db.MixRegistry
+    dbDict["ModelCostData"] = db.ModelCostData
+    dbDict["Personnel"] = db.Personnel
+    dbDict["ProdGrp"] = db.ProdGrp
+    dbDict["ProductsColorCostJg"] = db.ProductColorCostJg
+    dbDict["Product History"] = db.ProductHistory
+    dbDict["Products"] = db.Products
+    dbDict["Status"] = db.Status
+    dbDict["UnitType"] = db.UnitType
+    dbDict["Units"] = db.Units
+    console.log("initialized dbDict")
   }
 }
 
@@ -45,7 +71,11 @@ function extractTableHeaders(attributes) {
 
 module.exports = {
   getTableHeaders: function(table) {
-    initDict()
-    return dict[table]
+    initHeadersDict()
+    return headersDict[table]
+  },
+  getDbObject: function(table) {
+    initDbObjectDict()
+    return dbDict[table]
   }
 }
