@@ -2,9 +2,25 @@
 <svg id = "graph" width="960" height="500"></svg>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
-var dataset = [
 
+function getProdCost() {
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:3000/api/graph/graph/breakeven",
+    contentType: "application/json",
+    success: function(d){
+      console.log(JSON.parse(d));
+    }
+  });
+};
+
+getProdCost();
+
+
+
+var dataset = [
       { EngName: "Manager's Salary", CostSuperType: "Fixed Cost", Costyear: 9599.999999931},
       { EngName: "Clerk's Salary", CostSuperType: "Fixed Cost", Costyear: 2879.999999712},
       { EngName: "Admin", CostSuperType: "Fixed Cost", Costyear: 17963.999999748},
@@ -27,11 +43,13 @@ var dataset = [
       { EngName: "Curing Tents", CostSuperType: "Fixed Cost", Costyear: 432.359985351562},
       { EngName: "Building", CostSuperType: "Fixed Cost", Costyear: 10335.4797363281},
     ];
+
+
 var prodCost = [
  { ProdNo: 1, sumpiececost: 12.9676413627901}
 ];
 
-var productPrice = [ 
+var productPrice = [
 { PriceRetail: 16}];
 
 
@@ -74,7 +92,7 @@ for(i = 0; i < fixedDataSet.length; i++) {
 var y = d3.scaleLinear()
     y.domain([0, (sumFixed + sumVariable) * 10])
     .rangeRound([height, 0]);
-  
+
 
 
 
@@ -118,7 +136,7 @@ for(i = 0; i < numProd; i++) {
         set.y = y(sumFixed);
         //console.log(set);
         //num+=1;
-        
+
         fixedRange.push(set);
     }
     /*var productRange = new Array();
@@ -129,7 +147,7 @@ for(i = 0; i < numProd; i++) {
         //console.log(i);
         //console.log(prodCost[0].sumpiececost + sumFixed);
         //num+=1;
-        
+
         productRange.push(set);
     }*/
 
@@ -137,7 +155,7 @@ var variableLine = d3.line()
     .x(function (d) {return d.x;})
     .y(function (d) {return d.y;});
 
-  
+
 
  /* var fixedRange = new Array();
 for(i = 0; i < numProd; i++) {
@@ -146,12 +164,12 @@ for(i = 0; i < numProd; i++) {
         set.y = y(sumFixed);
         //console.log(set);
         //num+=1;
-        
+
         fixedRange.push(set);
 }*/
 function getInput() {
       numProd = document.getElementById("numForm").value;
-      console.log("input"); 
+      console.log("input");
       console.log(numProd);
       var submitX = d3.scaleLinear()
       .domain([0,numProd])
@@ -167,14 +185,14 @@ function getInput() {
         var set = new Object();
         set.x = submitX(i);
         set.y = y(sumFixed);
-        
+
         fixedRange.push(set);
         var set = new Object();
         set.x = submitX(i);
         set.y = y(productPrice[0].PriceRetail*i);
-        
+
         productRange.push(set);
-        
+
      }
      var variableLine = d3.line()
      .x(function (d) {return d.x;})
@@ -220,8 +238,8 @@ function getInput() {
       .attr("stroke-linecap", "round")
       .attr("stroke-width", 1.5)
       .attr("d", productLine);
-      
-      
+
+
   }
 
 
@@ -288,9 +306,3 @@ function getInput() {
 <br>
 Number of Products Produced: <input type="number" id="numForm" value = "30000">
 <button onclick="getInput()"> Submit</button>
-
-
-
-
-
-
