@@ -7,7 +7,7 @@ $(document).ready( function () {
         "url": "http://localhost:3000/api/tables/processing",
         "type": "POST",
         "data": {
-          "table": $('#table_name')[0].innerHTML
+          "table": $('#table-name')[0].innerHTML
         }
       }
    });

@@ -4,10 +4,9 @@ var db = require('../models/db');
 var helper = require('./tablehelper');
 
 router.get('/:table', function(req, res, next) {
-  var tableName = req.params.table;
   if (getTableName(req.params.table)) {
-    let tableName = getTableName(req.params.table);
-    let tableColumns = helper.getTableHeaders(tableName);
+    const tableName = getTableName(req.params.table);
+    const tableColumns = helper.getTableHeaders(tableName);
 
     helper.getDbObject(tableName).findAndCount({
       attributes: tableColumns,
