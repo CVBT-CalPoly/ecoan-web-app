@@ -8,13 +8,11 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var table = require('./routes/table');
-
 var table_api = require('./api/tables/crud');
 var graph_api = require('./api/graph/graph');
 
 var graphs = require('./routes/graphs')
-// var table_processing = require('./api/tables/processing');
-var table_processing = require('./routes/processing');
+var table_processing = require('./api/tables/processing');
 
 
 // Create the application
@@ -33,14 +31,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/table', table);
-
 app.use('/api/tables/crud', table_api);
 app.use('/api/graph/graph', graph_api);
 
 
 app.use('/graphs', express.static('graphs'))
-app.use('/table/processing', table_processing);
-
+app.use('/api/tables/processing', table_processing);
 
 app.disable('etag');
 // catch 404 and forward to error handler
