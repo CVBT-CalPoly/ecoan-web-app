@@ -6,9 +6,9 @@ var helper = require('./tablehelper');
 router.get('/:table', function(req, res, next) {
   var tableName = req.params.table;
   if(tableName === "prodhistory") {
-    var tableColumns = helper.getTableHeaders("Product History");
-
+    var tableColumns = helper.getTableHeaders("Product History");    
     db.ProductHistory.findAndCount({
+
       attributes: tableColumns,
       raw: true,
       order: 'ProdNo'

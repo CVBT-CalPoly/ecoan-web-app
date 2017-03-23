@@ -1,21 +1,31 @@
 extends layout
 
 block sources
-  link(rel="stylesheet", type="text/css", href="../css/table.css")
   link(rel="stylesheet", type="text/css", href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css")
   script(type="text/javascript", charset="utf8", src='//cdn.datatables.net/1.10.13/js/jquery.dataTables.js')
   script(type="text/javascript", src='../js/table.js')
+  link(rel="stylesheet", type="text/css", href="../css/table.css")
+  script(type="text/javascript", src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js")
+  script(type="text/javascript", src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js")
+  link(rel="stylesheet", type="text/css", href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css")
 
 block table
+  //- display attribute it set to show after clientside loading
   div(id="data-table-container", style="display: none")
     h2= table_name
     table(id="data-table", class="cell-border", cellspacing="0", width="100%")
       thead
         tr
+          td(id="crud-col", class="edit-col") CRUD
           each header in table_header
             td= header
       tbody
-        each row in table_data
-          tr
-            each column in row
-              td= column
+        each row, index in table_data
+          tr(row-num=index)
+            td(class="edit-col")
+              div(class="edit-buttons")
+                //- We can trigger crud action with onclick
+                input(type="image", title="Edit Database Item", src="../images/icons/edit.png", class="crud-button", row-num=index, id="edit-button")
+                input(type="image", title="Delete Database Item", src="../images/icons/delete.png", class="crud-button", row-num=index, id="delete-button")
+            each value, col in row
+              td(id=col, row-num=index)= value

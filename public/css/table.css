@@ -1,13 +1,38 @@
 #data-table-container {
-   width: 80%;
-   margin: auto;
-   padding-top: 30px;
+  width: 80%;
+  margin: auto;
+  padding-top: 30px;
 }
 
 thead {
-   font-size: 8pt;
+  font-size: 8pt;
 }
 
 #data-table {
-   font-size: 8pt;
+  font-size: 8pt;
+}
+
+.edit-col {
+  padding-right: 15px !important;
+  margin: 0 auto;
+}
+
+.edit-buttons {
+  width: 120%;
+  height: 27px;
+}
+
+.delete-button {
+  background-image: url(../images/icons/delete.png);
+}
+.edit-button {
+  background-image: url(../images/icons/edit.png);
+}
+
+.crud-button {
+  margin: auto;
+}
+
+.dataTables_scroll {
+  border:1px solid #d0d0d0;
 }
