@@ -5,42 +5,42 @@ var helper = require('./tablehelper');
 
 router.get('/:table', function(req, res, next) {
   var tableName = req.params.table;
-  if(tableName === "prodhistory") {
-    var tableColumns = helper.getTableHeaders("Product History");
+  if (getTableName(req.params.table)) {
+    let tableName = getTableName(req.params.table);
+    let tableColumns = helper.getTableHeaders(tableName);
 
-    helper.getDbObject("Product History").findAndCount({
+    helper.getDbObject(tableName).findAndCount({
       attributes: tableColumns,
       raw: true,
       limit: 10,
-      order: 'ProdNo'
     }).then(function(results) {  
       res.render('table', {
-        table_name: 'Product History',
+        table_name: tableName,
         table_header: tableColumns,
         table_data: results.rows
       });
     });
-
-  } else if(tableName === "comphistory") {
-    var cHistoryColumns = helper.getTableHeaders("Component History");
-
-    db.ComponentHistory.findAndCount({
-      attributes: cHistoryColumns,
-      raw: true,
-      limit: 1
-    }).then(function(results) {
-      res.render('table', {
-        table_name: 'Component History',
-        table_header: cHistoryColumns,
-        table_data: results.rows,
-      });
-    });
-  } else {
+  }
+  else {
     req.stuts(404).send();
     res.render('error');
   }
 });
 
+function getTableName(table) {
+  let tableName;
+  switch (table) {
+    case 'prodhistory':
+      tableName = 'Product History'
+      break;
+    case 'comphistory':
+      tableName = 'Component History'
+      break;
+    default:
+      tableName = ''
+  }
+  return tableName;
+}
 
 
 module.exports = router;
