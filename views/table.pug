@@ -16,14 +16,14 @@ block table
     table(id="data-table", class="cell-border", cellspacing="0", width="100%")
       thead
         tr
-          td(id="crud-col", class="edit-col") CRUD
+          //- td(id="crud-col", class="edit-col") CRUD
           each header in table_header
             td= header
       tbody
         each row, index in table_data
           tr(row-num=index)
-            td(class="edit-col")
-              div(class="edit-buttons")
+            //- td(class="edit-col")
+              //- div(class="edit-buttons")
                 //- We can trigger crud action with onclick
                 input(type="image", title="Edit Database Item", src="../images/icons/edit.png", class="crud-button", row-num=index, id="edit-button")
                 input(type="image", title="Delete Database Item", src="../images/icons/delete.png", class="crud-button", row-num=index, id="delete-button")
