@@ -37,10 +37,10 @@ form
 {
 
     position:fixed; 
-    top:4%; 
+    top:6%; 
     left:2%;
     height:0px;
-    font-size:1.4em;
+    font-size:1em;
     text-align:left;
 }
 </style>
@@ -341,6 +341,9 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
     };    
 
 }
+var bigDataSet = new Array();
+var smallDataSet =  new Array();
+
 
 document.getElementById('drop').onchange = function(){
     var value = document.getElementById('drop').options[document.getElementById('drop').selectedIndex].value;
@@ -349,6 +352,9 @@ document.getElementById('drop').onchange = function(){
      //document.getElementById("slice" + i).remove();
     //}
     document.getElementById("slices").remove();
+    //dataset = new Array();
+    bigDataSet = new Array();
+    smallDataSet = new Array();
     getPieceCosts(value);
     console.log("change");
 
@@ -474,9 +480,7 @@ var prodTotal = [{ProdNo: 1, sumpiececost: 12.9676413627901}];
         bigDataSet.push(dataset[i]);
       }
     }*/
-var bigDataSet = new Array();
-    var smallDataSet = new Array();
-    
+
 function init_plots()
 {
     for(i = 0; i < dataset.length; i++) {
@@ -488,6 +492,8 @@ function init_plots()
         bigDataSet.push(dataset[i]);
       }
     }
+    console.log(bigDataSet.length);
+    console.log(smallDataSet.length);
     
     
     function count_function(d)
