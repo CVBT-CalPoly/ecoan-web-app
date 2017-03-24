@@ -1,24 +1,140 @@
 <!DOCTYPE html>
+<h1> Payback Period </h1>
 <svg id = "graph" width="960" height="500"></svg>
-
+<select id="drop"></select>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
-var dataset = [
+var dataset;
+var productPrice;
+var paybackYears;
+var interestRate;
+document.getElementById('drop').onchange = function(){
+    var value = document.getElementById('drop').options[document.getElementById('drop').selectedIndex].value;
+    deleteGraph();
+    getInvestCosts(value);
+    console.log("change");
 
+}
+
+var listProds = '';
+function getAllProds() {
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:3000/api/graph/graph/allProducts",
+    contentType: "application/json",
+    success: function(d){
+      //console.log(JSON.parse(d));
+      var data = JSON.parse(d);
+      $.each(data, function(key, value){
+      if(value.EngModel != null) {
+        listProds += '<option value=' + value.ProdNo + '>' + value.ProdEngName + ' ' + value.EngModel + '</option>';
+      }
+      else {
+        listProds += '<option value=' + value.ProdNo + '>' + value.ProdEngName + '</option>';
+      }
+      });
+      $("#drop").append(listProds);
+      $('#drop option[value=selectedProd]').prop('selected', true);
+      var value = document.getElementById('drop').options[document.getElementById('drop').selectedIndex].value;
+      getInvestCosts(value);
       
-      { EngName: "Vibrating Table Large", CostSuperType: "Fixed Cost", Costyear: 18575.3994140625},
-      { EngName: "Material Storage Bins", CostSuperType: "Fixed Cost", Costyear: 3804.59985351562},
-      { EngName: "Other Equipment", CostSuperType: "Fixed Cost", Costyear: 5659.79999953508},
-      { EngName: "Land", CostSuperType: "Fixed Cost", Costyear: 12139.0803222656},
-      { EngName: "Curing Tents", CostSuperType: "Fixed Cost", Costyear: 432.359985351562},
-      { EngName: "Building", CostSuperType: "Fixed Cost", Costyear: 10335.4797363281},
-    ];
+      
+
+    }
+  });
+};
+
+function getInvestCosts(id) {
+  var myId = {prodId : id};
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:3000/api/graph/graph/investCosts",
+    contentType: "application/json",
+    datatype: "json",
+    data: JSON.stringify(myId),
+    success: function(d){
+      console.log(JSON.parse(d));
+      dataset = JSON.parse(d);
+      getRetailPrice(id);
+
+    }
+  });
+};
+
+function getRetailPrice(id) {
+  var myId = {prodId : id};
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:3000/api/graph/graph/retailPrice",
+    contentType: "application/json",
+    datatype: "json",
+    data: JSON.stringify(myId),
+    success: function(d){
+      console.log(JSON.parse(d));
+      productPrice = JSON.parse(d);
+      getInvestmentPaybackPeriod(id);
+
+    }
+  });
+};
+
+function getInvestmentPaybackPeriod(id) {
+  var myId = {prodId : id};
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:3000/api/graph/graph/investmentPayback",
+    contentType: "application/json",
+    datatype: "json",
+    data: JSON.stringify(myId),
+    success: function(d){
+      console.log(JSON.parse(d));
+      paybackYears = JSON.parse(d);
+      getInterestRate(id);
+
+    }
+  });
+};
+
+function getInterestRate(id) {
+  var myId = {prodId : id};
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:3000/api/graph/graph/interestRate",
+    contentType: "application/json",
+    datatype: "json",
+    data: JSON.stringify(myId),
+    success: function(d){
+      console.log(JSON.parse(d));
+      interestRate = JSON.parse(d);
+      init();
+
+    }
+  });
+};
 
 
-var productPrice = [ 
-{ PriceRetail: 16}];
+
+getAllProds();
+
+function deleteGraphAndInit() {
+  document.getElementById("xAxis").remove();
+  document.getElementById("yAxis").remove();
+     document.getElementById("investLine").remove()
+     document.getElementById("productLine").remove();
+     init();
+}
+
+function deleteGraph() {
+  document.getElementById("xAxis").remove();
+  document.getElementById("yAxis").remove();
+
+     document.getElementById("productLine").remove();
+}
 
 
+function init() {
+var numProd = document.getElementById("numForm").value;
 
 var investmentDataSet = new Array();
 
@@ -29,8 +145,9 @@ var investmentDataSet = new Array();
 var sumInvest = 0;
 for(i = 0; i < investmentDataSet.length; i++) {
 
-   sumInvest += investmentDataSet[i].Costyear;
+   sumInvest += investmentDataSet[i].CostYear*paybackYears[0].Cost;
 }
+console.log(sumInvest);
 var svg = d3.select("svg"),
     margin = {top: 20, right: 20, bottom: 30, left: 60},
     width = +svg.attr("width") - margin.left - margin.right,
@@ -38,17 +155,8 @@ var svg = d3.select("svg"),
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var y = d3.scaleLinear()
-    .domain([-0.5, 1])
+    .domain([-1, 1])
     .rangeRound([height, 0]);
-
-console.log(d3.extent(dataset, function(d) { return d.Costyear * 10; }));
-  
-
-var sumInvest = 0;
-for(i = 0; i < investmentDataSet.length; i++) {
-
-   sumInvest += investmentDataSet[i].Costyear;
-}
 
 
 
@@ -59,94 +167,40 @@ var investLine = d3.line()
 var productLine = d3.line()
     .x(function (d) {return d.x;})
     .y(function (d) {return d.y;});
-//var x = d3.scaleLinear();
-var numProd = 1000;
-
-  console.log("here");
-  //x.domain(d3.extent(percent, function(d) { return d.Max;}));
-  /*var axisScale = d3.scaleLinear()
-                         .domain([0,100])
-                         .range([0,width]);*/
 var x = d3.scaleLinear()
     .domain([0,100])
     .rangeRound([0, width]);
 
     var productRange = new Array();
-    var investRange = new Array();
-for(i = 0; i <= 12; i++) {
-        var set = new Object();
-        set.x = x(i);
-        set.y = y(productPrice[0].PriceRetail*numProd*i);
-        console.log(i);
-        console.log(productPrice[0].PriceRetail*numProd*i);
-        console.log(set);
-        productRange.push(set);
-        var set = new Object();
-        set.x = x(i);
-        set.y = y(sumInvest);
-        //console.log(set);
-        //num+=1;
-        
-        investRange.push(set);
-    }
-function getInput() {
-      numProd = document.getElementById("numForm").value;
-      console.log("input"); 
-      console.log(numProd);
-      /*var submitX = d3.scaleLinear()
-      .domain([0,12])
-      .rangeRound([0, width]);*/
-      var productRange = new Array();
-    var investRange = new Array();
-for(i = 0; i <= 12; i++) {
-        var set = new Object();
-        set.x = x(i);
-        set.y = y(productPrice[0].PriceRetail*numProd*i);
-        console.log(set);
+for(i = 0; i <= 100; i++) {
+        var totalInvestedWithInterest = sumInvest;
+        var capitalLeft = sumInvest;
+        var profit = 0;
+        for (var j = 1; j <= 10; j++) {
+            profit += productPrice[0].PriceRetail*numProd*(i/100);
+            //console.log(capitalLeft);
+            capitalLeft -= profit;
 
-        productRange.push(set);
+            //console.log(capitalLeft);
+            if(capitalLeft > 0) {
+              totalInvestedWithInterest += interestRate[0].Cost/100 * capitalLeft;
+              capitalLeft += interestRate[0].Cost/100 * capitalLeft;
+            }
+            //console.log(totalInvestedWithInterest);
+            //console.log(capitalLeft);
+            //console.log(profit);
+
+        }
+
         var set = new Object();
         set.x = x(i);
-        set.y = y(sumInvest);
+        //console.log((profit-totalInvestedWithInterest)/totalInvestedWithInterest);
+        set.y = y((profit-totalInvestedWithInterest)/totalInvestedWithInterest);
+        //console.log(i);
+        //console.log(productPrice[0].PriceRetail*numProd*i);
         //console.log(set);
-        //num+=1;
-        
-        investRange.push(set);
+        productRange.push(set);
     }
-     //document.getElementById("xAxis").remove();
-     document.getElementById("investLine").remove();
-     document.getElementById("productLine").remove();
-     /*g.append("g")
-     .attr("id", "xAxis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(submitX))
-    .append("text")
-      .attr("fill", "#000")
-      .attr("x", width)
-      .attr("dy", "-0.71em")
-      .attr("text-anchor", "end")
-      .text("% Production");*/
-      g.append("path")
-      .attr("id", "investLine")
-      .datum(investRange)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-linejoin", "round")
-      .attr("stroke-linecap", "round")
-      .attr("stroke-width", 1.5)
-      .attr("d", investLine);
-      g.append("path")
-      .attr("id", "productLine")
-      .datum(productRange)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-linejoin", "round")
-      .attr("stroke-linecap", "round")
-      .attr("stroke-width", 1.5)
-      .attr("d", productLine);
-      
-      
-  }
 
 
   console.log("downhere");
@@ -159,42 +213,33 @@ for(i = 0; i <= 12; i++) {
       .attr("x", width)
       .attr("dy", "-0.71em")
       .attr("text-anchor", "end")
-      .text("% Production");
+      .text("% Production Capacity");
 
   g.append("g")
       .call(d3.axisLeft(y))
+      .attr("id", "yAxis")
     .append("text")
       .attr("fill", "#000")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
       .attr("dy", "0.71em")
       .attr("text-anchor", "end")
-      .text("Return On Investment");
-
-  g.append("path")
-      .attr("id", "investLine")
-      .datum(investRange)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-linejoin", "round")
-      .attr("stroke-linecap", "round")
-      .attr("stroke-width", 1.5)
-      .attr("d", investLine);
+      .text("% Of Investment Paid Back");
 
     g.append("path")
       .attr("id", "productLine")
       .datum(productRange)
       .attr("fill", "none")
-      .attr("stroke", "steelblue")
+      .attr("stroke", "green")
       .attr("stroke-linejoin", "round")
       .attr("stroke-linecap", "round")
       .attr("stroke-width", 1.5)
       .attr("d", productLine);
 
       console.log("submit");
-
+}
 
 </script>
 <br>
-Number of Products Produced per Month: <input type="number" id="numForm" value = "1000">
-<button onclick="getInput()"> Submit</button>
+Number of Products Produced per Year: <input type="number" id="numForm" value = "30000">
+<button onclick="deleteGraphAndInit()"> Submit</button>

@@ -68,5 +68,14 @@ router.get('/pieceCosts', function(req, res) {
   });
 });
 
+router.get('/interestRate', function(req, res) {
+  console.log(req.url);
+  var id = req.url.substring(req.url.search(":")+4, req.url.search("}")-3);
+  db.sequelize.query("select Cost from ProdCosts where EngName like \"Interest%\" and ProdNo = " + id)
+  .spread(function(results, metadata) {
+    res.send(JSON.stringify(results));
+  });
+});
+
 
 module.exports = router;

@@ -17,6 +17,9 @@ router.get('/:graphs', function(req, res, next) {
   if( tableName == "productCostBreakdown") {
      res.sendFile("../graphs/productCostBreakdown.html");
   }
+  if( tableName == "RateOfReturn") {
+     res.sendFile("../graphs/RateOfReturn.html");
+  }
 });
 
 module.exports = router;
