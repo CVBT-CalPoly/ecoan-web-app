@@ -1,5 +1,15 @@
 <!DOCTYPE html>
-<h1> Payback Period </h1>
+<h1> Rate of Return on Investment</h1>
+<style>
+#legend
+{
+    position:left;
+    width:800px;
+    margin:0 auto;
+}
+
+
+</style>
 <svg id = "graph" width="960" height="500"></svg>
 <select id="drop"></select>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -9,6 +19,8 @@ var dataset;
 var productPrice;
 var paybackYears;
 var interestRate;
+
+var color = [{color: "green"}, {text: "Return on Investment"}];
 document.getElementById('drop').onchange = function(){
     var value = document.getElementById('drop').options[document.getElementById('drop').selectedIndex].value;
     deleteGraph();
@@ -38,9 +50,6 @@ function getAllProds() {
       $('#drop option[value=selectedProd]').prop('selected', true);
       var value = document.getElementById('drop').options[document.getElementById('drop').selectedIndex].value;
       getInvestCosts(value);
-      
-      
-
     }
   });
 };
@@ -120,7 +129,6 @@ getAllProds();
 function deleteGraphAndInit() {
   document.getElementById("xAxis").remove();
   document.getElementById("yAxis").remove();
-     document.getElementById("investLine").remove()
      document.getElementById("productLine").remove();
      init();
 }
@@ -155,7 +163,7 @@ var svg = d3.select("svg"),
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var y = d3.scaleLinear()
-    .domain([-1, 1])
+    .domain([-100, 1000])
     .rangeRound([height, 0]);
 
 
@@ -173,32 +181,10 @@ var x = d3.scaleLinear()
 
     var productRange = new Array();
 for(i = 0; i <= 100; i++) {
-        var totalInvestedWithInterest = sumInvest;
-        var capitalLeft = sumInvest;
-        var profit = 0;
-        for (var j = 1; j <= 10; j++) {
-            profit += productPrice[0].PriceRetail*numProd*(i/100);
-            //console.log(capitalLeft);
-            capitalLeft -= profit;
-
-            //console.log(capitalLeft);
-            if(capitalLeft > 0) {
-              totalInvestedWithInterest += interestRate[0].Cost/100 * capitalLeft;
-              capitalLeft += interestRate[0].Cost/100 * capitalLeft;
-            }
-            //console.log(totalInvestedWithInterest);
-            //console.log(capitalLeft);
-            //console.log(profit);
-
-        }
-
         var set = new Object();
         set.x = x(i);
-        //console.log((profit-totalInvestedWithInterest)/totalInvestedWithInterest);
-        set.y = y((profit-totalInvestedWithInterest)/totalInvestedWithInterest);
-        //console.log(i);
-        //console.log(productPrice[0].PriceRetail*numProd*i);
-        //console.log(set);
+        set.y = y(100*((productPrice[0].PriceRetail*numProd*(i/100)*10-sumInvest)/sumInvest));
+
         productRange.push(set);
     }
 
