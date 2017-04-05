@@ -29,7 +29,7 @@ Developers: Jonathan Molina, Nathan Sylvia, Alex Ye
 1. Provide for backups (we do have a web master who probably takes care of this).
 1. Allow rollbacks (keep history of additions, changes and deletions.  This probably requires the use of triggers).
 1. Have user accounts so that users can save their data (scenarios; i.e., input data) on-line
-1. Allow them to create different scenarios.
+1. Allow them to create different scenarios. (Do this through the graphs?)
 1. Create way for users to access in their native languages
 1. Documentation: code should be commented.  User Help should be accessible for each web page or menu item.  There should be a map/plan of the database and an explanation so that students who work on this later will be able to understand it.
 
