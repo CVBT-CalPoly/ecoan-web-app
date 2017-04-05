@@ -104,8 +104,6 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
         var child_stop_deg = current_deg;
         var inc_deg = 0;
         level+=1;
-        //console.log(prodTotal[0].sumpiececost);
-        //console.log(bigDataSet[0].PieceCost);
         for (var key in bigDataSet)
         {
             child = bigDataSet[key];
@@ -115,7 +113,6 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
             current_deg+=inc_deg;
             child_stop_deg = current_deg;
             var span_deg = child_stop_deg-child_start_deg;
-            //process_data(level+1,child_start_deg,child_stop_deg);
             data_slices.push([child_start_deg,child_stop_deg,child.EngName, level,child.PieceCost]);
         }
         if(smallDataSet.length > 0) {
@@ -123,39 +120,24 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
             for(var item in smallDataSet) {
                 size+=smallDataSet[item].PieceCost;
             }
-            //console.log(stop_deg-start_deg);
             inc_deg = (stop_deg-start_deg)/prodTotal[0].sumpiececost*size;
-            //console.log(inc_deg);
             child_start_deg = current_deg;
             var small_start_deg = child_start_deg;
-            current_deg+=inc_deg;
-            //child_stop_deg = current_deg;
-            child_stop_deg = stop_deg;
+            current_deg+=inc_deg;            child_stop_deg = stop_deg;
             var span_deg = child_stop_deg-child_start_deg;
-            //console.log(child_start_deg);
-            //console.log(child_stop_deg);
-            //console.log(span_deg);
-            //console.log("span");
-            //process_data(level+1,child_start_deg,child_stop_deg);
             
                 data_slices.push([child_start_deg,child_stop_deg, "Small Data", level,size]);
                 level += 1;
                 current_deg = small_start_deg;
-                //console.log(current_deg);
                 for(var item in smallDataSet) {
                     child = smallDataSet[item];
 
-                    //inc_deg = (stop_deg-start_deg)/prodTotal[0].sumpiececost*child.PieceCost;
                     inc_deg = span_deg*child.PieceCost;
-                   // console.log(inc_deg);
                     child_start_deg = current_deg;
                     current_deg+=inc_deg;
                     child_stop_deg = current_deg;
-                    //var span_deg = child_stop_deg-child_start_deg;
-                    //process_data(level+1,child_start_deg,child_stop_deg);
                     data_slices.push([child_start_deg,child_stop_deg,child.EngName, level,child.PieceCost]);
                 }
-                //console.log(" ");
             
 
         }
@@ -163,7 +145,6 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
     }
     
     process_data(0,0,360./180.0*Math.PI);
-    //console.log(data_slices);
 
     var ref = data_slices[0];
     var next_ref = ref;
@@ -181,9 +162,6 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
         .data(function(d) { return data_slices; })
         .enter()
         .append("g")
-        //.attr("id",function(d,i){return "slice"+i;})
-
-//numSlices+=1;
         slices.append("path")
         .attr("d", arc)
         .attr("id",function(d,i){return element_id+i;})
@@ -344,10 +322,6 @@ function init_code_hierarchy_plot(element_id,data,count_function,color_function,
 
 document.getElementById('drop').onchange = function(){
     var value = document.getElementById('drop').options[document.getElementById('drop').selectedIndex].value;
-    //deleteGraph();
-    //for(var i = 0; i < numSlices; i++) {
-     //document.getElementById("slice" + i).remove();
-    //}
     document.getElementById("slices").remove();
     getPieceCosts(value);
     console.log("change");
@@ -361,7 +335,6 @@ function getAllProds() {
     url: "http://localhost:3000/api/graph/graph/allProducts",
     contentType: "application/json",
     success: function(d){
-      //console.log(JSON.parse(d));
       var data = JSON.parse(d);
       $.each(data, function(key, value){
       if(value.EngModel != null) {
@@ -411,7 +384,6 @@ function getSumPieceCost(id) {
     datatype: "json",
     data: JSON.stringify(myId),
     success: function(d){
-      //console.log(JSON.parse(d));
       prodTotal = JSON.parse(d);
       getProdName(id);
     }
@@ -419,7 +391,6 @@ function getSumPieceCost(id) {
 };
 
 function getProdName(id) {
-    //console.log("here");
   var myId = {prodId : id};
   $.ajax({
     type: "GET",
@@ -434,46 +405,6 @@ function getProdName(id) {
     }
   });
 };
-
-/*var product = [{ProdEngName: "6 mm"}]
-var prodTotal = [{ProdNo: 1, sumpiececost: 12.9676413627901}];
-
-    var dataset = [
-
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.4040404040375, EngName: "Manager's Salary"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.1212121212, EngName: "Clerk's Salary"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.75606060605, EngName: "Admin"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.6313131313125, EngName: "Marketing"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.78179290463226, EngName: "Vibrating Table Large"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.160126256461095, EngName: "Material Storage Bins"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.238207070687504, EngName: "Other Equipment"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.808140859945504, EngName: "Cement Portland"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 1.1507029848208, EngName: "Crushed Stone 1/4   "},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.0000041148355624808 , EngName: "Lipon Lemon  Dishwashing Linguid"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.0170553282435436, EngName: "Plasticizer SIKA F2  "},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.42288897802136, EngName: "Sand "},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.000470660121193456, EngName: "Water"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 5.15, EngName: "Labor"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.5, EngName: "Labor - Loading"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.0079, EngName: "Electricity"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.322286517039519, EngName: "Waste"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.531343463936237, EngName: "Working Capital"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.510904053967408, EngName: "Land"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.018196969080453, EngName: "Curing Tents"},
-      { ProdGrpCode: 'SS', ProdNo: 1, PieceCost: 0.434994938397648, EngName: "Building"},
-    ];*/
-    /*var bigDataSet = new Array();
-    var smallDataSet = new Array();
-
-    for(i = 0; i < dataset.length;i++) {
-     if(dataset[i].PieceCost < 0.09) {
-        smallDataSet.push(dataset[i]);
-
-      }
-      else {
-        bigDataSet.push(dataset[i]);
-      }
-    }*/
 var bigDataSet = new Array();
     var smallDataSet = new Array();
     
@@ -501,12 +432,7 @@ function init_plots()
     
     function legend_function(d)
     {
-        //if(d[2] == "Total") {
            return "<h2>"+d[2]+"&nbsp;</h2><p>"+d[4]+" Baht</p>" 
-        //}
-        //else {
-         //   return "<h2>"+d[2]+"&nbsp;</h2><p>"+d[5].PieceCost+" Baht</p>"
-        //}
     }
 
     color = d3.scaleOrdinal()
@@ -518,13 +444,8 @@ function init_plots()
 
     }
     init_code_hierarchy_plot("code_hierarchy",dataset,count_function,color_function,label_function,legend_function);
-    //init_code_hierarchy_plot("code_hierarchy",bigDataset,count_function,color_function,label_function,legend_function);
-    //init_code_hierarchy_plot("small_data",smallDataset,count_function,color_function,label_function,legend_function);
 
 }
-
-//window.onload = getAllProds();
-//window.onresize = init_plots();
 
 
 </script>
