@@ -1,50 +1,68 @@
 $(document).ready( function () {
-   $('#data-table').DataTable({
-      "scrollX": true,
-      "dom": 'Bfrtip',
-      "buttons": [
-            'print'
-      ],
-      "columnDefs": [ {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
-        }],
-      "order": [[ 0, 'asc' ]],
-      "processing": true,
-      "serverSide": true,
-      "ajax": {
-        "url": "http://localhost:3000/api/tables/processing",
-        "type": "POST",
-        "data": {
-          "table": $('#table-name')[0].innerHTML
-        }
+  var row = {};
+
+  var table = $('#data-table').DataTable({
+    "scrollX": true,
+    "dom": 'lfrtBip',
+    "buttons": [
+      'print'
+    ],
+    // "columnDefs": [ {
+    //   "searchable": false,
+    //   "orderable": false,
+    //   "targets": 0
+    // }],
+    // "order": [[ 0, 'asc' ]],
+    "processing": true,
+    "serverSide": true,
+    "ajax": {
+      "url": "http://localhost:3000/api/tables/processing",
+      "type": "POST",
+      "dataType": 'json',
+      "data": {
+        "table": $('#table-name')[0].innerHTML
       }
+    }
    });
-   $('#data-table-container').fadeIn("fast");
+
+  $('#data-table tbody').on( 'click', 'tr', function () {
+    if($(this).hasClass('selected')) {
+      $(this).removeClass('selected');
+      $('#edit-button').attr('disabled', 'disabled');
+      $('#delete-button').attr('disabled', 'disabled');
+    } else {
+      row = table.row(this).data();
+
+      $('#edit-button').removeAttr('disabled');
+      $('#delete-button').removeAttr('disabled');
+      $('tr.selected').removeClass('selected');
+      $(this).addClass('selected');
+    }
+  });
+
+  $('#edit-button').on('click', function() {
+    console.log(row);
+    var headers = $("table tr:eq(0) td");
+
+    console.log(headers);
+    for(var idx in row) {
+      var field = document.createElement("div");
+      field.class = "medium-6 columns";
+
+      var label = document.createElement("label");
+      label.innerHTML = headers[idx].innerHTML;
+
+      var input = document.createElement("input");
+      input.type = "text"
+      input.placeholder = row[idx];
+
+      label.appendChild(input);
+      field.appendChild(label);
+
+      $("#edit-form").append(field);
+    }
+
+  });
+
+  $('#data-table-container').fadeIn("fast");
 } );
-//
-// $(document).on("click", "#delete-button", function(e) {
-//   var data = $(this).attr('row-num');
-//   var row = $(this).closest('tr');
-//   alert ("delete pressed: " + data);
-//   // console.log(tr);
-//   // alert ("delete pressed: " + tr);
-//   var fillData = {};
-//   row.find('td').each(function(){
-//     var id = ($(this).attr('id'));
-//     if(id !== undefined) {
-//       fillData[id] = $(this).text();
-//     }
-//   });
-//   // console.log(fillData);
-//   $.ajax({
-//     type: "POST",
-//     data :JSON.stringify(fillData),
-//     url: "http://localhost:3000/api/tables/crud/delete/prodhist",
-//     contentType: "application/json",
-//     success: function(d){
-//       console.log(d);
-//     }
-//   });
-// });
