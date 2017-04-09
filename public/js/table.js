@@ -41,10 +41,9 @@ $(document).ready( function () {
   });
 
   $('#edit-button').on('click', function() {
-    console.log(row);
+    $('#edit-form').empty();
     var headers = $("table tr:eq(0) td");
 
-    console.log(headers);
     for(var idx in row) {
       var field = document.createElement("div");
       field.class = "medium-6 columns";
@@ -53,7 +52,7 @@ $(document).ready( function () {
       label.innerHTML = headers[idx].innerHTML;
 
       var input = document.createElement("input");
-      input.type = "text"
+      input.type = "text";
       input.placeholder = row[idx];
 
       label.appendChild(input);
