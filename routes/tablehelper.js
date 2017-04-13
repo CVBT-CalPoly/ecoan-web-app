@@ -1,11 +1,11 @@
-var db; // database access object for sequelize
+var db = require('../models/db'); // database access object for sequelize
 var headersDict; // singleton used for table headers
 var dbDict; // singleton  used for database objects
 
 function initHeadersDict() {
   if (!headersDict) {
     headersDict = {};
-    db = require('../models/db');
+
     headersDict["buckets"] = extractTableHeaders(db.Buckets.attributes);
     headersDict["compType"] = extractTableHeaders(db.CompType.attributes);
     headersDict["comphistory"] = extractTableHeaders(db.ComponentHistory.attributes);
