@@ -13,8 +13,16 @@ var dbUser = process.env.DB_USER;
 var dbPass = process.env.DB_PASS;
 
 var dbLoginCred = 'mysql://' + dbUser + ':' + dbPass + '@' + dbHost + ':' + dbPort + '/' + dbName;
-console.log("Your database login credential is: " + dbLoginCred )
-var sequelize = new Sequelize(dbLoginCred);
+
+var sequelize = new Sequelize(dbName, dbUser, dbPass,
+  {
+    host: dbHost,
+    dialect: "mysql",
+    define: {
+      timestamps: false
+    }
+  }
+);
 
 sequelize
   .authenticate()
