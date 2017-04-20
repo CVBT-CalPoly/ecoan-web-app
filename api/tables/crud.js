@@ -8,14 +8,27 @@ router.post('/delete/:table', function(req, res) {
   helper.getDbObject(req.params.table).destroy({
     where: req.body
   }).then(function(instance){
-    // console.log();
     res.send("Deleted: " + parseInt(instance));
   });
 });
 
 router.post('/edit/:table', function(req, res) {
-  console.log(req.body)
-  console.log(req.params.table);
+  var updateArray = [];
+  for(var key in req.body) {
+    updateArray.push(JSON.parse(req.body[key]));
+  }
+
+  delete updateArray[0].ChangeDate;
+  delete updateArray[0].ChangeTime;
+  delete updateArray[0].updatedAt;
+
+  helper.getDbObject(req.params.table).update(
+    updateArray[1],
+    {
+      where: updateArray[0]
+    }
+  );
+  
   res.send("Success");
 });
 
