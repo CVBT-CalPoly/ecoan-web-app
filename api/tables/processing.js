@@ -5,7 +5,6 @@ var helper = require('../../routes/tablehelper');
 var fs = require('fs');
 var drawCounter = 1;
 
-/* GET home page. */
 router.post('/', function(req, res) {
   const tableColumns = helper.getTableHeaders(req.body.table);
 
@@ -41,7 +40,8 @@ router.post('/', function(req, res) {
               console.log(err);
             }
           });
-          rowData.push("<img src=\"../../images/"+fileName+"\" />"); // cell will display image
+          var seconds = new Date().getTime(); // appending seconds will advise browser not to use cached image
+          rowData.push("<img src=\"../../images/"+fileName+"?"+ seconds +"\" />"); // cell will display image
         }
         else {
           rowData.push(data[key]);
