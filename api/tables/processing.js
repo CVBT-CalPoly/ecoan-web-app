@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var db = require('../../models/db');
 var helper = require('../../routes/tablehelper');
+var fs = require('fs');
 var drawCounter = 1;
 
 /* GET home page. */
@@ -27,11 +28,24 @@ router.post('/', function(req, res) {
       const keys = Object.keys(data);
       let rowData = [];
       keys.forEach(function(key) {
-        rowData.push(data[key]);
+        const value = data[key];
+        if (Buffer.isBuffer(value)) {
+          fs.writeFile('public/images/test.jpeg', value, 'utf8', function(err) {
+            if (err) {
+              console.log(err);
+            }
+          });
+          rowData.push("<img src=\"../../images/test.jpeg\" />");
+        }
+        else {
+          rowData.push(data[key]);
+        }
       });
       dataArray.push(rowData);
     });
     response["data"] = dataArray;
+    // console.log(response);
+    // res.attachment('../../images/product.jpeg');
     res.send(JSON.stringify(response));
   });
 
