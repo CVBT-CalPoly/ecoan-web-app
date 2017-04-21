@@ -8,7 +8,20 @@ $(document).ready( function () {
       "columnDefs": [ {
             "searchable": false,
             "orderable": false,
-            "targets": 0
+            // "targets": 3,
+            // "render": function(data, type, row, meta) {
+            //   console.log("data");
+            //   console.log(data);
+            //   var fs = require("fs");
+            //   fs.writeFile("temp.png", data, function(err) {
+            //     if (err) {
+            //       console.log(error)
+            //       return "error";
+            //     }
+            //     console.log("File was saved.")
+            //   });
+            //   return "data";
+            // }
         }],
       "order": [[ 0, 'asc' ]],
       "processing": true,
