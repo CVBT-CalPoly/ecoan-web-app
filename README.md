@@ -4,6 +4,13 @@ Developers: Jonathan Molina, Nathan Sylvia, Alex Ye
 
 ## Tasks
 
+### Spring 2017 Schedule 
+- Wk 1 & 2: Tables and graphs, printing support
+- Wk 3 & 4: Users and language support
+- Wk 5 & 6: Backups and rollbacks
+- wk 7 & On: Testing & Deploying
+
+### Features
 1. Web-based application; server side
 1. User-friendly low-resource attractive website.  The website should not require a high-power computer or a broad-band internet connection.
 1. User Friendly menus (Done)
