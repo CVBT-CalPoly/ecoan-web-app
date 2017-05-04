@@ -1,5 +1,6 @@
 $(document).ready( function () {
   var row = {};
+  var selectedRow;
 
   var table = $('#data-table').DataTable({
     "scrollX": true,
@@ -33,12 +34,53 @@ $(document).ready( function () {
       $('#edit-button').removeAttr('data-open');
     } else {
       row = table.row(this).data();
+      selectedRow = table.row(this);
       $('#edit-button').attr('data-open', 'edit-modal');
       $('#edit-button').removeAttr('disabled');
       $('#delete-button').removeAttr('disabled');
       $('tr.selected').removeClass('selected');
       $(this).addClass('selected');
     }
+  });
+
+  $('#delete-button').on('click', function() {
+    var tableName = $('#table-name')[0].innerHTML;
+    var headers = $("table tr:eq(0) td");
+    var header_array = [];
+
+    headers.each(function() {
+      header_array.push(this.innerHTML);
+    });
+
+    var newTable = {}
+    console.log(row);
+    for(var idx in row) {
+      var element = row[idx];
+      if(element === null) {
+        continue;
+      }
+      else if(!isNaN(element)) {
+        newTable[header_array[idx]] = +element;
+      } else {
+        newTable[header_array[idx]] = element;
+      }
+    }
+
+    console.log(newTable);
+
+    $.ajax({
+      "url": "http://localhost:3000/api/tables/crud/delete/" + tableName,
+      "type": "POST",
+      "data": JSON.stringify(newTable),
+      success: function(result) {
+        selectedRow.remove().draw();
+        row = {};
+      }
+    });
+
+    $('#edit-button').attr('disabled', 'disabled');
+    $('#delete-button').attr('disabled', 'disabled');
+    $('#edit-button').removeAttr('data-open');
   });
 
   $('#edit-button').on('click', function() {
@@ -57,8 +99,7 @@ $(document).ready( function () {
       $("#edit-form").append(label);
     }
   });
-  // https://stackoverflow.com/questions/8158244/how-to-update-a-record-using-sequelize-for-node
-  //
+  
   $('#submit-edits').on('click', function() {
     var headers = $("table tr:eq(0) td");
     var header_array = [];
@@ -79,24 +120,25 @@ $(document).ready( function () {
       }
     });
 
-    var original = {};
+    if(Object.keys(changes).length !== 0) {
+      var original = {};
 
-    for(var i=0; i<header_array.length;i++) {
-      original[header_array[i]] = row[i];
+      for(var i=0; i<header_array.length;i++) {
+        original[header_array[i]] = row[i];
+      }
+
+      console.log(original);
+      var updateArray = {"orignal": JSON.stringify(original), "changes": JSON.stringify(changes)};
+      var tableName = $('#table-name')[0].innerHTML;
+      $.ajax({
+        "url": "http://localhost:3000/api/tables/crud/edit/" + tableName,
+        "type": "POST",
+        "data": updateArray,
+        success: function(result) {
+          table.draw();
+        }
+      });
     }
-
-    console.log(original);
-    var updateArray = {"orignal": JSON.stringify(original), "changes": JSON.stringify(changes)};
-
-    $.ajax({
-      "url": "http://localhost:3000/api/tables/crud/edit/prodhistory",
-      "type": "POST",
-      "data": updateArray
-      // success: function(result) {
-      //   // console.log(changes);
-      // }
-    });
-
   });
 
   $('#data-table-container').fadeIn("fast");

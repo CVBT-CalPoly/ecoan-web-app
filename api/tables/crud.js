@@ -5,11 +5,24 @@ var helper = require('../../routes/tablehelper');
 
 /* GET home page. */
 router.post('/delete/:table', function(req, res) {
-  helper.getDbObject(req.params.table).destroy({
-    where: req.body
-  }).then(function(instance){
-    res.send("Deleted: " + parseInt(instance));
-  });
+  var dbObject = helper.getDbObject(req.params.table);
+  var parsed = JSON.parse(Object.keys(req.body)[0]);
+
+  delete parsed.ChangeDate;
+  delete parsed.ChangeTime;
+  delete parsed.ChangeType;
+  delete parsed.updatedAt;
+
+  // console.log(parsed);
+  if(Object.keys(parsed).length === 0 && parsed.constructor === Object) {
+    res.send("Unable to delete");
+  } else {
+    dbObject.destroy({
+      where: parsed
+    }).then(function(instance) {
+      res.send("Deleted: " + parseInt(instance));
+    });
+  }
 });
 
 router.post('/edit/:table', function(req, res) {
@@ -21,15 +34,20 @@ router.post('/edit/:table', function(req, res) {
   delete updateArray[0].ChangeDate;
   delete updateArray[0].ChangeTime;
   delete updateArray[0].updatedAt;
+  console.log(updateArray[0]);
+  // If there are changes
+  if(Object.keys(updateArray[1]).length !== 0) {
+    helper.getDbObject(req.params.table).update(
+      updateArray[1],
+      {
+        where: updateArray[0]
+      }
+    );
+    res.send("Success");
+  } else {
+    res.send("No changes");
+  }
 
-  helper.getDbObject(req.params.table).update(
-    updateArray[1],
-    {
-      where: updateArray[0]
-    }
-  );
-  
-  res.send("Success");
 });
 
 module.exports = router;
