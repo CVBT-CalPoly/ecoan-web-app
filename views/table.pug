@@ -11,22 +11,27 @@ block sources
 
 block table
   //- display attribute it set to show after clientside loading
+  div(class="reveal" id="edit-modal" data-reveal)
+    h1= "Edit"
+    form(id="edit-form")
+    a(class="button", data-close aria-label="Close modal" id="submit-edits") Submit Changes
+    button(class="close-button" data-close aria-label="Close modal" type="button")
+      span(aria-hidden="true") &times;
+  
+  
   div(id="data-table-container", style="display: none")
     h2= table_name
+    div(id="crud-buttons")
+      a(title="Edit Database Item", class="button", id="edit-button", disabled) Edit
+      a(href="#", title="Delete Database Item", class="button alert", id="delete-button", disabled) Delete
     div(id="table-name" style="display: none")= table_abrv
     table(id="data-table", class="cell-border", cellspacing="0", width="100%")
       thead
         tr
-          //- td(id="crud-col", class="edit-col") CRUD
           each header in table_header
             td= header
       tbody
         each row, index in table_data
           tr(row-num=index)
-            //- td(class="edit-col")
-              //- div(class="edit-buttons")
-                //- We can trigger crud action with onclick
-                input(type="image", title="Edit Database Item", src="../images/icons/edit.png", class="crud-button", row-num=index, id="edit-button")
-                input(type="image", title="Delete Database Item", src="../images/icons/delete.png", class="crud-button", row-num=index, id="delete-button")
             each value, col in row
               td(id=col, row-num=index)= value

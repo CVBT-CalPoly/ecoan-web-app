@@ -22,17 +22,23 @@ thead {
   height: 27px;
 }
 
-.delete-button {
-  background-image: url(../images/icons/delete.png);
-}
-.edit-button {
-  background-image: url(../images/icons/edit.png);
-}
-
 .crud-button {
   margin: auto;
 }
 
 .dataTables_scroll {
   border:1px solid #d0d0d0;
+}
+
+#crud-buttons {
+  float: right;
+}
+
+#delete-button {
+  margin-left: 5px;
+  width: 70px;
+}
+
+#edit-button {
+  width: 70px;
 }
