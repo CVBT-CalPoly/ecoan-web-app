@@ -12,6 +12,9 @@ router.post('/', function(req, res) {
     attributes: tableColumns,
     limit: parseInt(req.body.length),
     offset: parseInt(req.body.start),
+    order: [
+      [helper.getColumnNameForTable(req.body.table, parseInt(req.body["order[0][column]"])), req.body["order[0][dir]"]] // e.g. ["ProdNo", "desc"]
+    ],
     raw: true,
   }).then(function(results) {
     let response = {
