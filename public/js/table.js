@@ -1,23 +1,21 @@
 $(document).ready( function () {
-  var row = {};
-  var selectedRow;
+    var row = {};
+    var selectedRow;
 
-  var table = $('#data-table').DataTable({
-    "scrollX": true,
-    "dom": 'lfrtBip',
-    "buttons": [
-      'print'
-    ],
-    // "columnDefs": [ {
-    //   "searchable": false,
-    //   "orderable": false,
-    //   "targets": 0
-    // }],
-    // "order": [[ 0, 'asc' ]],
-    "processing": true,
-    "serverSide": true,
-    "ajax": {
-      "url": "http://localhost:3000/api/tables/processing",
+    var table = $('#data-table').DataTable({
+      "scrollX": true,
+      "dom": 'Bfrtip',
+      "buttons": [
+        'print'
+      ],
+      "columnDefs": [ {
+        "searchable": false,
+      }],
+      "order": [[ 0, 'asc' ]],
+      "processing": true,
+      "serverSide": true,
+      "ajax": {
+        "url": "http://localhost:3000/api/tables/processing",
       "type": "POST",
       "dataType": 'json',
       "data": {
@@ -99,7 +97,7 @@ $(document).ready( function () {
       $("#edit-form").append(label);
     }
   });
-  
+
   $('#submit-edits').on('click', function() {
     var headers = $("table tr:eq(0) td");
     var header_array = [];
@@ -135,7 +133,7 @@ $(document).ready( function () {
         "type": "POST",
         "data": updateArray,
         success: function(result) {
-          table.draw();
+          selectedRow.draw();
         }
       });
     }

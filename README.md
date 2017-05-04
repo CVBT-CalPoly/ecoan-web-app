@@ -2,6 +2,44 @@
 
 Developers: Jonathan Molina, Nathan Sylvia, Alex Ye
 
+## Tasks
+
+### Spring 2017 Schedule 
+- Wk 1 & 2: Tables and graphs, printing support
+- Wk 3 & 4: Users and language support
+- Wk 5 & 6: Backups and rollbacks
+- wk 7 & On: Testing & Deploying
+
+### Features
+1. Web-based application; server side
+1. User-friendly low-resource attractive website.  The website should not require a high-power computer or a broad-band internet connection.
+1. User Friendly menus (Done)
+1. Generate graphs and charts (I have examples and equations)
+   1. Graphs
+      1. A cost break down pie chart (100% = production cost, profit not included)
+      1. A break-even analysis (show the break even point; base it on 1-year production)
+      1. A pay back period analysis  
+      1. A rate of return analysis (rate of return versus % production capacity)
+   1. Tables
+      1. Filter rows by column values
+      1. Add new rows
+      1. Delete new rows
+      1. Update new rows
+      1. Choose number of rows shown at a time
+1. Provide for printing of reports.
+   1. Production Cost Breakdown by Product (This is functional but needs some formatting and work on the headers).  One challenge here is to be able to order the items in a logical way according to the user (e.g., raw materials are listed from fine to coarse).  There is a manual calculation that shows the equations and has an example for checking purposes.  The calculations on the website have been checked.
+   1.	Inputs by Product
+   1. Price Lists by Product Group (this is functional but needs formatting)
+   1. Table reports (most tables should have a printable report)
+   1. Labor rates by group 
+   1. Mix Registry Report
+1. Provide for backups (we do have a web master who probably takes care of this).
+1. Allow rollbacks (keep history of additions, changes and deletions.  This probably requires the use of triggers).
+1. Have user accounts so that users can save their data (scenarios; i.e., input data) on-line
+1. Allow them to create different scenarios. (Do this through the graphs?)
+1. Create way for users to access in their native languages
+1. Documentation: code should be commented.  User Help should be accessible for each web page or menu item.  There should be a map/plan of the database and an explanation so that students who work on this later will be able to understand it.
+
 ## Getting Started
 
 ### Installation
