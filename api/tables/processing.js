@@ -7,6 +7,8 @@ var drawCounter = 1;
 
 router.post('/', function(req, res) {
   const tableColumns = helper.getTableHeaders(req.body.table);
+  const search = req.body['search[value]'];
+  const searchColumns = helper.getSearchObject(req.body.table, search);
 
   helper.getDbObject(req.body.table).findAndCount({
     attributes: tableColumns,
@@ -15,6 +17,9 @@ router.post('/', function(req, res) {
     order: [
       [helper.getColumnNameForTable(req.body.table, parseInt(req.body["order[0][column]"])), req.body["order[0][dir]"]] // e.g. ["ProdNo", "desc"]
     ],
+    where: {
+      $or: searchColumns
+    },
     raw: true,
   }).then(function(results) {
     let response = {

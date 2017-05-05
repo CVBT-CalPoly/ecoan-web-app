@@ -73,5 +73,17 @@ module.exports = {
   },
   getColumnNameForTable: function(table, colNdx) {
     return headersDict[table][colNdx];
+  },
+  getSearchObject: function(table, search) {
+    var searchedColumns = [];
+
+    headersDict[table].forEach(function(element) {
+      var column = {};
+
+      column[element] = {};
+      column[element]["like"] = "%" + search + "%"; // deprecation warning because of the '%' but its no problem since it will be part of the sql query
+      searchedColumns.push(column);
+    });
+    return searchedColumns;
   }
 }

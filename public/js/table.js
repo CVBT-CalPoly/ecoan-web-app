@@ -5,9 +5,6 @@ $(document).ready( function () {
       "buttons": [
             'print'
       ],
-      "columnDefs": [ {
-            "searchable": false,
-        }],
       "order": [[ 0, 'asc' ]],
       "processing": true,
       "serverSide": true,
