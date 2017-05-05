@@ -5,6 +5,9 @@ $(document).ready( function () {
       "buttons": [
             'print'
       ],
+      "oLanguage": {
+        "sSearch": "Search All Columns"
+      },
       "order": [[ 0, 'asc' ]],
       "processing": true,
       "serverSide": true,
