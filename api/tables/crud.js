@@ -12,6 +12,7 @@ router.post('/delete/:table', function(req, res) {
   delete parsed.ChangeTime;
   delete parsed.ChangeType;
   delete parsed.updatedAt;
+  delete parsed.Picture;
 
   // console.log(parsed);
   if(Object.keys(parsed).length === 0 && parsed.constructor === Object) {
@@ -34,6 +35,8 @@ router.post('/edit/:table', function(req, res) {
   delete updateArray[0].ChangeDate;
   delete updateArray[0].ChangeTime;
   delete updateArray[0].updatedAt;
+  delete updateArray[0].Picture;
+
   console.log(updateArray[0]);
   // If there are changes
   if(Object.keys(updateArray[1]).length !== 0) {
