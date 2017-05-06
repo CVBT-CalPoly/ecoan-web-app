@@ -2,6 +2,12 @@ $(document).ready( function () {
     var row = {};
     var selectedRow;
 
+    // Setup - add a text input to each footer cell
+    $('#data-table tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    });
+
     var table = $('#data-table').DataTable({
       "scrollX": true,
       "dom": 'Bfrtip',
@@ -23,6 +29,19 @@ $(document).ready( function () {
       }
     }
    });
+
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+ 
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
 
   $('#data-table tbody').on( 'click', 'tr', function () {
     if($(this).hasClass('selected')) {
