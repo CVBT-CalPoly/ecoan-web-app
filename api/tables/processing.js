@@ -8,7 +8,7 @@ var drawCounter = 1;
 router.post('/', function(req, res) {
   const tableColumns = helper.getTableHeaders(req.body.table);
   const search = req.body['search[value]'];
-  const searchColumns = helper.getSearchObject(req.body.table, search);
+  const searchColumns = helper.getSearchObject(req.body.table, search, req.body);
 
   helper.getDbObject(req.body.table).findAndCount({
     attributes: tableColumns,

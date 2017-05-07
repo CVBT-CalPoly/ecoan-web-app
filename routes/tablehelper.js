@@ -74,16 +74,39 @@ module.exports = {
   getColumnNameForTable: function(table, colNdx) {
     return headersDict[table][colNdx];
   },
-  getSearchObject: function(table, search) {
+  getSearchObject: function(table, search, requestBody) {
     var searchedColumns = [];
+    var defaultSearchedColumns = [];
 
-    headersDict[table].forEach(function(element) {
+    for (var ndx = 0; ndx < headersDict[table].length; ndx++) {
+      const element = headersDict[table][ndx];
       var column = {};
+      var defaultColumn = {};
 
       column[element] = {};
-      column[element]["like"] = "%" + search + "%"; // deprecation warning because of the '%' but its no problem since it will be part of the sql query
-      searchedColumns.push(column);
-    });
+      defaultColumn[element] = {};
+
+      // search all columns takes priority over individually searched columns
+      if (search == "") {
+        const singleColumnSearchValue = requestBody["columns["+ndx+"][search][value]"];
+
+        if (singleColumnSearchValue != "") {
+          column[element]["like"] = "%" + singleColumnSearchValue + "%";
+          searchedColumns.push(column);
+        }
+      }
+      else {
+        column[element]["like"] = "%" + search + "%"; // deprecation warning because of the '%' but its no problem since it will be part of the sql query
+        searchedColumns.push(column);
+      }
+      defaultColumn[element]["like"] = "%" + search + "%";
+      defaultSearchedColumns.push(defaultColumn);
+    }
+
+    // return all rows if no search options found
+    if (searchedColumns.length == 0) {
+      return defaultSearchedColumns;
+    }
     return searchedColumns;
   }
 }
