@@ -8,3 +8,15 @@ body {
   padding: 40px 20px 0 20px;
   text-align: center;
 }
+
+#login-button {
+  float: left;
+  margin: 0 auto;
+  width: 50%;
+}
+
+#signup-button {
+  float: left;
+  margin: 0 auto;
+  width: 50%;
+}
