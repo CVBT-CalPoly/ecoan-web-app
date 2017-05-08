@@ -30,16 +30,24 @@ $(document).ready( function () {
     }
    });
 
-    // Apply the search
+    // Apply the search for all columns
+    $('#data-table_filter input').unbind();
+    $('#data-table_filter input').bind('keyup', function(e) {
+      if(e.keyCode == 13) { // only search upon enter keypress (code 13)
+        table.search( this.value ).draw();
+      }
+    });
+
+    // Apply the search for individual columns
     table.columns().every( function () {
         var that = this;
  
-        $( 'input', this.footer() ).on( 'keyup change', function () {
-            if ( that.search() !== this.value ) {
-                that
-                    .search( this.value )
-                    .draw();
-            }
+        $( 'input', this.footer() ).on( 'keydown', function (ev) {
+            if (ev.keyCode == 13) { // only search upon enter keypress (code 13)
+            that
+                .search( this.value )
+                .draw();
+         }
         } );
     } );
 
