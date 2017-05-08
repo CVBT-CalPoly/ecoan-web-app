@@ -4,7 +4,7 @@ Developers: Jonathan Molina, Nathan Sylvia, Alex Ye
 
 ## Tasks
 
-### Spring 2017 Schedule 
+### Spring 2017 Schedule
 - Wk 1 & 2: Tables and graphs, printing support
 - Wk 3 & 4: Users and language support
 - Wk 5 & 6: Backups and rollbacks
@@ -31,7 +31,7 @@ Developers: Jonathan Molina, Nathan Sylvia, Alex Ye
    1.	Inputs by Product
    1. Price Lists by Product Group (this is functional but needs formatting)
    1. Table reports (most tables should have a printable report)
-   1. Labor rates by group 
+   1. Labor rates by group
    1. Mix Registry Report
 1. Provide for backups (we do have a web master who probably takes care of this).
 1. Allow rollbacks (keep history of additions, changes and deletions.  This probably requires the use of triggers).
@@ -199,4 +199,24 @@ $(document).ready( function () {
   });
 } );
 </script>
+```
+### [Passport](http://passportjs.org/)
+Passport is an unobtrusive drop-in package that takes care of both user creation and authentication. Passport, along with express-sessions, manages user sessions and can secure pages from being accessed from non-members. It is easy to secure your page begin Passport. When users log in, <code>passport.authenticate()</code> will be called and verify the credentials. Now that a user is logged in, it is as simple as adding an authenticator to your <code>route</code>.
+
+The authenticator function looks like the following:
+```
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+}
+```
+
+This function may be added to a route by putting it as a parameter:
+```
+router.get('/foo', isAuthenticated, function(req, res) {
+  res.render('foo');
+}
 ```

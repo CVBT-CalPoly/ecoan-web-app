@@ -11,6 +11,7 @@ var dash = require('./routes/dashboard');
 var table = require('./routes/table');
 var signup = require('./routes/signup');
 var graphs = require('./routes/graphs');
+var logout = require('./routes/logout');
 
 var table_api = require('./api/tables/crud');
 var graph_api = require('./api/graph/graph');
@@ -40,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Listen for URLs
 app.use('/', login);
 app.use('/login', login);
+app.use('/logout', logout);
 app.use('/signup', signup);
 app.use('/table', table);
 app.use('/dashboard', dash);
