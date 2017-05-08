@@ -3,11 +3,19 @@ var router = express.Router();
 var db = require('../models/db');
 var helper = require('./tablehelper');
 const tableNames = initTableNames();
+var passport = require('passport');
 
-router.get('/:table', function(req, res, next) {
+function isAuthenticated(req, res, next) {
+  console.log("authing");
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+}
+router.get('/:table', isAuthenticated, function(req, res) {
   const tableColumns = helper.getTableHeaders(req.params.table);
-
-  // check for valid table
+  console.log(tableColumns);
   if (tableColumns) {
     console.log(tableNames[req.params.table])
     helper.getDbObject(req.params.table).findAndCount({
