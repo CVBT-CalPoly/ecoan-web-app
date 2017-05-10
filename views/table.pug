@@ -17,12 +17,17 @@ block table
     a(class="button", data-close aria-label="Close modal" id="submit-edits") Submit Changes
     button(class="close-button" data-close aria-label="Close modal" type="button")
       span(aria-hidden="true") &times;
+  div(class="large reveal" id="adv-filter-modal" data-reveal)
+    h1= "Advanced Filtering"
+    p This is an example paragraph.
+    button(class="close-button" data-close aria-label="Close modal" type="button")
+      span(aria-hidden="true") &times;
   
   
   div(id="data-table-container", style="display: none")
     h2= table_name
     div(id="crud-buttons")
-      a(title="Advanced Filtering", class="button", id="adv-filter-button", enabled) Advanced Filter
+      a(title="Advanced Filtering", class="button", id="adv-filter-button", enabled, data-open="adv-filter-modal") Advanced Filter
       a(title="Edit Database Item", class="button", id="edit-button", disabled) Edit
       a(href="#", title="Delete Database Item", class="button alert", id="delete-button", disabled) Delete
     div(id="table-name" style="display: none")= table_abrv
