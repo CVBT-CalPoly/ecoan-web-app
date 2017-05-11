@@ -108,6 +108,54 @@ $(document).ready( function () {
     $('#edit-button').removeAttr('data-open');
   });
 
+  $('#adv-filter-button').on('click', function() {
+    $('#adv-filter-form').empty();
+
+    var headers = $("table tr:eq(0) td");
+
+    for (var ndx = 0; ndx < headers.length; ndx++) {
+      console.log(headers[ndx]);
+      var header = headers[ndx];
+      var label = document.createElement("label");
+      var div = document.createElement("div");
+      var input = document.createElement("input");
+      var select = document.createElement("select");
+      var divButton = document.createElement("div");
+      var submit = document.createElement("input");
+
+      label.innerHTML = header.innerHTML;
+
+      div.className = "input-group";
+
+      input.className = "input-group-field"
+      input.type = "text";
+
+      var optionContains = document.createElement("option");
+      var optionEquals = document.createElement("option");
+      optionContains.value = "Contains";
+      optionContains.innerHTML = optionContains.value;
+      optionEquals.value = "Equals";
+      optionEquals.innerHTML = optionEquals.value;
+      select.className = "input-group-label";
+      select.appendChild(optionContains);
+      select.appendChild(optionEquals);
+
+      divButton.className = "input-group-button";
+
+      submit.className = "button";
+      submit.type = "submit";
+      submit.value = "Filter";
+
+      div.appendChild(input);
+      //div.appendChild(select);
+      div.appendChild(divButton);
+      divButton.appendChild(submit);
+
+      $("#adv-filter-form").append(label);
+      $("#adv-filter-form").append(div);
+    }
+  });
+
   $('#edit-button').on('click', function() {
     $('#edit-form').empty();
     var headers = $("table tr:eq(0) td");
