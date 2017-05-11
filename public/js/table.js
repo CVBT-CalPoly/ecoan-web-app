@@ -116,29 +116,31 @@ $(document).ready( function () {
     for (var ndx = 0; ndx < headers.length; ndx++) {
       console.log(headers[ndx]);
       var header = headers[ndx];
-      var label = document.createElement("label");
-      var div = document.createElement("div");
+      var row = document.createElement("div");
+      var col1 = document.createElement("div");
+      var col2 = document.createElement("div");
+      var rowLabel = document.createElement("label");
+      var divInputGroup = document.createElement("div");
       var input = document.createElement("input");
-      var select = document.createElement("select");
       var divButton = document.createElement("div");
       var submit = document.createElement("input");
+      var selectLabel = document.createElement("label");
+      var select = document.createElement("select");
 
-      label.innerHTML = header.innerHTML;
+      row.className = "row";
+      row.appendChild(col1);
+      row.appendChild(col2);
 
-      div.className = "input-group";
+      col1.className = "medium-6 columns";
+      col1.appendChild(rowLabel);
+      col1.appendChild(divInputGroup);
+
+      rowLabel.innerHTML = header.innerHTML;
+
+      divInputGroup.className = "input-group";
 
       input.className = "input-group-field"
       input.type = "text";
-
-      var optionContains = document.createElement("option");
-      var optionEquals = document.createElement("option");
-      optionContains.value = "Contains";
-      optionContains.innerHTML = optionContains.value;
-      optionEquals.value = "Equals";
-      optionEquals.innerHTML = optionEquals.value;
-      select.className = "input-group-label";
-      select.appendChild(optionContains);
-      select.appendChild(optionEquals);
 
       divButton.className = "input-group-button";
 
@@ -146,13 +148,27 @@ $(document).ready( function () {
       submit.type = "submit";
       submit.value = "Filter";
 
-      div.appendChild(input);
-      //div.appendChild(select);
-      div.appendChild(divButton);
+      divInputGroup.appendChild(input);
+      divInputGroup.appendChild(divButton);
       divButton.appendChild(submit);
 
-      $("#adv-filter-form").append(label);
-      $("#adv-filter-form").append(div);
+      col2.className = "medium-6 columns";
+      col2.appendChild(selectLabel);
+      col2.appendChild(select);
+
+      selectLabel.innerHTML = "Filter Options";
+
+      var options = ["Contains", "Equals", "Starts with", "More than", "Less than", "Between", "Empty",
+        "Doesn't contain", "Doesn't equal", "Doesn't start with", "Is not more than", "Is not between", "Is not empty"];
+
+      options.forEach(function(option) {
+        var element = document.createElement("option");
+        element.value = option;
+        element.innerHTML = option;
+        select.appendChild(element);
+      });
+
+      $("#adv-filter-form").append(row);
     }
   });
 
