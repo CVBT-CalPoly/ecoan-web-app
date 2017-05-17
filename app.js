@@ -13,6 +13,7 @@ var graph_api = require('./api/graph/graph');
 
 var graphs = require('./routes/graphs')
 var table_processing = require('./api/tables/processing');
+var table_filtering = require('./api/tables/filtering');
 
 
 // Create the application
@@ -37,6 +38,7 @@ app.use('/api/graph/graph', graph_api);
 
 app.use('/graphs', express.static('graphs'))
 app.use('/api/tables/processing', table_processing);
+app.use('/api/tables/filtering', table_filtering);
 
 app.disable('etag');
 // catch 404 and forward to error handler

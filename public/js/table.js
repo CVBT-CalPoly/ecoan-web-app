@@ -47,7 +47,6 @@ $(document).ready( function () {
             that
                 .search( this.value )
                 .draw();
-            console.log(this.value);
          }
         } );
     } );
@@ -133,6 +132,7 @@ $(document).ready( function () {
       row.className = "row";
       row.appendChild(col1);
       row.appendChild(col2);
+      inputObject["rowName"] = rowName;
 
       col1.className = "medium-6 columns";
       col1.appendChild(rowLabel);
@@ -190,15 +190,46 @@ $(document).ready( function () {
         g.stopPropagation();
         g.preventDefault();
 
-        inputs.forEach(function(element) {
-          var input = $('#'+element.input).val();
-          var select = $('#'+element.select).val();
-          console.log("input: " + input);
-          console.log("select: " + select);
-
-        });
-
         if (g.type === "submit") {
+          var request = {};
+          var rowInputs = [];
+          var tableName = $('#table-name')[0].innerHTML;
+
+          inputs.forEach(function(element) {
+            var input = $('#'+element.input).val();
+            var select = $('#'+element.select).val();
+            var rowInput = {};
+
+            rowInput["rowName"] = element.rowName;
+            rowInput["input"] = input;
+            rowInput["select"] = select;
+            rowInputs.push(rowInput);
+          });
+          request["inputs"] = rowInputs;
+          console.log(request);
+
+          $.ajax({
+            "url": "http://localhost:3000/api/tables/filtering/" + tableName,
+            "type": "POST",
+            "data": request,
+            success: function(result) {
+              console.log("success");
+              // console.log(result);
+              // console.log(result["data"]);
+              // var resultObj = JSON.parse(result);
+              // console.log(resultObj);
+              // console.log(resultObj.data);
+              // console.log(resultObj["data"]);
+              // table.clear();
+              // table.rows.add(resultObj.data);
+              // table.columns.adjust().draw();
+
+              // table.api.fnClearTable();
+              // table.api.fnAddData(resultObj.data);
+              table.clear();
+              table.draw();
+            }
+          });
           // AJAX call
           console.log("make ajax call");
         }
