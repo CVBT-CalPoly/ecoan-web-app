@@ -1,7 +1,7 @@
 $(document).ready( function () {
     var row = {};
     var selectedRow;
-
+    // mutiple select: https://datatables.net/extensions/select/examples/api/get.html
     var table = $('#data-table').DataTable({
       "scrollX": true,
       "dom": 'Bfrtip',

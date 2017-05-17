@@ -155,7 +155,7 @@ SELECT BillNo FROM `Status`;
 
 Please refer to the [Sequelize documentation](http://docs.sequelizejs.com/en/v3/) for specifics on querying capabilities.
 
-### [Foundation](http://foundation.zurb.com/sites/docs/sass.html)
+### [Foundation](http://foundation.zurb.com/sites/docs/)
 We use Foundation as our front-end framework as it is a slightly smaller file size to deliver and has all the tools we need to get started on the front-end. Check out the full Foundation documentation for specific styling elements.
 
 The only thing to note is to remember to initialize the Foundation package if for some reason your create your own HTML away from our template structure.
@@ -201,7 +201,7 @@ $(document).ready( function () {
 </script>
 ```
 ### [Passport](http://passportjs.org/)
-Passport is an unobtrusive drop-in package that takes care of both user creation and authentication. Passport, along with express-sessions, manages user sessions and can secure pages from being accessed from non-members. It is easy to secure your page begin Passport. When users log in, <code>passport.authenticate()</code> will be called and verify the credentials. Now that a user is logged in, it is as simple as adding an authenticator to your <code>route</code>.
+Passport is an unobtrusive drop-in package that takes care of both user creation and authentication. Passport, along with express-sessions, manages user sessions and can secure pages from being accessed from non-members. It is easy to secure your page begin Passport. When users log in, <code>passport.authenticate()</code> will be called to verify the credentials. Now that a user is logged in, it is as simple as adding an authenticator to your <code>route</code>.
 
 The authenticator function looks like the following:
 ```
