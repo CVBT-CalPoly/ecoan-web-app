@@ -214,20 +214,26 @@ $(document).ready( function () {
             "data": request,
             success: function(result) {
               console.log("success");
-              // console.log(result);
-              // console.log(result["data"]);
-              // var resultObj = JSON.parse(result);
-              // console.log(resultObj);
-              // console.log(resultObj.data);
-              // console.log(resultObj["data"]);
-              // table.clear();
-              // table.rows.add(resultObj.data);
-              // table.columns.adjust().draw();
-
-              // table.api.fnClearTable();
-              // table.api.fnAddData(resultObj.data);
-              table.clear();
-              table.draw();
+              table.destroy();
+              table = $('#data-table').DataTable({
+                "scrollX": true,
+                "dom": 'Bfrtip',
+                "buttons": [
+                  'print'
+                ],
+                "oLanguage": {
+                  "sSearch": "Search All Columns"
+                },
+                "order": [[ 0, 'asc' ]],
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                  "url": "http://localhost:3000/api/tables/filtering/" + tableName,
+                  "type": "POST",
+                  "dataType": 'json',
+                  "data": request
+                }
+              });
             }
           });
           // AJAX call
