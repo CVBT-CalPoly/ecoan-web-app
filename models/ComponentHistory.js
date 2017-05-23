@@ -69,6 +69,10 @@ module.exports = function(sequelize, DataTypes) {
     SorOrder: {
       type: DataTypes.INTEGER(11),
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'ComponentHistory'
