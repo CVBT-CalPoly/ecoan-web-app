@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var login = require('./routes/login');
 var signup = require('./routes/signup');
 var dash = require('./routes/dashboard');
+var settings = require('./routes/settings');
 var table = require('./routes/table');
 var signup = require('./routes/signup');
 var graphs = require('./routes/graphs');
@@ -15,6 +16,7 @@ var logout = require('./routes/logout');
 
 var table_api = require('./api/tables/crud');
 var graph_api = require('./api/graph/graph');
+var settings_api = require('./api/settings/share');
 var table_processing = require('./api/tables/processing');
 
 var session = require('express-session');
@@ -45,13 +47,29 @@ app.use('/logout', logout);
 app.use('/signup', signup);
 app.use('/table', table);
 app.use('/dashboard', dash);
+app.use('/settings', settings);
 app.use('/graphs', express.static('graphs'))
 // APIs
 app.use('/api/tables/crud', table_api);
 app.use('/api/graph/graph', graph_api);
 app.use('/api/tables/processing', table_processing);
+app.use('/api/settings/share', settings_api);
+
+app.get('/api/user_data', function(req, res) {
+  if (req.user === undefined) {
+      // The user is not logged in
+    res.json({});
+  } else {
+    res.json({
+        username: req.user
+    });
+  }
+});
 
 app.disable('etag');
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

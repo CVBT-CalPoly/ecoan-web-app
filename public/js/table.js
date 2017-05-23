@@ -50,7 +50,7 @@ $(document).ready( function () {
       header_array.push(this.innerHTML);
     });
 
-    var newTable = {}
+    var newTable = {};
     console.log(row);
     for(var idx in row) {
       var element = row[idx];
