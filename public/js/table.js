@@ -213,7 +213,6 @@ $(document).ready( function () {
             "type": "POST",
             "data": request,
             success: function(result) {
-              console.log("success");
               table.destroy();
               table = $('#data-table').DataTable({
                 "scrollX": true,
