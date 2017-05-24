@@ -202,36 +202,26 @@ $(document).ready( function () {
           });
           request["inputs"] = rowInputs;
           console.log(request);
-
-          $.ajax({
-            "url": "http://localhost:3000/api/tables/filtering/" + tableName,
-            "type": "POST",
-            "data": request,
-            success: function(result) {
-              table.destroy();
-              table = $('#data-table').DataTable({
-                "scrollX": true,
-                "dom": 'Bfrtip',
-                "buttons": [
-                  'print'
-                ],
-                "oLanguage": {
-                  "sSearch": "Search All Columns"
-                },
-                "order": [[ 0, 'asc' ]],
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
-                  "url": "http://localhost:3000/api/tables/filtering/" + tableName,
-                  "type": "POST",
-                  "dataType": 'json',
-                  "data": request
-                }
-              });
+          table.destroy();
+          table = $('#data-table').DataTable({
+            "scrollX": true,
+            "dom": 'Bfrtip',
+            "buttons": [
+              'print'
+            ],
+            "oLanguage": {
+              "sSearch": "Search All Columns"
+            },
+            "order": [[ 0, 'asc' ]],
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+              "url": "http://localhost:3000/api/tables/filtering/" + tableName,
+              "type": "POST",
+              "dataType": 'json',
+              "data": request
             }
           });
-          // AJAX call
-          console.log("make ajax call");
         }
       }
     });
