@@ -54,21 +54,16 @@ app.use('/api/tables/crud', table_api);
 app.use('/api/graph/graph', graph_api);
 app.use('/api/tables/processing', table_processing);
 app.use('/api/settings/share', settings_api);
-
+// Returns user data
 app.get('/api/user_data', function(req, res) {
   if (req.user === undefined) {
-      // The user is not logged in
-    res.json({});
+    res.redirect('/');
   } else {
-    res.json({
-        username: req.user
-    });
+    res.json({username: req.user});
   }
 });
 
 app.disable('etag');
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

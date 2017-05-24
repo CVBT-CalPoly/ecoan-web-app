@@ -2,7 +2,6 @@ var express = require('express');
 var passport = require('passport');
 var db = require('../models/db');
 var helper = require('../routes/tablehelper');
-
 var router = express.Router();
 
 function isAuthenticated(req, res, next) {
@@ -15,7 +14,6 @@ function isAuthenticated(req, res, next) {
 }
 
 router.get('/', isAuthenticated, function(req, res) {
-  console.log("hi");
   console.log(req.user.username);
   var sharing = [];
   helper.getDbObject("sharedWith").findAndCount({
