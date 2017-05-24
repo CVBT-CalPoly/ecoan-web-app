@@ -1,9 +1,13 @@
 extends layout
 
+block header
+  script(src='https://www.google.com/recaptcha/api.js')
+
 block sources
   script(type="text/javascript", src='../js/signup.js')
   
 block content
+  h2= "Sign Up For EcoAn!"
   div(class="large-3 large-centered columns")
     div(class="signup-box")
       div(class="row")
@@ -30,9 +34,11 @@ block content
               div(class="large-12 columns")
                 input(type="password" id="signup-pass2" name="password2" placeholder="Repeat Password" required)
             div(class="row")
-              div(class="large-12 large-centered columns")
+              div(class="g-recaptcha" data-sitekey="6LdeyyIUAAAAADyBirZ5w3On6DJ2HfIietEVwRvG")
+            div(class="row")
+              div(class="large-12 large-centered columns")                
                 input(type="submit" class="button expand" value="Sign Up")
-              
+            
             
             
             
