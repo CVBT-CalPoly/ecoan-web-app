@@ -1,0 +1,22 @@
+extends layout
+
+block sources
+  script(type="text/javascript", src='../js/settings.js')
+
+block content
+  h2= "My Settings"
+  h3= "Tables shared with..."
+  div
+    div(class="medium-5")
+      table(class="hover")
+        each person in shared
+          tr  
+            td= person  
+    div(class="medium-10")
+      form
+        div(class="row")
+          div(class="medium-3 columns")
+            label= "Share your tables with other users:"
+              input(type="text" id="newuser" placeholder="username")
+          div(class="medium-12 columns")
+            a(title="Add new shared user", class="button", id="add-button", disabled) Add

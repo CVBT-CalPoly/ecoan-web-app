@@ -1,7 +1,7 @@
 $(document).ready( function () {
     var row = {};
     var selectedRow;
-
+    // mutiple select: https://datatables.net/extensions/select/examples/api/get.html
     var table = $('#data-table').DataTable({
       "scrollX": true,
       "dom": 'Bfrtip',
@@ -24,7 +24,7 @@ $(document).ready( function () {
     }
    });
 
-  $('#data-table tbody').on( 'click', 'tr', function () {
+  $('#data-table tbody').on('click', 'tr', function () {
     if($(this).hasClass('selected')) {
       $(this).removeClass('selected');
       $('#edit-button').attr('disabled', 'disabled');
@@ -50,7 +50,7 @@ $(document).ready( function () {
       header_array.push(this.innerHTML);
     });
 
-    var newTable = {}
+    var newTable = {};
     console.log(row);
     for(var idx in row) {
       var element = row[idx];

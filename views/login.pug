@@ -1,24 +1,27 @@
-extends layout
+extends noauth
 
 block sources
   link(rel="stylesheet", type="text/css", href="../css/login.css")
-  script(type="text/javascript", src='../js/login.js')
 
 block content
   div(class="large-3 large-centered columns")
     div(class="login-box")
       div(class="row")
         div(class="large-12 columns")
-          form
+          form(method="POST" action="/login")
             div(class="row")
               div(class="large-12 columns")
-                input(type="text" id="login-id" name="username" placeholder="Username")
+                input(type="text" id="login-id" name="username" placeholder="Username" required autofocus)
             div(class="row")
               div(class="large-12 columns")
-                input(type="password" id="login-pass" name="password" placeholder="Password")
+                input(type="password" id="login-pass" name="password" placeholder="Password" required)
             div(class="row")
-              div(class="large-12 large-centered columns")
-                input(type="button" class="button expand" value="Log In" onclick="login()")
+              div(id="login-button")
+                input(type="submit" class="button expand" value="Log In")
+              div(id="signup-button")
+                a(href="../signup/")
+                  input(type="button" class="button expand" value="Sign Up")
+                  
             
             
             
