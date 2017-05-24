@@ -5,14 +5,14 @@ var helper = require('../../routes/tablehelper');
 var fs = require('fs');
 var drawCounter = 1;
 const filterSymbols = {
-  "Contains": {"operator": "$contains", "not": false, "array": true},
+  "Contains": {"operator": "$like", "not": false, "prefix": "%", "suffix": "%"},
   "Equals": {"operator": "$eq", "not": false},
   "Starts with": {"operator": "$like", "not": false, "suffix": "%"}, // where COLUMN like "c%";
   "More than": {"operator": "$gt", "not": false},
   "Less than": {"operator": "$lt", "not": false},
   "Between": {"operator": "$between", "not": false},
   "Empty": {"operator": "$eq", "not": false, "value": null},
-  "Doesn't contain": {"operator": "$contains", "not": true}, 
+  "Doesn't contain": {"operator": "$notLike", "not": false, "prefix": "%", "suffix": "%"}, 
   "Doesn't equal": {"operator": "$eq", "not": true},
   "Doesn't start with": {"operator": "$notLike", "not": false, "suffix": "%"},
   "Is not more than": {"operator": "$gt", "not": true},
@@ -33,7 +33,7 @@ router.post('/:table', function(req, res) {
     offset: 0,
     raw: true,
     // where: {
-    //   Rel_to_Base: { $contains: ["3"] } 
+    //   Rel_to_Base: { $like: "%1%" } 
     // }
     where: filter
     //   Rel_to_Base: {
@@ -129,6 +129,12 @@ function getFilterOptions(inputs, columns) {
       // check for value modification
       if (typeof(filterOption["value"]) !== "undefined") {
         column[filterOption["operator"]] = filterOption["value"];
+      }
+      else if (typeof(filterOption["suffix"]) !== "undefined" && typeof(filterOption["prefix"]) !== "undefined") {
+        column[filterOption["operator"]] = filterOption["prefix"] + value + filterOption["suffix"];
+      }
+      else if (typeof(filterOption["prefix"]) !== "undefined") {
+        column[filterOption["operator"]] = filterOption["prefix"] + value;
       }
       else if (typeof(filterOption["suffix"]) !== "undefined") {
         column[filterOption["operator"]] = value + filterOption["suffix"];
