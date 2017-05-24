@@ -169,13 +169,8 @@ $(document).ready( function () {
       var options = ["Contains", "Equals", "Starts with", "More than", "Less than", "Between", "Empty",
         "Doesn't contain", "Doesn't equal", "Doesn't start with", "Is not more than", "Is not between", "Is not empty"];
 
-      var isFirst = true;
       options.forEach(function(option) {
         var element = document.createElement("option");
-        if (isFirst) {
-          isFirst = false;
-          element.selected = "selected";
-        }
         element.value = option;
         element.innerHTML = option;
         select.appendChild(element);
