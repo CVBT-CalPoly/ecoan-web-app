@@ -220,3 +220,5 @@ router.get('/foo', isAuthenticated, function(req, res) {
   res.render('foo');
 }
 ```
+### [reCAPTCHA](https://www.google.com/recaptcha/)
+In an attempt to stop botting, we implemented reCAPTCHA by Google. The reCAPTCHA API is registered under Alex Ye's Gmail accounts and requires Alex to add additional domains for the functionality to be hosted. For future development, the secret key can be replaced and extended to a new account.
