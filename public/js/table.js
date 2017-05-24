@@ -8,105 +8,11 @@ $(document).ready( function () {
         $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
     });
 
-    var table = $('#data-table').DataTable({
-      "scrollX": true,
-      "dom": 'Bfrtip',
-      "buttons": [
-        'print'
-      ],
-      "oLanguage": {
-        "sSearch": "Search All Columns"
-      },
-      "order": [[ 0, 'asc' ]],
-      "processing": true,
-      "serverSide": true,
-      "ajax": {
-        "url": "http://localhost:3000/api/tables/processing",
-      "type": "POST",
-      "dataType": 'json',
-      "data": {
+    var table = initializeTable(
+      "http://localhost:3000/api/tables/processing",
+      {
         "table": $('#table-name')[0].innerHTML
-      }
-    }
-   });
-
-    // Apply the search for all columns
-    $('#data-table_filter input').unbind();
-    $('#data-table_filter input').bind('keyup', function(e) {
-      if(e.keyCode == 13) { // only search upon enter keypress (code 13)
-        table.search( this.value ).draw();
-      }
-    });
-
-    // Apply the search for individual columns
-    table.columns().every( function () {
-        var that = this;
-        // console.log(this.value);
-        $( 'input', this.footer() ).on( 'keydown', function (ev) {
-            if (ev.keyCode == 13) { // only search upon enter keypress (code 13)
-            that
-                .search( this.value )
-                .draw();
-         }
-        } );
-    } );
-
-  $('#data-table tbody').on( 'click', 'tr', function () {
-    if($(this).hasClass('selected')) {
-      $(this).removeClass('selected');
-      $('#edit-button').attr('disabled', 'disabled');
-      $('#delete-button').attr('disabled', 'disabled');
-      $('#edit-button').removeAttr('data-open');
-    } else {
-      row = table.row(this).data();
-      selectedRow = table.row(this);
-      $('#edit-button').attr('data-open', 'edit-modal');
-      $('#edit-button').removeAttr('disabled');
-      $('#delete-button').removeAttr('disabled');
-      $('tr.selected').removeClass('selected');
-      $(this).addClass('selected');
-    }
-  });
-
-  $('#delete-button').on('click', function() {
-    var tableName = $('#table-name')[0].innerHTML;
-    var headers = $("table tr:eq(0) td");
-    var header_array = [];
-
-    headers.each(function() {
-      header_array.push(this.innerHTML);
-    });
-
-    var newTable = {}
-    console.log(row);
-    for(var idx in row) {
-      var element = row[idx];
-      if(element === null) {
-        continue;
-      }
-      else if(!isNaN(element)) {
-        newTable[header_array[idx]] = +element;
-      } else {
-        newTable[header_array[idx]] = element;
-      }
-    }
-
-    console.log(newTable);
-
-    $.ajax({
-      "url": "http://localhost:3000/api/tables/crud/delete/" + tableName,
-      "type": "POST",
-      "data": JSON.stringify(newTable),
-      success: function(result) {
-        selectedRow.remove().draw();
-        row = {};
-      }
-    });
-
-    $('#edit-button').attr('disabled', 'disabled');
-    $('#delete-button').attr('disabled', 'disabled');
-    $('#edit-button').removeAttr('data-open');
-  });
+      });
 
   $('#adv-filter-button').on('click', function() {
     $('#adv-filter-form').empty();
@@ -202,26 +108,9 @@ $(document).ready( function () {
           });
           request["inputs"] = rowInputs;
           console.log(request);
+
           table.destroy();
-          table = $('#data-table').DataTable({
-            "scrollX": true,
-            "dom": 'Bfrtip',
-            "buttons": [
-              'print'
-            ],
-            "oLanguage": {
-              "sSearch": "Search All Columns"
-            },
-            "order": [[ 0, 'asc' ]],
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-              "url": "http://localhost:3000/api/tables/filtering/" + tableName,
-              "type": "POST",
-              "dataType": 'json',
-              "data": request
-            }
-          });
+          table = initializeTable("http://localhost:3000/api/tables/filtering/" + tableName, request);
         }
       }
     });
@@ -230,6 +119,107 @@ $(document).ready( function () {
       // Handle the submission of the form
       console.log('input-name');
     });
+  });
+
+} );
+
+function initializeTable(url, data) {
+  var table = $('#data-table').DataTable({
+    "scrollX": true,
+    "dom": 'Bfrtip',
+    "buttons": [
+      'print'
+    ],
+    "oLanguage": {
+      "sSearch": "Search All Columns"
+    },
+    "order": [[ 0, 'asc' ]],
+    "processing": true,
+    "serverSide": true,
+    "ajax": {
+      "url": url,
+      "type": "POST",
+      "dataType": 'json',
+      "data": data
+    }
+  });
+
+  // Apply the search for all columns
+  $('#data-table_filter input').unbind();
+  $('#data-table_filter input').bind('keyup', function(e) {
+    if(e.keyCode == 13) { // only search upon enter keypress (code 13)
+      table.search( this.value ).draw();
+    }
+  });
+
+  // Apply the search for individual columns
+  table.columns().every( function () {
+      var that = this;
+      // console.log(this.value);
+      $( 'input', this.footer() ).on( 'keydown', function (ev) {
+          if (ev.keyCode == 13) { // only search upon enter keypress (code 13)
+          that
+              .search( this.value )
+              .draw();
+       }
+      } );
+  } );
+
+  $('#data-table tbody').on( 'click', 'tr', function () {
+    if($(this).hasClass('selected')) {
+      $(this).removeClass('selected');
+      $('#edit-button').attr('disabled', 'disabled');
+      $('#delete-button').attr('disabled', 'disabled');
+      $('#edit-button').removeAttr('data-open');
+    } else {
+      row = table.row(this).data();
+      selectedRow = table.row(this);
+      $('#edit-button').attr('data-open', 'edit-modal');
+      $('#edit-button').removeAttr('disabled');
+      $('#delete-button').removeAttr('disabled');
+      $('tr.selected').removeClass('selected');
+      $(this).addClass('selected');
+    }
+  });
+
+  $('#delete-button').on('click', function() {
+    var tableName = $('#table-name')[0].innerHTML;
+    var headers = $("table tr:eq(0) td");
+    var header_array = [];
+
+    headers.each(function() {
+      header_array.push(this.innerHTML);
+    });
+
+    var newTable = {}
+    console.log(row);
+    for(var idx in row) {
+      var element = row[idx];
+      if(element === null) {
+        continue;
+      }
+      else if(!isNaN(element)) {
+        newTable[header_array[idx]] = +element;
+      } else {
+        newTable[header_array[idx]] = element;
+      }
+    }
+
+    console.log(newTable);
+
+    $.ajax({
+      "url": "http://localhost:3000/api/tables/crud/delete/" + tableName,
+      "type": "POST",
+      "data": JSON.stringify(newTable),
+      success: function(result) {
+        selectedRow.remove().draw();
+        row = {};
+      }
+    });
+
+    $('#edit-button').attr('disabled', 'disabled');
+    $('#delete-button').attr('disabled', 'disabled');
+    $('#edit-button').removeAttr('data-open');
   });
 
   $('#edit-button').on('click', function() {
@@ -291,4 +281,5 @@ $(document).ready( function () {
   });
 
   $('#data-table-container').fadeIn("fast");
-} );
+  return table;
+}

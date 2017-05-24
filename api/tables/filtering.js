@@ -23,9 +23,17 @@ const filterSymbols = {
 router.post('/:table', function(req, res) {
   const dbObject = helper.getDbObject(req.params.table);
   const tableColumns = helper.getTableHeaders(req.params.table);
-  // var parsed = JSON.parse(Object.keys(req.body)[0]);
-  const filter = getFilterOptions(req.body, tableColumns);
+  var filter = getFilterOptions(req.body, tableColumns);
+
+  if (typeof(req.body['search[value]']) !== "undefined") {
+    console.log("search value found");
+    filter["$or"] = helper.getSearchObject(req.params.table, req.body['search[value]'], req.body);
+  }
+  else {
+    filter["$or"] = [];
+  }
   console.log(req.body);
+  console.log("$or:\n" + filter["$or"]);
 
   dbObject.findAndCount({
     attributes: tableColumns,
