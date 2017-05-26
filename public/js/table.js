@@ -56,8 +56,8 @@ $(document).ready( function () {
       secondInput.className = "input-group-field"
       secondInput.id = rowName + "-second-input-value";
       secondInput.type = "text";
+      secondInput.style.display = "none";
       inputObject["input2"] = secondInput.id;
-
       divButton.className = "input-group-button";
 
       submit.className = "button";
@@ -67,6 +67,7 @@ $(document).ready( function () {
 
       divInputGroup.appendChild(input);
       divInputGroup.appendChild(divButton);
+      divInputGroup.appendChild(secondInput);
       divButton.appendChild(submit);
 
       col2.className = "medium-6 columns";
@@ -87,17 +88,18 @@ $(document).ready( function () {
         select.appendChild(element);
       });
 
-      (function(select, divGroup, secondInput) {
+      (function(select, secondInput) {
         select.onchange = function() {
           const selectedValue = $('#'+select.id).val();
           // show second input box if needed multiple inputs
           if (selectedValue == "Between" || selectedValue == "Is not between") {
-            divGroup.appendChild(secondInput);
+            secondInput.style.display = "block";
           }
-          else if (divGroup.contains(secondInput)) {
-            divGroup.removeChild(secondInput);
+          else {
+            secondInput.value = "";
+            secondInput.style.display = "none";
           }
-        }})(select, divInputGroup, secondInput);
+        }})(select, secondInput);
 
       $("#adv-filter-form").append(row);
       inputs.push(inputObject);
@@ -115,11 +117,13 @@ $(document).ready( function () {
 
           inputs.forEach(function(element) {
             var input = $('#'+element.input).val();
+            var input2 = $('#'+element.input2).val();
             var select = $('#'+element.select).val();
             var rowInput = {};
 
             rowInput["rowName"] = element.rowName;
             rowInput["input"] = input;
+            rowInput["input2"] = input2;
             rowInput["select"] = select;
             rowInputs.push(rowInput);
           });
