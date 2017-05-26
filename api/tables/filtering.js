@@ -37,17 +37,16 @@ router.post('/:table', function(req, res) {
 
   dbObject.findAndCount({
     attributes: tableColumns,
-    limit: 50,
-    offset: 0,
+    limit: parseInt(req.body.length),
+    offset: parseInt(req.body.start),
+    // order: [
+    //   [helper.getColumnNameForTable(req.body.table, parseInt(req.body["order[0][column]"])), req.body["order[0][dir]"]] // e.g. ["ProdNo", "desc"]
+    // ],
     raw: true,
     // where: {
-    //   Rel_to_Base: { $like: "%1%" } 
+    //   Rel_to_Base: { $between: [0, 3.9] } 
     // }
     where: filter
-    //   Rel_to_Base: {
-    //     $eq: null
-    //   }
-    // }
   }).then(function(results) {
     let response = {
       "draw": drawCounter++,
@@ -96,32 +95,21 @@ router.post('/:table', function(req, res) {
   // res.send("Success");
 });
 
-// { 'inputs[0][rowName]': 'ParameterNo',
-//   'inputs[0][input]': '',
-//   'inputs[0][select]': 'Contains',
-//   'inputs[1][rowName]': 'EngParameter',
-//   'inputs[1][input]': '',
-//   'inputs[1][select]': 'Contains',
-//   'inputs[2][rowName]': 'ThaiParameter',
-//   'inputs[2][input]': '',
-//   'inputs[2][select]': 'Contains',
-//   'inputs[3][rowName]': 'Value',
-//   'inputs[3][input]': '',
-//   'inputs[3][select]': 'Contains' }
-
+// Builds the filter object according to this http://docs.sequelizejs.com/manual/tutorial/querying.html
+// example:
 // {
 //   MixNo: {
 //     $gte: 45
 //   }
 // }
 function getFilterOptions(inputs, columns) {
-  console.log("here");
   var filter = {};
 
   for (var ndx = 0; ndx < columns.length; ndx++) {
     var column = {};
     const rowName = inputs["inputs["+ndx+"][rowName]"];
     const value = inputs["inputs["+ndx+"][input]"];
+    const value2 = inputs["inputs["+ndx+"][input2]"];
     const filterOption = filterSymbols[inputs["inputs["+ndx+"][select]"]];
 
     console.log("ndx: " + ndx);
@@ -147,14 +135,18 @@ function getFilterOptions(inputs, columns) {
       else if (typeof(filterOption["suffix"]) !== "undefined") {
         column[filterOption["operator"]] = value + filterOption["suffix"];
       }
+      // check if value is a number
+      else if (!isNaN(value)) {
+        var values = [Number(value)];
+
+        // between values can only be numbers
+        if (value2 != "" && !isNaN(value2)) {
+          values.push(Number(value2));
+        }
+        column[filterOption["operator"]] = values;
+      }
       else {
-        // check if value is a number
-        if (!isNaN(value)) {
-          column[filterOption["operator"]] = [Number(value)];
-        }
-        else {
-          column[filterOption["operator"]] = value;
-        }
+        column[filterOption["operator"]] = value;
       }
 
       // check for not property
