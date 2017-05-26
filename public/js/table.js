@@ -28,6 +28,7 @@ $(document).ready( function () {
       var rowLabel = document.createElement("label");
       var divInputGroup = document.createElement("div");
       var input = document.createElement("input");
+      var secondInput = document.createElement("input");
       var divButton = document.createElement("div");
       var submit = document.createElement("input");
       var selectLabel = document.createElement("label");
@@ -52,6 +53,10 @@ $(document).ready( function () {
       input.id = rowName + "-input-value";
       input.type = "text";
       inputObject["input"] = input.id;
+      secondInput.className = "input-group-field"
+      secondInput.id = rowName + "-second-input-value";
+      secondInput.type = "text";
+      inputObject["input2"] = secondInput.id;
 
       divButton.className = "input-group-button";
 
@@ -81,6 +86,15 @@ $(document).ready( function () {
         element.innerHTML = option;
         select.appendChild(element);
       });
+
+      (function(select, divGroup, secondInput) {
+        select.onchange = function() {
+          const selectedValue = $('#'+select.id).val();
+          // show second input box if needed multiple inputs
+          if (selectedValue == "Between" || selectedValue == "Is not between") {
+            divGroup.appendChild(secondInput);
+          }
+        }})(select, divInputGroup, secondInput);
 
       $("#adv-filter-form").append(row);
       inputs.push(inputObject);
