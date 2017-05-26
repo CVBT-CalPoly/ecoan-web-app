@@ -94,6 +94,9 @@ $(document).ready( function () {
           if (selectedValue == "Between" || selectedValue == "Is not between") {
             divGroup.appendChild(secondInput);
           }
+          else if (divGroup.contains(secondInput)) {
+            divGroup.removeChild(secondInput);
+          }
         }})(select, divInputGroup, secondInput);
 
       $("#adv-filter-form").append(row);
