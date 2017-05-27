@@ -1,18 +1,16 @@
 $(document).ready( function () {
-    var row = {};
-    var selectedRow;
+  // Setup - add a text input to each footer cell
+  $('#data-table tfoot th').each( function () {
+      var title = $(this).text();
+      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+  });
 
-    // Setup - add a text input to each footer cell
-    $('#data-table tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+  // mutiple select: https://datatables.net/extensions/select/examples/api/get.html
+  var table = initializeTable(
+    "http://localhost:3000/api/tables/processing",
+    {
+      "table": $('#table-name')[0].innerHTML
     });
-
-    var table = initializeTable(
-      "http://localhost:3000/api/tables/processing",
-      {
-        "table": $('#table-name')[0].innerHTML
-      });
 
   $('#adv-filter-button').on('click', function() {
     $('#adv-filter-form').empty();
@@ -141,10 +139,12 @@ $(document).ready( function () {
       console.log('input-name');
     });
   });
-
-} );
+});
 
 function initializeTable(url, data) {
+  var row = {};
+  var selectedRow;
+
   var table = $('#data-table').DataTable({
     "scrollX": true,
     "dom": 'Bfrtip',
@@ -186,7 +186,7 @@ function initializeTable(url, data) {
       } );
   } );
 
-  $('#data-table tbody').on( 'click', 'tr', function () {
+  $('#data-table tbody').on('click', 'tr', function () {
     if($(this).hasClass('selected')) {
       $(this).removeClass('selected');
       $('#edit-button').attr('disabled', 'disabled');
@@ -212,7 +212,7 @@ function initializeTable(url, data) {
       header_array.push(this.innerHTML);
     });
 
-    var newTable = {}
+    var newTable = {};
     console.log(row);
     for(var idx in row) {
       var element = row[idx];

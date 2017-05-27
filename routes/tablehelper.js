@@ -23,6 +23,7 @@ var dbDict; // singleton  used for database objects
   headersDict["status"] = extractTableHeaders(db.Status.attributes);
   headersDict["unitType"] = extractTableHeaders(db.UnitType.attributes);
   headersDict["units"] = extractTableHeaders(db.Units.attributes);
+  headersDict["sharedWith"] = extractTableHeaders(db.SharedWith.attributes);
   console.log("initialized headersDict");
 })(); // self-invoking function
 
@@ -47,6 +48,7 @@ var dbDict; // singleton  used for database objects
   dbDict["status"] = db.Status;
   dbDict["unitType"] = db.UnitType;
   dbDict["units"] = db.Units;
+  dbDict["sharedWith"] = db.SharedWith;
   console.log("initialized dbDict");
 })(); // self-invoking function
 

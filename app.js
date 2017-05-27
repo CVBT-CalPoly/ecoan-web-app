@@ -6,18 +6,30 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var login = require('./routes/login');
-var users = require('./routes/users');
+var signup = require('./routes/signup');
+var dash = require('./routes/dashboard');
+var settings = require('./routes/settings');
 var table = require('./routes/table');
+var signup = require('./routes/signup');
+var graphs = require('./routes/graphs');
+var logout = require('./routes/logout');
+
 var table_api = require('./api/tables/crud');
 var graph_api = require('./api/graph/graph');
-
-var graphs = require('./routes/graphs')
+var settings_api = require('./api/settings/share');
 var table_processing = require('./api/tables/processing');
 var table_filtering = require('./api/tables/filtering');
 
+var session = require('express-session');
+var setupPassport = require('./app/setupPassport');
 
 // Create the application
 var app = express();
+
+app.use(cookieParser());
+app.use(session({ secret: '4564f6s4fdsfdfd', resave: false, saveUninitialized: false}));
+setupPassport(app);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -29,18 +41,32 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Listen for URLs
 app.use('/', login);
-app.use('/users', users);
+app.use('/login', login);
+app.use('/logout', logout);
+app.use('/signup', signup);
 app.use('/table', table);
+app.use('/dashboard', dash);
+app.use('/settings', settings);
+app.use('/graphs', express.static('graphs'))
+// APIs
 app.use('/api/tables/crud', table_api);
 app.use('/api/graph/graph', graph_api);
-
-
-app.use('/graphs', express.static('graphs'))
 app.use('/api/tables/processing', table_processing);
 app.use('/api/tables/filtering', table_filtering);
+app.use('/api/settings/share', settings_api);
+// Returns user data
+app.get('/api/user_data', function(req, res) {
+  if (req.user === undefined) {
+    res.redirect('/');
+  } else {
+    res.json({username: req.user});
+  }
+});
 
 app.disable('etag');
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
