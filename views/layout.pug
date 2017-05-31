@@ -65,7 +65,6 @@ html(class="no-js")
           li
             a(href="#") Reports
             ul(class="menu vertical")
-
               li
                 a(href="#") Product Cost Breakdown
               li
@@ -98,7 +97,10 @@ html(class="no-js")
             a(href="#") Test
           li
             a(href="../settings") Settings
-
+      div(class="top-bar-right")
+        ul(class="dropdown menu" data-dropdown-menu)
+          li
+            a(href="../logout", id="logout")= "Logout"
 
   body
       block table
