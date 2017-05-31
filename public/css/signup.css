@@ -1,0 +1,14 @@
+
+.signup-box {
+  margin: auto;
+}
+
+.g-recaptcha {
+  padding-bottom: 10px;
+  width: 20%;
+}
+
+h2 {
+  text-align: center;
+  padding-top: 20px;
+}
