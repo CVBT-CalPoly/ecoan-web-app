@@ -18,6 +18,7 @@ var table_api = require('./api/tables/crud');
 var graph_api = require('./api/graph/graph');
 var settings_api = require('./api/settings/share');
 var table_processing = require('./api/tables/processing');
+var table_filtering = require('./api/tables/filtering');
 
 var session = require('express-session');
 var setupPassport = require('./app/setupPassport');
@@ -53,6 +54,7 @@ app.use('/graphs', express.static('graphs'))
 app.use('/api/tables/crud', table_api);
 app.use('/api/graph/graph', graph_api);
 app.use('/api/tables/processing', table_processing);
+app.use('/api/tables/filtering', table_filtering);
 app.use('/api/settings/share', settings_api);
 // Returns user data
 app.get('/api/user_data', function(req, res) {
