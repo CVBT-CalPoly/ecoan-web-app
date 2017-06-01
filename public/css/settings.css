@@ -1,0 +1,14 @@
+#settings-container {
+  width: 75%;
+  margin: auto;
+  text-align: center;
+  padding-top: 2%;
+}
+
+#shared-table{
+  margin: auto;
+}
+
+h2 {
+  text-align: center;
+}
