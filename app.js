@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var login = require('./routes/login');
 var signup = require('./routes/signup');
 var dash = require('./routes/dashboard');
+var backups = require('./routes/backups')
 var settings = require('./routes/settings');
 var table = require('./routes/table');
 var signup = require('./routes/signup');
@@ -19,6 +20,7 @@ var graph_api = require('./api/graph/graph');
 var settings_api = require('./api/settings/share');
 var table_processing = require('./api/tables/processing');
 var table_filtering = require('./api/tables/filtering');
+var validate_admin_api = require('./api/admin/validate');
 
 var session = require('express-session');
 var setupPassport = require('./app/setupPassport');
@@ -48,6 +50,7 @@ app.use('/logout', logout);
 app.use('/signup', signup);
 app.use('/table', table);
 app.use('/dashboard', dash);
+app.use('/backups', backups);
 app.use('/settings', settings);
 app.use('/graphs', express.static('graphs'))
 // APIs
@@ -56,6 +59,7 @@ app.use('/api/graph/graph', graph_api);
 app.use('/api/tables/processing', table_processing);
 app.use('/api/tables/filtering', table_filtering);
 app.use('/api/settings/share', settings_api);
+app.use('/api/admin/validate', validate_admin_api);
 // Returns user data
 app.get('/api/user_data', function(req, res) {
   if (req.user === undefined) {
