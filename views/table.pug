@@ -17,18 +17,19 @@ block table
   div(class="reveal" id="edit-modal" data-reveal)
     h1= "Edit"
     form(id="edit-form")
-    a(class="button", data-close aria-label="Close modal" id="submit-edits") Submit Changes
+    a(class="button" data-close aria-label="Close modal" id="submit-edits") Submit Changes
     button(class="close-button" data-close aria-label="Close modal" type="button")
       span(aria-hidden="true") &times;
   
   
-  div(id="data-table-container", style="display: none")
+  div(id="data-table-container" style="display: none")
     h2= table_name
     div(id="crud-buttons")
-      a(title="Edit Database Item", class="button", id="edit-button", disabled) Edit
-      a(href="#", title="Delete Database Item", class="button alert", id="delete-button", disabled) Delete
+      a(title="Add Database Item" class="button success" id="add-button") Add
+      a(title="Edit Database Item" class="button" id="edit-button" disabled) Edit
+      a(title="Delete Database Item" class="button alert" id="delete-button" disabled) Delete
     div(id="table-name" style="display: none")= table_abrv
-    table(id="data-table", class="cell-border", cellspacing="0", width="100%")
+    table(id="data-table" class="cell-border" cellspacing="0" width="100%")
       thead
         tr
           each header in table_header
@@ -37,4 +38,4 @@ block table
         each row, index in table_data
           tr(row-num=index)
             each value, col in row
-              td(id=col, row-num=index)= value
+              td(id=col row-num=index)= value

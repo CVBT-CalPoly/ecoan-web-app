@@ -40,5 +40,11 @@ thead {
 }
 
 #edit-button {
+  margin-left: 5px;
+  width: 70px;
+}
+
+#add-button {
+  color: white;
   width: 70px;
 }
