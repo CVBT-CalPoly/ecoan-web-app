@@ -40,5 +40,10 @@ thead {
 }
 
 #edit-button {
+  margin-left: 5px;
   width: 70px;
+}
+
+#adv-filter-button {
+  background-color: green;
 }
