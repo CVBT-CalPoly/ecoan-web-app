@@ -145,7 +145,7 @@ function initializeTable(url, data) {
   var row = {};
   var selectedRow;
 
-  var table = $('#data-table').DataTable({
+  var initTable = $('#data-table').DataTable({
     "scrollX": true,
     "dom": 'Bfrtip',
     "buttons": [
@@ -169,12 +169,12 @@ function initializeTable(url, data) {
   $('#data-table_filter input').unbind();
   $('#data-table_filter input').bind('keyup', function(e) {
     if(e.keyCode == 13) { // only search upon enter keypress (code 13)
-      table.search( this.value ).draw();
+      initTable.search( this.value ).draw();
     }
   });
 
   // Apply the search for individual columns
-  table.columns().every( function () {
+  initTable.columns().every( function () {
       var that = this;
       // console.log(this.value);
       $( 'input', this.footer() ).on( 'keydown', function (ev) {
@@ -193,8 +193,8 @@ function initializeTable(url, data) {
       $('#delete-button').attr('disabled', 'disabled');
       $('#edit-button').removeAttr('data-open');
     } else {
-      row = table.row(this).data();
-      selectedRow = table.row(this);
+      row = initTable.row(this).data();
+      selectedRow = initTable.row(this);
       $('#edit-button').attr('data-open', 'edit-modal');
       $('#edit-button').removeAttr('disabled');
       $('#delete-button').removeAttr('disabled');
@@ -302,5 +302,5 @@ function initializeTable(url, data) {
   });
 
   $('#data-table-container').fadeIn("fast");
-  return table;
+  return initTable;
 }
