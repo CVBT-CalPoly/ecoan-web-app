@@ -130,6 +130,7 @@ $(document).ready( function () {
 
           table.destroy();
           table = initializeTable("http://localhost:3000/api/tables/filtering/" + tableName, request);
+          initButtons(table);
         }
       }
     });
@@ -140,6 +141,83 @@ $(document).ready( function () {
     });
   });
 });
+
+// Need this function to reinitialize listeners
+function initButtons(theTable) {
+  $('#data-table tbody').on('click', 'tr', function () {
+    if($(this).hasClass('selected')) {
+      $(this).removeClass('selected');
+      $('#edit-button').attr('disabled', 'disabled');
+      $('#delete-button').attr('disabled', 'disabled');
+      $('#edit-button').removeAttr('data-open');
+    } else {
+      row = theTable.row(this).data();
+      selectedRow = theTable.row(this);
+      $('#edit-button').attr('data-open', 'edit-modal');
+      $('#edit-button').removeAttr('disabled');
+      $('#delete-button').removeAttr('disabled');
+      $('tr.selected').removeClass('selected');
+      $(this).addClass('selected');
+    }
+  });
+
+  $('#edit-button').on('click', function() {
+    $('#edit-form').empty();
+    var headers = $("table tr:eq(0) td");
+
+    for(var idx in row) {
+      var label = document.createElement("label");
+      var input = document.createElement("input");
+
+      label.innerHTML = headers[idx].innerHTML;
+      input.type = "text";
+      input.placeholder = row[idx];
+      label.appendChild(input);
+
+      $("#edit-form").append(label);
+    }
+  });
+
+  $('#delete-button').on('click', function() {
+    var tableName = $('#table-name')[0].innerHTML;
+    var headers = $("table tr:eq(0) td");
+    var header_array = [];
+
+    headers.each(function() {
+      header_array.push(this.innerHTML);
+    });
+
+    var newTable = {};
+    console.log(row);
+    for(var idx in row) {
+      var element = row[idx];
+      if(element === null) {
+        continue;
+      }
+      else if(!isNaN(element)) {
+        newTable[header_array[idx]] = +element;
+      } else {
+        newTable[header_array[idx]] = element;
+      }
+    }
+
+    console.log(newTable);
+
+    $.ajax({
+      "url": "http://localhost:3000/api/tables/crud/delete/" + tableName,
+      "type": "POST",
+      "data": JSON.stringify(newTable),
+      success: function(result) {
+        selectedRow.remove().draw();
+        row = {};
+      }
+    });
+
+    $('#edit-button').attr('disabled', 'disabled');
+    $('#delete-button').attr('disabled', 'disabled');
+    $('#edit-button').removeAttr('data-open');
+  });
+}
 
 function initializeTable(url, data) {
   var row = {};
@@ -203,46 +281,6 @@ function initializeTable(url, data) {
     }
   });
 
-  $('#delete-button').on('click', function() {
-    var tableName = $('#table-name')[0].innerHTML;
-    var headers = $("table tr:eq(0) td");
-    var header_array = [];
-
-    headers.each(function() {
-      header_array.push(this.innerHTML);
-    });
-
-    var newTable = {};
-    console.log(row);
-    for(var idx in row) {
-      var element = row[idx];
-      if(element === null) {
-        continue;
-      }
-      else if(!isNaN(element)) {
-        newTable[header_array[idx]] = +element;
-      } else {
-        newTable[header_array[idx]] = element;
-      }
-    }
-
-    console.log(newTable);
-
-    $.ajax({
-      "url": "http://localhost:3000/api/tables/crud/delete/" + tableName,
-      "type": "POST",
-      "data": JSON.stringify(newTable),
-      success: function(result) {
-        selectedRow.remove().draw();
-        row = {};
-      }
-    });
-
-    $('#edit-button').attr('disabled', 'disabled');
-    $('#delete-button').attr('disabled', 'disabled');
-    $('#edit-button').removeAttr('data-open');
-  });
-
   $('#edit-button').on('click', function() {
     $('#edit-form').empty();
     var headers = $("table tr:eq(0) td");
@@ -256,6 +294,8 @@ function initializeTable(url, data) {
       input.placeholder = row[idx];
       label.appendChild(input);
 
+      console.log(label);
+      console.log(input);
       $("#edit-form").append(label);
     }
   });
