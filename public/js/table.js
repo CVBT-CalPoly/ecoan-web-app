@@ -9,11 +9,10 @@ $(document).ready( function () {
   var row = {};
   var selectedRow;
 
-  initializeTable(
-    "http://localhost:3000/api/tables/processing",
-    {
-      "table": $('#table-name')[0].innerHTML
-    });
+  initializeTable("http://localhost:3000/api/tables/processing",
+  {
+    "table": $('#table-name')[0].innerHTML
+  });
 
   initButtons();
 
@@ -223,6 +222,47 @@ function initButtons() {
     $('#edit-button').attr('disabled', 'disabled');
     $('#delete-button').attr('disabled', 'disabled');
     $('#edit-button').removeAttr('data-open');
+  });
+
+  $('#submit-edits').on('click', function() {
+    var headers = $("table tr:eq(0) td");
+    var header_array = [];
+    var changes = {};
+
+    headers.each(function() {
+      header_array.push(this.innerHTML);
+    });
+
+    $('#edit-form :input').each(function(index){
+      var change = $(this).val();
+      if(change.length) {
+        if(!isNaN(change)) {
+          changes[header_array[index]] = +$(this).val();
+        } else {
+          changes[header_array[index]] = $(this).val();
+        }
+      }
+    });
+
+    if(Object.keys(changes).length !== 0) {
+      var original = {};
+
+      for(var i=0; i<header_array.length;i++) {
+        original[header_array[i]] = row[i];
+      }
+
+      console.log(original);
+      var updateArray = {"orignal": JSON.stringify(original), "changes": JSON.stringify(changes)};
+      var tableName = $('#table-name')[0].innerHTML;
+      $.ajax({
+        "url": "http://localhost:3000/api/tables/crud/edit/" + tableName,
+        "type": "POST",
+        "data": updateArray,
+        success: function(result) {
+          selectedRow.draw();
+        }
+      });
+    }
   });
 }
 

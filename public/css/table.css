@@ -48,6 +48,11 @@ thead {
   width: 70px;
 }
 
+#add-button {
+  color: white;
+  width: 70px;
+}
+
 #adv-filter-button {
   background-color: orange;
   margin-left: 5px;

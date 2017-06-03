@@ -1,12 +1,17 @@
 extends noauth
 
+block header
+  title= "EcoAn Login"
+
 block sources
   link(rel="stylesheet", type="text/css", href="../css/login.css")
+    
 
 block content
   div(class="large-3 large-centered columns")
     div(class="login-box")
       div(class="row")
+        h2= "Login"
         div(class="large-12 columns")
           form(method="POST" action="/login")
             div(class="row")
