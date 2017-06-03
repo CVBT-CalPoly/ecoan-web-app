@@ -130,6 +130,7 @@ $(document).ready( function () {
 
           table.destroy();
           table = initializeTable("http://localhost:3000/api/tables/filtering/" + tableName, request);
+          initButtons(table);
         }
       }
     });
@@ -141,51 +142,8 @@ $(document).ready( function () {
   });
 });
 
-function initializeTable(url, data) {
-  var row = {};
-  var selectedRow;
-
-  var table = $('#data-table').DataTable({
-    "scrollX": true,
-    "dom": 'Bfrtip',
-    "buttons": [
-      'print'
-    ],
-    "oLanguage": {
-      "sSearch": "Search All Columns"
-    },
-    "order": [[ 0, 'asc' ]],
-    "processing": true,
-    "serverSide": true,
-    "ajax": {
-      "url": url,
-      "type": "POST",
-      "dataType": 'json',
-      "data": data
-    }
-  });
-
-  // Apply the search for all columns
-  $('#data-table_filter input').unbind();
-  $('#data-table_filter input').bind('keyup', function(e) {
-    if(e.keyCode == 13) { // only search upon enter keypress (code 13)
-      table.search( this.value ).draw();
-    }
-  });
-
-  // Apply the search for individual columns
-  table.columns().every( function () {
-      var that = this;
-      // console.log(this.value);
-      $( 'input', this.footer() ).on( 'keydown', function (ev) {
-          if (ev.keyCode == 13) { // only search upon enter keypress (code 13)
-          that
-              .search( this.value )
-              .draw();
-       }
-      } );
-  } );
-
+// Need this function to reinitialize listeners
+function initButtons(theTable) {
   $('#data-table tbody').on('click', 'tr', function () {
     if($(this).hasClass('selected')) {
       $(this).removeClass('selected');
@@ -193,13 +151,30 @@ function initializeTable(url, data) {
       $('#delete-button').attr('disabled', 'disabled');
       $('#edit-button').removeAttr('data-open');
     } else {
-      row = table.row(this).data();
-      selectedRow = table.row(this);
+      row = theTable.row(this).data();
+      selectedRow = theTable.row(this);
       $('#edit-button').attr('data-open', 'edit-modal');
       $('#edit-button').removeAttr('disabled');
       $('#delete-button').removeAttr('disabled');
       $('tr.selected').removeClass('selected');
       $(this).addClass('selected');
+    }
+  });
+
+  $('#edit-button').on('click', function() {
+    $('#edit-form').empty();
+    var headers = $("table tr:eq(0) td");
+
+    for(var idx in row) {
+      var label = document.createElement("label");
+      var input = document.createElement("input");
+
+      label.innerHTML = headers[idx].innerHTML;
+      input.type = "text";
+      input.placeholder = row[idx];
+      label.appendChild(input);
+
+      $("#edit-form").append(label);
     }
   });
 
@@ -242,6 +217,69 @@ function initializeTable(url, data) {
     $('#delete-button').attr('disabled', 'disabled');
     $('#edit-button').removeAttr('data-open');
   });
+}
+
+function initializeTable(url, data) {
+  var row = {};
+  var selectedRow;
+
+  var initTable = $('#data-table').DataTable({
+    "scrollX": true,
+    "dom": 'Bfrtip',
+    "buttons": [
+      'print'
+    ],
+    "oLanguage": {
+      "sSearch": "Search All Columns"
+    },
+    "order": [[ 0, 'asc' ]],
+    "processing": true,
+    "serverSide": true,
+    "ajax": {
+      "url": url,
+      "type": "POST",
+      "dataType": 'json',
+      "data": data
+    }
+  });
+
+  // Apply the search for all columns
+  $('#data-table_filter input').unbind();
+  $('#data-table_filter input').bind('keyup', function(e) {
+    if(e.keyCode == 13) { // only search upon enter keypress (code 13)
+      initTable.search( this.value ).draw();
+    }
+  });
+
+  // Apply the search for individual columns
+  initTable.columns().every( function () {
+      var that = this;
+      // console.log(this.value);
+      $( 'input', this.footer() ).on( 'keydown', function (ev) {
+          if (ev.keyCode == 13) { // only search upon enter keypress (code 13)
+          that
+              .search( this.value )
+              .draw();
+       }
+      } );
+  } );
+
+  $('#data-table tbody').on('click', 'tr', function () {
+    if($(this).hasClass('selected')) {
+      $(this).removeClass('selected');
+      $('#edit-button').attr('disabled', 'disabled');
+      $('#delete-button').attr('disabled', 'disabled');
+      $('#edit-button').removeAttr('data-open');
+    } else {
+      row = initTable.row(this).data();
+      selectedRow = initTable.row(this);
+      $('#edit-button').attr('data-open', 'edit-modal');
+      $('#edit-button').removeAttr('disabled');
+      $('#delete-button').removeAttr('disabled');
+      $('tr.selected').removeClass('selected');
+      $(this).addClass('selected');
+    }
+  });
 
   $('#edit-button').on('click', function() {
     $('#edit-form').empty();
@@ -256,6 +294,8 @@ function initializeTable(url, data) {
       input.placeholder = row[idx];
       label.appendChild(input);
 
+      console.log(label);
+      console.log(input);
       $("#edit-form").append(label);
     }
   });
@@ -302,5 +342,5 @@ function initializeTable(url, data) {
   });
 
   $('#data-table-container').fadeIn("fast");
-  return table;
+  return initTable;
 }
