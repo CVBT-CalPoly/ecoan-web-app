@@ -19,7 +19,7 @@ $(document).ready( function () {
         alert(xhr.responseText);
       },
       success: function(result) {
-        console.log(result);
+        location.reload();
       }
     });
   });

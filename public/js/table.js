@@ -4,13 +4,17 @@ $(document).ready( function () {
       var title = $(this).text();
       $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
   });
+  // Do not touch, or reuse variable names to reduce namespace pollution.
+  var tables;
+  var row = {};
+  var selectedRow;
 
-  // mutiple select: https://datatables.net/extensions/select/examples/api/get.html
-  var table = initializeTable(
-    "http://localhost:3000/api/tables/processing",
-    {
-      "table": $('#table-name')[0].innerHTML
-    });
+  initializeTable("http://localhost:3000/api/tables/processing",
+  {
+    "table": $('#table-name')[0].innerHTML
+  });
+
+  initButtons();
 
   $('#adv-filter-button').on('click', function() {
     $('#adv-filter-form').empty();
@@ -20,7 +24,7 @@ $(document).ready( function () {
     for (var ndx = 0; ndx < headers.length; ndx++) {
       // console.log(headers[ndx]);
       var header = headers[ndx];
-      var row = document.createElement("div");
+      var rows = document.createElement("div");
       var col1 = document.createElement("div");
       var col2 = document.createElement("div");
       var rowLabel = document.createElement("label");
@@ -34,9 +38,9 @@ $(document).ready( function () {
       const rowName = header.innerHTML;
       var inputObject = {};
 
-      row.className = "row";
-      row.appendChild(col1);
-      row.appendChild(col2);
+      rows.className = "row";
+      rows.appendChild(col1);
+      rows.appendChild(col2);
       inputObject["rowName"] = rowName;
 
       col1.className = "medium-6 columns";
@@ -99,7 +103,7 @@ $(document).ready( function () {
           }
         }})(select, secondInput);
 
-      $("#adv-filter-form").append(row);
+      $("#adv-filter-form").append(rows);
       inputs.push(inputObject);
     }
 
@@ -126,11 +130,12 @@ $(document).ready( function () {
             rowInputs.push(rowInput);
           });
           request["inputs"] = rowInputs;
-          console.log(request);
 
           table.destroy();
-          table = initializeTable("http://localhost:3000/api/tables/filtering/" + tableName, request);
-          initButtons(table);
+          row = null;
+          selectedRow = null;
+
+          initializeTable("http://localhost:3000/api/tables/filtering/" + tableName, request);
         }
       }
     });
@@ -142,67 +147,75 @@ $(document).ready( function () {
   });
 });
 
-// Need this function to reinitialize listeners
-function initButtons(theTable) {
+/**
+ * Initialized listeners for table CRUD buttons.
+ *
+ */
+function initButtons() {
+  // Listens for selection of individual table rows
   $('#data-table tbody').on('click', 'tr', function () {
     if($(this).hasClass('selected')) {
+      // If specific row already selected, de-select and
+      // disable edit/delete functionality
       $(this).removeClass('selected');
       $('#edit-button').attr('disabled', 'disabled');
       $('#delete-button').attr('disabled', 'disabled');
       $('#edit-button').removeAttr('data-open');
+      row = null;
+      selectedRow = null;
     } else {
-      row = theTable.row(this).data();
-      selectedRow = theTable.row(this);
+      // else, check selection and allow edit/disable
+      row = table.row(this).data();
+      selectedRow = table.row(this);
+
       $('#edit-button').attr('data-open', 'edit-modal');
       $('#edit-button').removeAttr('disabled');
       $('#delete-button').removeAttr('disabled');
       $('tr.selected').removeClass('selected');
-      $(this).addClass('selected');
+      $(this).addClass('selected'); // selected
     }
   });
-
+  // Listens for clicks on table editing button.
   $('#edit-button').on('click', function() {
+    // clears the edit-form from old values
     $('#edit-form').empty();
+    // Get table headers
     var headers = $("table tr:eq(0) td");
-
+    // Generate form with all initial values
     for(var idx in row) {
+      // Build form element
       var label = document.createElement("label");
       var input = document.createElement("input");
-
+      // Populates orignal values into newly built form
       label.innerHTML = headers[idx].innerHTML;
       input.type = "text";
       input.placeholder = row[idx];
       label.appendChild(input);
-
       $("#edit-form").append(label);
     }
   });
-
+  // Listens for clicks on delete button.
   $('#delete-button').on('click', function() {
     var tableName = $('#table-name')[0].innerHTML;
     var headers = $("table tr:eq(0) td");
     var header_array = [];
+    var newTable = {};
 
     headers.each(function() {
       header_array.push(this.innerHTML);
     });
-
-    var newTable = {};
-    console.log(row);
+    // Build data for removed row
     for(var idx in row) {
       var element = row[idx];
       if(element === null) {
         continue;
-      }
-      else if(!isNaN(element)) {
+      } else if(!isNaN(element)) {
         newTable[header_array[idx]] = +element;
       } else {
         newTable[header_array[idx]] = element;
       }
     }
-
-    console.log(newTable);
-
+    // Request the delete API
     $.ajax({
       "url": "http://localhost:3000/api/tables/crud/delete/" + tableName,
       "type": "POST",
@@ -217,13 +230,55 @@ function initButtons(theTable) {
     $('#delete-button').attr('disabled', 'disabled');
     $('#edit-button').removeAttr('data-open');
   });
+  // Listens for edit submissions within editing modal
+  $('#submit-edits').on('click', function() {
+    var headers = $("table tr:eq(0) td");
+    var header_array = [];
+    var changes = {};
+    var original = {};
+
+    headers.each(function() {
+      header_array.push(this.innerHTML);
+    });
+    // Create array that contains changes
+    $('#edit-form :input').each(function(index){
+      var change = $(this).val();
+      if(change.length) {
+        if(!isNaN(change)) {
+          changes[header_array[index]] = +$(this).val();
+        } else {
+          changes[header_array[index]] = $(this).val();
+        }
+      }
+    });
+    // If there are any changes, make edit request
+    if(Object.keys(changes).length !== 0) {
+      // Create array with old values, so sequelize knows the difference
+      for(var i=0; i<header_array.length;i++) {
+        original[header_array[i]] = row[i];
+      }
+
+      var updateArray = {"orignal": JSON.stringify(original), "changes": JSON.stringify(changes)};
+      var tableName = $('#table-name')[0].innerHTML;
+      $.ajax({
+        "url": "http://localhost:3000/api/tables/crud/edit/" + tableName,
+        "type": "POST",
+        "data": updateArray,
+        success: function(result) {
+          selectedRow.draw();
+        }
+      });
+    }
+  });
 }
-
+/**
+ * Initializes a DataTable
+ * @param  {string} url API endpoint of data
+ * @param  {array} data Array of additional data for API endpoint
+ */
 function initializeTable(url, data) {
-  var row = {};
-  var selectedRow;
-
-  var initTable = $('#data-table').DataTable({
+  // Initializes DataTable
+  table = $('#data-table').DataTable({
     "scrollX": true,
     "dom": 'Bfrtip',
     "buttons": [
@@ -247,100 +302,19 @@ function initializeTable(url, data) {
   $('#data-table_filter input').unbind();
   $('#data-table_filter input').bind('keyup', function(e) {
     if(e.keyCode == 13) { // only search upon enter keypress (code 13)
-      initTable.search( this.value ).draw();
+      table.search(this.value ).draw();
     }
   });
 
   // Apply the search for individual columns
-  initTable.columns().every( function () {
-      var that = this;
-      // console.log(this.value);
-      $( 'input', this.footer() ).on( 'keydown', function (ev) {
-          if (ev.keyCode == 13) { // only search upon enter keypress (code 13)
-          that
-              .search( this.value )
-              .draw();
-       }
-      } );
-  } );
-
-  $('#data-table tbody').on('click', 'tr', function () {
-    if($(this).hasClass('selected')) {
-      $(this).removeClass('selected');
-      $('#edit-button').attr('disabled', 'disabled');
-      $('#delete-button').attr('disabled', 'disabled');
-      $('#edit-button').removeAttr('data-open');
-    } else {
-      row = initTable.row(this).data();
-      selectedRow = initTable.row(this);
-      $('#edit-button').attr('data-open', 'edit-modal');
-      $('#edit-button').removeAttr('disabled');
-      $('#delete-button').removeAttr('disabled');
-      $('tr.selected').removeClass('selected');
-      $(this).addClass('selected');
-    }
-  });
-
-  $('#edit-button').on('click', function() {
-    $('#edit-form').empty();
-    var headers = $("table tr:eq(0) td");
-
-    for(var idx in row) {
-      var label = document.createElement("label");
-      var input = document.createElement("input");
-
-      label.innerHTML = headers[idx].innerHTML;
-      input.type = "text";
-      input.placeholder = row[idx];
-      label.appendChild(input);
-
-      console.log(label);
-      console.log(input);
-      $("#edit-form").append(label);
-    }
-  });
-
-  $('#submit-edits').on('click', function() {
-    var headers = $("table tr:eq(0) td");
-    var header_array = [];
-    var changes = {};
-
-    headers.each(function() {
-      header_array.push(this.innerHTML);
-    });
-
-    $('#edit-form :input').each(function(index){
-      var change = $(this).val();
-      if(change.length) {
-        if(!isNaN(change)) {
-          changes[header_array[index]] = +$(this).val();
-        } else {
-          changes[header_array[index]] = $(this).val();
-        }
+  table.columns().every( function () {
+    var that = this;
+    $('input', this.footer()).on('keydown', function (ev) {
+      if (ev.keyCode == 13) { // only search upon enter keypress (code 13)
+        that.search(this.value).draw();
       }
     });
-
-    if(Object.keys(changes).length !== 0) {
-      var original = {};
-
-      for(var i=0; i<header_array.length;i++) {
-        original[header_array[i]] = row[i];
-      }
-
-      console.log(original);
-      var updateArray = {"orignal": JSON.stringify(original), "changes": JSON.stringify(changes)};
-      var tableName = $('#table-name')[0].innerHTML;
-      $.ajax({
-        "url": "http://localhost:3000/api/tables/crud/edit/" + tableName,
-        "type": "POST",
-        "data": updateArray,
-        success: function(result) {
-          selectedRow.draw();
-        }
-      });
-    }
   });
-
+  
   $('#data-table-container').fadeIn("fast");
-  return initTable;
 }

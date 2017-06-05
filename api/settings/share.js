@@ -16,7 +16,7 @@ router.post('/add', function(req, res) {
     res.send(addition[1]);
   }).catch(error => {
     console.log(error);
-    res.status(500).send("Input an existing new user.");
+    res.status(500).send("User already shared with or does not exist.");
   });
 });
 

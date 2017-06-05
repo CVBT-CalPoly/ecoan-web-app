@@ -39,11 +39,21 @@ thead {
   width: 70px;
 }
 
+#add-button {
+  color: green;
+}
+
 #edit-button {
   margin-left: 5px;
   width: 70px;
 }
 
+#add-button {
+  color: white;
+  width: 70px;
+}
+
 #adv-filter-button {
-  background-color: green;
+  background-color: orange;
+  margin-left: 5px;
 }

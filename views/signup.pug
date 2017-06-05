@@ -1,14 +1,13 @@
-extends layout
+extends noauth
 
 block header
   script(src='https://www.google.com/recaptcha/api.js')
-  
+  title= "EcoAn Sign Up"
 
 block sources
   link(rel="stylesheet", type="text/css", href="../css/signup.css")
   
 block content
-  
   div(class="large-4 large-centered columns")
     h2= "Sign Up For EcoAn!"
     div(class="signup-box")
