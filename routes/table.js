@@ -56,7 +56,7 @@ router.get('/:table', isAuthenticated, function(req, res) {
       });
     }
     else {
-      req.stuts(404).send();
+      req.status(404).send();
       res.render('error');
     }
   });
