@@ -22,10 +22,8 @@ router.get('/', isAuthenticated, function(req, res) {
     }
   }).then(function(results) {
     for (var index = 0; index < results.rows.length; ++index) {
-      console.log(results.rows[index].dataValues.share);
       sharing.push(results.rows[index].dataValues.share);
     }
-    console.log(sharing);
     res.render('settings', {
       shared: sharing
     });

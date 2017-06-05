@@ -221,7 +221,7 @@ function initButtons() {
       "type": "POST",
       "data": JSON.stringify(newTable),
       success: function(result) {
-        selectedRow.remove().draw();
+        selectedRow.remove().draw(false);
         row = {};
       }
     });
@@ -265,14 +265,15 @@ function initButtons() {
         "type": "POST",
         "data": updateArray,
         success: function(result) {
-          selectedRow.draw();
+          table.draw(false);
         }
       });
     }
   });
 }
+
 /**
- * Initializes a DataTable
+ * Initializes and show a new DataTable
  * @param  {string} url API endpoint of data
  * @param  {array} data Array of additional data for API endpoint
  */
@@ -302,7 +303,7 @@ function initializeTable(url, data) {
   $('#data-table_filter input').unbind();
   $('#data-table_filter input').bind('keyup', function(e) {
     if(e.keyCode == 13) { // only search upon enter keypress (code 13)
-      table.search(this.value ).draw();
+      table.search(this.value).draw();
     }
   });
 
@@ -315,6 +316,6 @@ function initializeTable(url, data) {
       }
     });
   });
-  
+
   $('#data-table-container').fadeIn("fast");
 }
