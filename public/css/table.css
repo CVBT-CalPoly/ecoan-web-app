@@ -57,3 +57,7 @@ thead {
   background-color: orange;
   margin-left: 5px;
 }
+
+#create-backup-button {
+  background-color: green;
+}
