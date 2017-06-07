@@ -22,6 +22,18 @@ $(document).ready( function () {
  *
  */
 function initButtons() {
+  // Listens for clicks on the create backup button
+  $('#create-backup-button').on('click', function() {
+    // Request the backup API
+    $.ajax({
+      "url": "http://localhost:3000/api/tables/backup",
+      "type": "POST",
+      success: function(result) {
+        table.ajax.reload();
+      }
+    });
+  });
+
   // Listens for selection of individual table rows
   $('#data-table tbody').on('click', 'tr', function () {
     if($(this).hasClass('selected')) {

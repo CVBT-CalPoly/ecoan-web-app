@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Backup', {
+  var model = sequelize.define('Backup', {
     Date: {
       type: DataTypes.DATE,
     },
@@ -9,4 +9,6 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     tableName: 'Backup',
   });
+  model.removeAttribute("id");
+  return model;
 };

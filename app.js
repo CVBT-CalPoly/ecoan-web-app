@@ -21,6 +21,7 @@ var settings_api = require('./api/settings/share');
 var table_processing = require('./api/tables/processing');
 var table_filtering = require('./api/tables/filtering');
 var validate_admin_api = require('./api/admin/validate');
+var backup_api = require('./api/tables/backup');
 
 var session = require('express-session');
 var setupPassport = require('./app/setupPassport');
@@ -60,6 +61,7 @@ app.use('/api/tables/processing', table_processing);
 app.use('/api/tables/filtering', table_filtering);
 app.use('/api/settings/share', settings_api);
 app.use('/api/admin/validate', validate_admin_api);
+app.use('/api/tables/backup', backup_api);
 // Returns user data
 app.get('/api/user_data', function(req, res) {
   if (req.user === undefined) {
