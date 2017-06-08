@@ -197,11 +197,9 @@ function initButtons() {
 
   $('#add-button').on('click', function() {
     // clears the edit-form from old values
-    console.log("hello")
     $('#add-form').empty();
     // Get table headers
     var headers = $("table tr:eq(0) td");
-    console.log(typeof(headers.length));
     // Generate form with all initial values
     for(var i = 0; i < headers.length; i++) {
       // console.log(headers[i])
@@ -259,6 +257,7 @@ function initButtons() {
     var header_array = [];
     var changes = {};
     var original = {};
+    var additions_array = [];
 
     headers.each(function() {
       header_array.push(this.innerHTML);
@@ -268,10 +267,16 @@ function initButtons() {
       var change = $(this).val();
       if(change.length) {
         if(!isNaN(change)) {
-          changes[header_array[index]] = +$(this).val();
+          var newValue = +$(this).val()
+          changes[header_array[index]] = newValue;
+          additions_array.push(newValue);
         } else {
-          changes[header_array[index]] = $(this).val();
+          var newValue = $(this).val()
+          changes[header_array[index]] = newValue;
+          additions_array.push(newValue);
         }
+      } else {
+        additions_array.push(null);
       }
     });
     // If there are any changes, make edit request
@@ -288,10 +293,51 @@ function initButtons() {
         "type": "POST",
         "data": updateArray,
         success: function(result) {
-          table.draw(false);
+          table.row.add(additions_array).draw(false);
         }
       });
     }
+  });
+
+  $('#submit-add').on('click', function() {
+    var headers = $("table tr:eq(0) td");
+    var header_array = [];
+    var addition = {};
+    var original = {};
+    var additions_array = [];
+    headers.each(function() {
+      header_array.push(this.innerHTML);
+    });
+    // Create array that contains changes
+    $('#add-form :input').each(function(index){
+      var input = $(this).val();
+
+      if(input.length) {
+        if(!isNaN(input)) {
+          var newValue = +$(this).val()
+          addition[header_array[index]] = newValue;
+          additions_array.push(newValue);
+        } else {
+          var newValue = $(this).val()
+          addition[header_array[index]] = newValue;
+          additions_array.push(newValue);
+        }
+      } else {
+        addition[header_array[index]] = null;
+        additions_array.push(null);
+      }
+    });
+    console.log(additions_array);
+
+    var tableName = $('#table-name')[0].innerHTML;
+    $.ajax({
+      "url": "http://localhost:3000/api/tables/crud/add/" + tableName,
+      "type": "POST",
+      "data": addition,
+      success: function(result) {
+        table.row.add(additions_array).draw(false);
+      }
+    });
   });
 }
 
@@ -304,10 +350,7 @@ function initializeTable(url, data) {
   // Initializes DataTable
   table = $('#data-table').DataTable({
     "scrollX": true,
-    "dom": 'Bfrtip',
-    "buttons": [
-      'print'
-    ],
+    "dom": 'frtip',
     "oLanguage": {
       "sSearch": "Search All Columns"
     },

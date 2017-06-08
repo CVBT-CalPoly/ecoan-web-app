@@ -50,10 +50,23 @@ router.post('/edit/:table', function(req, res) {
   } else {
     res.send("No changes");
   }
+});
 
-  router.post('/add/:table', function(req, res) {
+router.post('/add/:table', function(req, res) {
+  for(var key in req.body) {
+    if(req.body[key] === "") {
+      req.body[key] = null;
+    }
+  }
 
-    res.send("Success");
+  helper.getDbObject(req.params.table)
+  .create(req.body,
+    {
+      fields: Object.keys(req.body)
+    }
+  );
+
+  res.send("Success");
 });
 
 module.exports = router;
