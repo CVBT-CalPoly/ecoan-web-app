@@ -4,6 +4,11 @@
   padding-top: 30px;
 }
 
+h2 {
+  float: left;
+  font-size: 80px;
+}
+
 thead {
   font-size: 8pt;
 }
@@ -31,7 +36,7 @@ thead {
 }
 
 #crud-buttons {
-  float: right;
+  float: left;
 }
 
 #delete-button {
@@ -56,4 +61,8 @@ thead {
 #adv-filter-button {
   background-color: orange;
   margin-left: 5px;
+}
+
+.row {
+  margin-left: 0;
 }
