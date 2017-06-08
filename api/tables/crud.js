@@ -51,6 +51,9 @@ router.post('/edit/:table', function(req, res) {
     res.send("No changes");
   }
 
+  router.post('/add/:table', function(req, res) {
+
+    res.send("Success");
 });
 
 module.exports = router;

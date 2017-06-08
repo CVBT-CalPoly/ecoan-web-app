@@ -194,6 +194,29 @@ function initButtons() {
       $("#edit-form").append(label);
     }
   });
+
+  $('#add-button').on('click', function() {
+    // clears the edit-form from old values
+    console.log("hello")
+    $('#add-form').empty();
+    // Get table headers
+    var headers = $("table tr:eq(0) td");
+    console.log(typeof(headers.length));
+    // Generate form with all initial values
+    for(var i = 0; i < headers.length; i++) {
+      // console.log(headers[i])
+      // Build form element
+      var label = document.createElement("label");
+      var input = document.createElement("input");
+      // Populates orignal values into newly built form
+      label.innerHTML = headers[i].innerHTML;
+      input.type = "text";
+      input.placeholder = "null";
+      label.appendChild(input);
+      $("#add-form").append(label);
+    }
+  });
+
   // Listens for clicks on delete button.
   $('#delete-button').on('click', function() {
     var tableName = $('#table-name')[0].innerHTML;
