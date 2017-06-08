@@ -14,64 +14,58 @@ function isAuthenticated(req, res, next) {
   }
 }
 router.get('/', isAuthenticated, function(req, res) {
-  $.ajax({
-    "url": "http://localhost:3000/api/user_data",
-    "type": "GET",
-    success: function(result) {
-      // only admins can see backup tables
-      if (result.username.IsAdmin) {
-        const tableColumns = helper.getTableHeaders("backup");
-        console.log(tableColumns);
-        var sharing = [];
-        helper.getDbObject("sharedWith").findAndCount({
+  // only admins can see backup page
+  if (req.user.IsAdmin) {
+    const tableColumns = helper.getTableHeaders("backup");
+    console.log(tableColumns);
+    var sharing = [];
+    helper.getDbObject("sharedWith").findAndCount({
+      where: {
+        host: req.user.username
+      }
+    }).then(function(results) {
+      for (var index = 0; index < results.rows.length; ++index) {
+        console.log(results.rows[index].dataValues.share);
+        sharing.push(results.rows[index].dataValues.share);
+      }
+      console.log(sharing);
+
+      sharing.push(req.user.username);
+
+
+      if (tableColumns) {
+        helper.getDbObject("backup").findAndCount({
+          attributes: tableColumns,
+          raw: true,
+          limit: 10,
           where: {
-            host: req.user.username
+            Owner: {
+              $or: {
+                $in: sharing,
+                $eq: null
+              }
+
+            }
           }
         }).then(function(results) {
-          for (var index = 0; index < results.rows.length; ++index) {
-            console.log(results.rows[index].dataValues.share);
-            sharing.push(results.rows[index].dataValues.share);
-          }
-          console.log(sharing);
-
-          sharing.push(req.user.username);
-
-
-          if (tableColumns) {
-            helper.getDbObject("backup").findAndCount({
-              attributes: tableColumns,
-              raw: true,
-              limit: 10,
-              where: {
-                Owner: {
-                  $or: {
-                    $in: sharing,
-                    $eq: null
-                  }
-
-                }
-              }
-            }).then(function(results) {
-              res.render('backups', {
-                table_name: "Backups",
-                table_abrv: "backup",
-                table_header: tableColumns,
-                table_data: results.rows
-              });
-            });
-          }
-          else {
-            req.status(404).send();
-            res.render('error');
-          }
+          res.render('backups', {
+            table_name: "Backups",
+            table_abrv: "backup",
+            table_header: tableColumns,
+            table_data: results.rows
+          });
         });
       }
       else {
         req.status(404).send();
         res.render('error');
       }
-    }
-  });
+    });
+  }
+  else {
+    req.status(404).send();
+    res.render('error');
+  }
 });
 
 function initTableNames() {
