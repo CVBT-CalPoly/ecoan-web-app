@@ -48,10 +48,6 @@ block table
         tr
           each header in table_header
             td= header
-      tfoot
-        tr
-          each header in table_header
-            th= header
       tbody
         each row, index in table_data
           tr(row-num=index)
