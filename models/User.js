@@ -28,6 +28,9 @@ module.exports = function(sequelize, DataTypes) {
     },
     IsAdmin: {
       type: DataTypes.BOOLEAN
+    },
+    locale: {
+      type: DataTypes.STRING
     }
   }, {
     tableName: 'User',
