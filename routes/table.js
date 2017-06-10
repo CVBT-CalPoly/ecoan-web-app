@@ -4,6 +4,7 @@ var db = require('../models/db');
 var helper = require('./tablehelper');
 const tableNames = initTableNames();
 var passport = require('passport');
+var localizer = require('./localizer');
 
 function isAuthenticated(req, res, next) {
   console.log("authing");
@@ -47,12 +48,12 @@ router.get('/:table', isAuthenticated, function(req, res) {
           }
         }
       }).then(function(results) {
-        res.render('table', {
+        res.render('table', localizer.getMenuObject({
           table_name: tableNames[req.params.table],
           table_abrv: req.params.table,
           table_header: tableColumns,
           table_data: results.rows
-        });
+        }));
       });
     }
     else {

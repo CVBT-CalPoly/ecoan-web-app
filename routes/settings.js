@@ -2,6 +2,7 @@ var express = require('express');
 var passport = require('passport');
 var db = require('../models/db');
 var helper = require('../routes/tablehelper');
+var localizer = require('./localizer');
 var router = express.Router();
 
 function isAuthenticated(req, res, next) {
@@ -26,9 +27,9 @@ router.get('/', isAuthenticated, function(req, res) {
       sharing.push(results.rows[index].dataValues.share);
     }
     console.log(sharing);
-    res.render('settings', {
+    res.render('settings', localizer.getMenuObject({
       shared: sharing
-    });
+    }));
   });
 });
 

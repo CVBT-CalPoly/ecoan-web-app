@@ -36,6 +36,33 @@ var myLocalize;
     "View Backups": {
       "es": "Ver copias de seguridad",
     },
+    "Tables": {
+      "es": "Tabla"
+    },
+    "Test Material": {
+      "es": "Material de prueba"
+    },
+    "Reports": {
+      "es": "Informes"
+    },
+    "Temporary Tables": {
+      "es": "Mesas Temporales"
+    },
+    "Charts": {
+      "es": "Gráficos"
+    },
+    "Months": {
+      "es": "Meses"
+    },
+    "Test": {
+      "es": "Prueba"
+    },
+    "Settings": {
+      "es": "Ajustes",
+    },
+    "Logout": {
+      "es": "Cerrar sesión"
+    }
   });
 })(); // self-invoking function
 
@@ -45,5 +72,19 @@ module.exports = {
   },
   getText: function(value) {
     return myLocalize.translate(value);
+  },
+  getMenuObject: function(values) {
+    const menu = {
+      tables_text: myLocalize.translate("Tables"),
+      testmaterial_text: myLocalize.translate("Test Material"),
+      reports_text: myLocalize.translate("Reports"),
+      temptables_text: myLocalize.translate("Temporary Tables"),
+      charts_text: myLocalize.translate("Charts"),
+      months_text: myLocalize.translate("Months"),
+      test_text: myLocalize.translate("Test"),
+      settings_text: myLocalize.translate("Settings"),
+      logout_text: myLocalize.translate("Logout")
+    };
+    return Object.assign(menu, values);
   }
 }
