@@ -9,18 +9,18 @@ block sources
 
 block content
   div(class="large-5 large-centered columns" id="settings-container")
-    h2= "Account Settings"
+    h2= accountsettings_text
     div(class="medium-5" id="shared-table")
       div(class="row")
         table(class="hover")
-          th="Tables Shared With"
+          th= tablessharedwith_text
           each person in shared
             tr  
               td= person  
       div(class="row")
         form
           div(class="medium-7 medium-centered columns" id="add-user-form")
-            label= "Share your tables with other users:"
-              input(type="text" id="newuser" placeholder="username")
+            label= sharetables_text
+              input(type="text" id="newuser" placeholder= username_text)
             div(class="medium-12 columns")
-              a(title="Add new shared user", class="button", id="add-button", disabled) Add
+              a(title="Add new shared user", class="button", id="add-button", disabled)= add_text

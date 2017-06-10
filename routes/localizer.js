@@ -62,6 +62,18 @@ var myLocalize;
     },
     "Logout": {
       "es": "Cerrar sesión"
+    },
+    "Account Settings": {
+      "es": "Ajustes de usuario"
+    },
+    "Tables Shared With": {
+      "es": "Mesas compartidas con"
+    },
+    "Share your tables with other users": {
+      "es": "Comparte tus tablas con otros usuarios"
+    },
+    "Add": {
+      "es": "Añadir"
     }
   });
 })(); // self-invoking function

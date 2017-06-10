@@ -28,7 +28,12 @@ router.get('/', isAuthenticated, function(req, res) {
     }
     console.log(sharing);
     res.render('settings', localizer.getMenuObject({
-      shared: sharing
+      shared: sharing,
+      accountsettings_text: localizer.getText("Account Settings"),
+      tablessharedwith_text: localizer.getText("Tables Shared With"),
+      sharetables_text: localizer.getText("Share your tables with other users"),
+      username_text: localizer.getText("Username"),
+      add_text: localizer.getText("Add")
     }));
   });
 });
