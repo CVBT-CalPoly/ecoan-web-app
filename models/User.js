@@ -25,6 +25,9 @@ module.exports = function(sequelize, DataTypes) {
     },
     salt: {
       type: DataTypes.STRING
+    },
+    IsAdmin: {
+      type: DataTypes.BOOLEAN
     }
   }, {
     tableName: 'User',
