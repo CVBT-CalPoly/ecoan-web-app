@@ -12,11 +12,26 @@ var myLocalize;
     "Username": {
       "es": "Nombre de usuario",
     },
+    "E-Mail": {
+      "es": "E-Mail"
+    },
+    "First Name": {
+      "es": "Nombre de pila"
+    },
+    "Last Name": {
+      "es": "Apellido"
+    },
     "Password": {
       "es": "Contraseña",
     },
     "Repeat Password": {
       "es": "Repite la contraseña",
+    },
+    "Paswords do not match": {
+      "es": "Las contraseñas no coinciden"
+    },
+    "Username already taken": {
+      "es": "Nombre de usuario ya tomado"
     },
     "View Backups": {
       "es": "Ver copias de seguridad",

@@ -1,7 +1,10 @@
 extends layout
 
 block header
-  title= backups_button
+  title= "Dashboard"
 
 block sources
   script(type="text/javascript", src='../js/dashboard.js')
+
+block content
+  a#backup_button(class="button expanded" href="/backups")= backups_button
