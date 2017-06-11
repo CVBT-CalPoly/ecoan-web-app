@@ -49,12 +49,28 @@ router.get('/', isAuthenticated, function(req, res) {
             }
           }
         }).then(function(results) {
-          res.render('backups', localizer.getMenuObject({
+          const table = {
+            tableObj: {
+              backup: "Create Backup",
+              edit: "Edit",
+              delete: "Delete",
+            }
+          };
+          const otherValues = {
             table_name: "Backups",
             table_abrv: "backup",
             table_header: tableColumns,
             table_data: results.rows
-          }));
+          };
+
+          localizer.setLocale(req.user.locale);
+          localizer.translatePage(table, {
+            values: otherValues,
+            next: function(values) {
+              console.log(JSON.stringify(values));
+              res.render('backups', values);
+            }
+          });
         });
       }
       else {
