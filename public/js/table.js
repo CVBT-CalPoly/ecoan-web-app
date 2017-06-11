@@ -291,6 +291,9 @@ function initButtons() {
         additions_array.push(null);
       }
     });
+
+    additions_array.push(header_array[header_array.length - 1]);
+
     // If there are any changes, make edit request
     if(Object.keys(changes).length !== 0) {
       // Create array with old values, so sequelize knows the difference
