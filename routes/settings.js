@@ -15,7 +15,6 @@ function isAuthenticated(req, res, next) {
 }
 
 router.get('/', isAuthenticated, function(req, res) {
-  console.log(req.user.username);
   var sharing = [];
   helper.getDbObject("sharedWith").findAndCount({
     where: {
@@ -26,14 +25,20 @@ router.get('/', isAuthenticated, function(req, res) {
       console.log(results.rows[index].dataValues.share);
       sharing.push(results.rows[index].dataValues.share);
     }
-    console.log(sharing);
+    localizer.setLocale(req.user.locale);
     res.render('settings', localizer.getMenuObject({
       shared: sharing,
+      userlangtitle_text: localizer.getText("User Language"),
+      currlang_text: localizer.getText(localizer.getLanguageForLocale(req.user.locale)),
       accountsettings_text: localizer.getText("Account Settings"),
       tablessharedwith_text: localizer.getText("Tables Shared With"),
       sharetables_text: localizer.getText("Share your tables with other users"),
       username_text: localizer.getText("Username"),
-      add_text: localizer.getText("Add")
+      add_text: localizer.getText("Add"),
+      change_text: localizer.getText("Change"),
+      defaultselect_text: "-- " + localizer.getText("Select a new preferred language") + " --",
+      english_text: localizer.getText("English"),
+      spanish_text: localizer.getText("Spanish")
     }));
   });
 });

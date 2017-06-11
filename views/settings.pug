@@ -24,30 +24,19 @@ block content
               input(type="text" id="newuser" placeholder= username_text)
             div(class="medium-12 columns")
               a(title="Add new shared user", class="button", id="add-button", disabled)= add_text
-    h2= "User Language"
+    h2= userlangtitle_text
     div(class="medium-5" id="locale-table")
       div(class="row")
         table(class="hover")
           th= Current
             tr
-              td= "English"
+              td= currlang_text
       div(class="row")
         div(class="input-group")
           select(id="locales-select")
-            option(disabled selected value id="unselected-locale") -- Select a new preferred language --
-            option(value="en") English
-            option(value="es") Spanish
-            option(value="fr") French
-            option(value="de") German
-            option(value="th") Thai
-            option(value="zh") Chinese
-            option(value="id") Indonesian
-            option(value="fil") Tagalog
-            option(value="my") Burmese
-            option(value="ms") Malay
-            option(value="vi") Vietnamese
-            option(value="zh") Mandarin
-            option(value="hi") Hindi
+            option(disabled selected value="none" id="unselected-locale")= defaultselect_text
+            option(value="en")= english_text
+            option(value="es")= spanish_text
           div(class="input-group-button")
-            input(type="submit" class="button" value="Change")
+            input(type="submit" class="button" value= change_text id="change-lang-button")
 

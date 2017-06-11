@@ -74,6 +74,21 @@ var myLocalize;
     },
     "Add": {
       "es": "Añadir"
+    },
+    "User Language": {
+      "es": "Idioma del usuario"
+    },
+    "Select a new preferred language": {
+      "es": "Seleccione un nuevo idioma preferido"
+    },
+    "Change": {
+      "es": "Cambio"
+    },
+    "English": {
+      "es": "Inglés"
+    },
+    "Spanish": {
+      "es": "Español"
     }
   });
 })(); // self-invoking function
@@ -98,5 +113,12 @@ module.exports = {
       logout_text: myLocalize.translate("Logout")
     };
     return Object.assign(menu, values);
+  },
+  getLanguageForLocale: function(locale) {
+    const langs = {
+      en: "English",
+      es: "Spanish"
+    }
+    return langs[locale];
   }
 }

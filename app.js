@@ -18,6 +18,7 @@ var logout = require('./routes/logout');
 var table_api = require('./api/tables/crud');
 var graph_api = require('./api/graph/graph');
 var settings_api = require('./api/settings/share');
+var settings_locale_api = require('./api/settings/locale');
 var table_processing = require('./api/tables/processing');
 var table_filtering = require('./api/tables/filtering');
 var validate_admin_api = require('./api/admin/validate');
@@ -60,6 +61,7 @@ app.use('/api/graph/graph', graph_api);
 app.use('/api/tables/processing', table_processing);
 app.use('/api/tables/filtering', table_filtering);
 app.use('/api/settings/share', settings_api);
+app.use('/api/settings/locale', settings_locale_api);
 app.use('/api/admin/validate', validate_admin_api);
 app.use('/api/tables/backup', backup_api);
 // Returns user data
