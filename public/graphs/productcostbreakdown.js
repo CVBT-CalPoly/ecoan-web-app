@@ -372,7 +372,7 @@ function init_plots()
     
     function legend_function(d)
     {
-           return "<h2>"+d[2]+"&nbsp;</h2><p>"+d[4]+" Baht</p>" 
+           return "<h4>"+d[2]+"&nbsp;</h2><p>"+d[4]+" Baht</p>" 
     }
 
     color = d3.scaleOrdinal()

@@ -30,12 +30,8 @@ form
 {
 
     top:4%; 
-    left:2%;
+    right:2%;
     height:0px;
     font-size:1.4em;
-    text-align:left;
-}
-
-.graph {
-  padding-left: 5%;
+    text-align:right;
 }
