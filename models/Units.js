@@ -26,6 +26,10 @@ module.exports = function(sequelize, DataTypes) {
     Rel_to_Base: {
       type: "DOUBLE",
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'Units'

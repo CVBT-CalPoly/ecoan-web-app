@@ -9,6 +9,10 @@ module.exports = function(sequelize, DataTypes) {
     sumpiececost: {
       type: "DOUBLE",
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'TotalProdCost'

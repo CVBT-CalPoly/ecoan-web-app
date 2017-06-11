@@ -9,6 +9,10 @@ module.exports = function(sequelize, DataTypes) {
     Quantity: {
       type: DataTypes.INTEGER(11),
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'CuringTentQty'

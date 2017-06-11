@@ -13,6 +13,10 @@ module.exports = function(sequelize, DataTypes) {
     ThaiDescription: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'Status'

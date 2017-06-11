@@ -27,6 +27,10 @@ module.exports = function(sequelize, DataTypes) {
     ComBill: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'BillSale'

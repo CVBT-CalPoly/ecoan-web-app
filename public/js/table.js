@@ -184,14 +184,16 @@ function initButtons() {
     // Generate form with all initial values
     for(var idx in row) {
       // Build form element
-      var label = document.createElement("label");
-      var input = document.createElement("input");
-      // Populates orignal values into newly built form
-      label.innerHTML = headers[idx].innerHTML;
-      input.type = "text";
-      input.placeholder = row[idx];
-      label.appendChild(input);
-      $("#edit-form").append(label);
+      if(headers[idx].innerHTML !== "Owner") {
+        var label = document.createElement("label");
+        var input = document.createElement("input");
+        // Populates orignal values into newly built form
+        label.innerHTML = headers[idx].innerHTML;
+        input.type = "text";
+        input.placeholder = row[idx];
+        label.appendChild(input);
+        $("#edit-form").append(label);
+      }
     }
   });
 
@@ -204,14 +206,16 @@ function initButtons() {
     for(var i = 0; i < headers.length; i++) {
       // console.log(headers[i])
       // Build form element
-      var label = document.createElement("label");
-      var input = document.createElement("input");
-      // Populates orignal values into newly built form
-      label.innerHTML = headers[i].innerHTML;
-      input.type = "text";
-      input.placeholder = "null";
-      label.appendChild(input);
-      $("#add-form").append(label);
+      if(headers[i].innerHTML !== "Owner") {
+        var label = document.createElement("label");
+        var input = document.createElement("input");
+        // Populates orignal values into newly built form
+        label.innerHTML = headers[i].innerHTML;
+        input.type = "text";
+        input.placeholder = "null";
+        label.appendChild(input);
+        $("#add-form").append(label);
+      }
     }
   });
 

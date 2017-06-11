@@ -10,6 +10,10 @@ module.exports = function(sequelize, DataTypes) {
     Salary: {
       type: "DOUBLE",
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'EmpSalary'

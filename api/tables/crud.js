@@ -58,7 +58,7 @@ router.post('/add/:table', function(req, res) {
       req.body[key] = null;
     }
   }
-
+  
   helper.getDbObject(req.params.table)
   .create(req.body,
     {

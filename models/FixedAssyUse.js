@@ -13,6 +13,10 @@ module.exports = function(sequelize, DataTypes) {
     Qty: {
       type: DataTypes.INTEGER(11),
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'FixedAssyUse'

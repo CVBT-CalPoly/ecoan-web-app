@@ -65,6 +65,10 @@ module.exports = function(sequelize, DataTypes) {
     Beinconsistent: {
       type: "DOUBLE",
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'BlockHeight'

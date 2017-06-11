@@ -10,6 +10,10 @@ module.exports = function(sequelize, DataTypes) {
     Unit_Type_LL: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'UnitType'

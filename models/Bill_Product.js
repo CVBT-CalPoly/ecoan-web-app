@@ -21,6 +21,10 @@ module.exports = function(sequelize, DataTypes) {
     Amont: {
       type: DataTypes.INTEGER(11),
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'Bill_Product'

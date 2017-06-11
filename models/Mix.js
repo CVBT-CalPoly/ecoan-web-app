@@ -21,6 +21,10 @@ module.exports = function(sequelize, DataTypes) {
     UnitOrBucket: {
       type: DataTypes.TEXT,
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'Mix'

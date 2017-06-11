@@ -93,6 +93,10 @@ module.exports = function(sequelize, DataTypes) {
     ChangeTime: {
       type: DataTypes.TIME,
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'ProductHistory'

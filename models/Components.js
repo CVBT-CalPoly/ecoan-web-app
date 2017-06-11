@@ -60,6 +60,10 @@ module.exports = function(sequelize, DataTypes) {
     SortOrder: {
       type: DataTypes.INTEGER(11),
       allowNull: false
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'Components'
