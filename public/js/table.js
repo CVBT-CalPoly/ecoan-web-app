@@ -1,3 +1,11 @@
+var user;
+$.getJSON("http://localhost:3000/api/user_data", function(data) {
+  // Make sure the data contains the username as expected before using it
+  if (data.hasOwnProperty('username')) {
+    user = data.username.username;
+  }
+});
+
 $(document).ready( function () {
   // Setup - add a text input to each footer cell
   $('#data-table tfoot th').each( function () {
@@ -309,6 +317,7 @@ function initButtons() {
     var addition = {};
     var original = {};
     var additions_array = [];
+
     headers.each(function() {
       header_array.push(this.innerHTML);
     });
@@ -331,6 +340,10 @@ function initButtons() {
         additions_array.push(null);
       }
     });
+
+    addition.Owner = user;
+    additions_array.push(user);
+    console.log(addition);
     console.log(additions_array);
 
     var tableName = $('#table-name')[0].innerHTML;
