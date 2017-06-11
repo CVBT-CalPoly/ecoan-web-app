@@ -1,0 +1,27 @@
+extends layout
+
+block header
+  link(rel='stylesheet', href='../css/graph.css')
+
+block graph
+  div(id="graphspace")
+    div(class="graph")
+      h1= "PaybackPeriod Chart"
+      div(class="row")
+        svg(id="graph" width="960" height="500")
+      br
+      div(class="row")
+        div(class="large-3 columns")
+          div(class="row")
+            div(class="dropbox")  
+              label= "Select Product"
+                select(id="drop")
+          div(class="row")
+            label="Number of Products Produced per Month:"
+              input(type="number" id="numForm" value="1000")
+          div(class="row")
+            button(class="button" onclick="deleteGraphAndInit()") Submit
+
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+  script(src="https://d3js.org/d3.v4.min.js")
+  script(type="text/javascript", src='../graphs/payback.js')

@@ -19,8 +19,7 @@ router.get('/:graphs', isAuthenticated, function(req, res) {
     res.render('breakeven');
   }
   else if( tableName == "payback") {
-    
-    console.log("breakeven2");
+    res.render('payback');
   }
   else if( tableName == "productCostBreakdown") {
 
