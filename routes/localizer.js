@@ -102,15 +102,17 @@ module.exports = {
   },
   getMenuObject: function(values) {
     const menu = {
-      tables_text: myLocalize.translate("Tables"),
-      testmaterial_text: myLocalize.translate("Test Material"),
-      reports_text: myLocalize.translate("Reports"),
-      temptables_text: myLocalize.translate("Temporary Tables"),
-      charts_text: myLocalize.translate("Charts"),
-      months_text: myLocalize.translate("Months"),
-      test_text: myLocalize.translate("Test"),
-      settings_text: myLocalize.translate("Settings"),
-      logout_text: myLocalize.translate("Logout")
+      menu: {
+        tables: myLocalize.translate("Tables"),
+        testmaterial: myLocalize.translate("Test Material"),
+        reports: myLocalize.translate("Reports"),
+        temptables: myLocalize.translate("Temporary Tables"),
+        charts: myLocalize.translate("Charts"),
+        months: myLocalize.translate("Months"),
+        test: myLocalize.translate("Test"),
+        settings: myLocalize.translate("Settings"),
+        logout: myLocalize.translate("Logout")
+      }
     };
     return Object.assign(menu, values);
   },

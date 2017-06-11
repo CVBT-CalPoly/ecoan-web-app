@@ -14,7 +14,7 @@ html(class="no-js")
             b
               a(href="/dashboard", id="menu-bar-home")= "CVBT"
           li
-            a(href="#")= tables_text
+            a(href="#")= menu.tables
             ul(class="menu vertical")
               li
                 a(href="#") History Tables
@@ -56,12 +56,12 @@ html(class="no-js")
               li
                 a(href="../table/unitType") Unit Type
           li
-            a(href="#")= testmaterial_text
+            a(href="#")= menu.testmaterial
             ul(class="menu vertical")
               li
                 a(href="#") Price List (Test)
           li
-            a(href="#")= reports_text
+            a(href="#")= menu.reports
             ul(class="menu vertical")
               li
                 a(href="#") Components Report
@@ -74,12 +74,12 @@ html(class="no-js")
               li
                 a(href="#") Mix Registry Report
           li
-            a(href="#")= temptables_text
+            a(href="#")= menu.temptables
             ul(class="menu vertical")
               li
                 a(href="#") Prodcosts
           li
-            a(href="#")= charts_text
+            a(href="#")= menu.charts
             ul(class="menu vertical")
               li
                 a(href="../graphs/breakeven.html") Break Even
@@ -88,15 +88,15 @@ html(class="no-js")
               li
                 a(href="../graphs/productCostBreakdown.html") Products Chart
           li
-            a(href="#")= months_text
+            a(href="#")= menu.months
           li
-            a(href="#")= test_text
+            a(href="#")= menu.test
           li
-            a(href="../settings")= settings_text
+            a(href="../settings")= menu.settings
       div(class="top-bar-right")
         ul(class="dropdown menu" data-dropdown-menu)
           li
-            a(href="../logout", id="logout")= logout_text
+            a(href="../logout", id="logout")= menu.logout
 
   body
       block table
