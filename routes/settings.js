@@ -25,8 +25,9 @@ router.get('/', isAuthenticated, function(req, res) {
       console.log(results.rows[index].dataValues.share);
       sharing.push(results.rows[index].dataValues.share);
     }
-    localizer.setLocale(req.user.locale, function(menu) {
-      const translatedValues = {
+
+    const settings = {
+      settings: {
         userlangtitle: "User Language",
         currlang: localizer.getLanguageForLocale(req.user.locale),
         accountsettings: "Account Settings",
@@ -38,14 +39,16 @@ router.get('/', isAuthenticated, function(req, res) {
         defaultselect: "-- " + "Select a new preferred language" + " --",
         english: "English",
         spanish: "Spanish"
-      };
-      localizer.translateObject(translatedValues, function(translations) {
-        const values = { shared: sharing };
-        const settings = {
-          settings: Object.assign(translations, values)
-        };
-        res.render('settings', Object.assign(menu, settings));
-      });
+      }
+    };
+    const otherValues = { shared: sharing };
+
+    localizer.setLocale(req.user.locale);
+    localizer.translatePage(settings, {
+      values: otherValues,
+      next: function(values) {
+        res.render('settings', values);
+      }
     });
   });
 });

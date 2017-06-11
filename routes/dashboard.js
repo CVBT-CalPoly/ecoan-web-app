@@ -14,10 +14,17 @@ function isAuthenticated(req, res, next) {
 }
 
 router.get('/', isAuthenticated, function(req, res) {
-  localizer.setLocale(req.user.locale, function(menu) {
-    const values = {backups_button: localizer.getText("View Backups")};
-    res.render('dashboard', Object.assign(menu, values));
-  });
+  const dashboard = {
+    dashboard: {
+      backups_button: localizer.getText("View Backups")
+    }
+  };
+  localizer.setLocale(req.user.locale);
+  localizer.translatePage(dashboard, {
+    next: function(values) {
+      res.render('dashboard', values);
+    }}
+  );
 });
 
 module.exports = router;

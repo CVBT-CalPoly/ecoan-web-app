@@ -49,7 +49,6 @@ router.get('/:table', isAuthenticated, function(req, res) {
         }
       }).then(function(results) {
         res.render('table', localizer.getMenuObject({
-          test: {a: "value1", b: "value2"},
           table_name: tableNames[req.params.table],
           table_abrv: req.params.table,
           table_header: tableColumns,
