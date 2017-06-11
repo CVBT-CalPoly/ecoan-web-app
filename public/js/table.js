@@ -7,11 +7,6 @@ $.getJSON("http://localhost:3000/api/user_data", function(data) {
 });
 
 $(document).ready( function () {
-  // Setup - add a text input to each footer cell
-  $('#data-table tfoot th').each( function () {
-      var title = $(this).text();
-      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-  });
   // Do not touch, or reuse variable names to reduce namespace pollution.
   var tables;
   var row = {};
