@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<h1>BreakEven Chart</h1>
-<svg id = "graph" width="960" height="500"></svg>
-<select id="drop"></select>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script>
-
 var selectedProd = 1;
 var dataset;
 var prodCost;
@@ -17,7 +9,6 @@ document.getElementById('drop').onchange = function(){
     console.log(selectedProd);
     deleteGraph();
     getProdCost(selectedProd);
-
 }
 //var numProd = 30000;
 function getProdCost(id) {
@@ -293,7 +284,3 @@ var variableLine = d3.line()
       console.log("submit");
 
 }
-</script>
-<br>
-Number of Products Produced: <input type="number" id="numForm" value = "30000">
-<button onclick= "deleteGraphAndInit()"> Submit</button>

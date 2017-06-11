@@ -86,11 +86,11 @@ html(class="no-js")
             a(href="#") Charts
             ul(class="menu vertical")
               li
-                a(href="../graphs/breakeven.html") Break Even
+                a(href="../graphs/breakeven") Break Even
               li
-                a(href="../graphs/payback.html") Payback Period
+                a(href="../graphs/payback") Payback Period
               li
-                a(href="../graphs/productCostBreakdown.html") Products Chart
+                a(href="../graphs/productCostBreakdown") Products Chart
           li
             a(href="#") Months
           li
@@ -103,8 +103,10 @@ html(class="no-js")
             a(href="../logout", id="logout")= "Logout"
 
   body
+      script(type="text/javascript", src='../js/layout.js')
       block table
+      block graph
       block content
       block sources
       block error
-      script(type="text/javascript", src='../js/layout.js')
+      

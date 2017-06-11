@@ -60,8 +60,6 @@ router.get('/:table', isAuthenticated, function(req, res) {
       res.render('error');
     }
   });
-
-
 });
 
 function initTableNames() {

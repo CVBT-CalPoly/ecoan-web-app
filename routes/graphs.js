@@ -1,21 +1,30 @@
 var express = require('express');
 var router = express.Router();
-
 var db = require('../models/db');
 var helper = require('./tablehelper');
-//var graphs = require('../graphs/breakeven');
-console.log("graphs");
-router.get('/:graphs', function(req, res, next) {
+var passport = require('passport');
+
+function isAuthenticated(req, res, next) {
+  console.log("authing");
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+}
+router.get('/:graphs', isAuthenticated, function(req, res) {
   var tableName = req.params.graphs;
-  console.log(tableName);
   if( tableName == "breakeven") {
-     res.sendFile("../graphs/breakeven.html");
+    //  res.sendFile("../graphs/breakeven.html");
+    res.render('breakeven');
   }
-  if( tableName == "payback") {
-     res.sendFile("../graphs/payback.html");
+  else if( tableName == "payback") {
+    
+    console.log("breakeven2");
   }
-  if( tableName == "productCostBreakdown") {
-     res.sendFile("../graphs/productCostBreakdown.html");
+  else if( tableName == "productCostBreakdown") {
+
+    console.log("breakeven3");
   }
 });
 
