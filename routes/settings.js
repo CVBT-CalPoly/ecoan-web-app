@@ -26,21 +26,26 @@ router.get('/', isAuthenticated, function(req, res) {
       sharing.push(results.rows[index].dataValues.share);
     }
     localizer.setLocale(req.user.locale, function(menu) {
-      const values = {
-        shared: sharing,
-        userlangtitle_text: localizer.getText("User Language"),
-        currlang_text: localizer.getText(localizer.getLanguageForLocale(req.user.locale)),
-        accountsettings_text: localizer.getText("Account Settings"),
-        tablessharedwith_text: localizer.getText("Tables Shared With"),
-        sharetables_text: localizer.getText("Share your tables with other users"),
-        username_text: localizer.getText("Username"),
-        add_text: localizer.getText("Add"),
-        change_text: localizer.getText("Change"),
-        defaultselect_text: "-- " + localizer.getText("Select a new preferred language") + " --",
-        english_text: localizer.getText("English"),
-        spanish_text: localizer.getText("Spanish")
+      const translatedValues = {
+        userlangtitle: "User Language",
+        currlang: localizer.getLanguageForLocale(req.user.locale),
+        accountsettings: "Account Settings",
+        tablessharedwith: "Tables Shared With",
+        sharetables: "Share your tables with other users",
+        username: "Username",
+        add: "Add",
+        change: "Change",
+        defaultselect: "-- " + "Select a new preferred language" + " --",
+        english: "English",
+        spanish: "Spanish"
       };
-      res.render('settings', Object.assign(menu, values));
+      localizer.translateObject(translatedValues, function(translations) {
+        const values = { shared: sharing };
+        const settings = {
+          settings: Object.assign(translations, values)
+        };
+        res.render('settings', Object.assign(menu, settings));
+      });
     });
   });
 });

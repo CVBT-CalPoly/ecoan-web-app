@@ -9,34 +9,34 @@ block sources
 
 block content
   div(class="large-5 large-centered columns" id="settings-container")
-    h2= accountsettings_text
+    h2= settings.accountsettings
     div(class="medium-5" id="shared-table")
       div(class="row")
         table(class="hover")
-          th= tablessharedwith_text
-          each person in shared
+          th= settings.tablessharedwith
+          each person in settings.shared
             tr  
               td= person  
       div(class="row")
         form
           div(class="medium-7 medium-centered columns" id="add-user-form")
-            label= sharetables_text
-              input(type="text" id="newuser" placeholder= username_text)
+            label= settings.sharetables
+              input(type="text" id="newuser" placeholder= settings.username)
             div(class="medium-12 columns")
-              a(title="Add new shared user", class="button", id="add-button", disabled)= add_text
-    h2= userlangtitle_text
+              a(title="Add new shared user", class="button", id="add-button", disabled)= settings.add
+    h2= settings.userlangtitle
     div(class="medium-5" id="locale-table")
       div(class="row")
         table(class="hover")
           th= Current
             tr
-              td= currlang_text
+              td= settings.currlang
       div(class="row")
         div(class="input-group")
           select(id="locales-select")
-            option(disabled selected value="none" id="unselected-locale")= defaultselect_text
-            option(value="en")= english_text
-            option(value="es")= spanish_text
+            option(disabled selected value="none" id="unselected-locale")= settings.defaultselect
+            option(value="en")= settings.english
+            option(value="es")= settings.spanish
           div(class="input-group-button")
-            input(type="submit" class="button" value= change_text id="change-lang-button")
+            input(type="submit" class="button" value= settings.change id="change-lang-button")
 

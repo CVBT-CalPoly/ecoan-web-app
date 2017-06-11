@@ -107,6 +107,20 @@ function translateRaw(phrase, locale, next) {
     });
 };
 
+function translateObjectHelper(keys, obj, next) {
+  // finished translating
+  if (keys.length == 0) {
+    next(obj);
+  }
+  else {
+    const key = keys.pop();
+    translateRaw(obj[key], currentLocale, function(res) {
+      obj[key] = res;
+      translateObjectHelper(keys, obj, next);
+    });
+  }
+}
+
 module.exports = {
   setLocale: function(locale, next) {
     myLocalize.setLocale(locale);
@@ -163,13 +177,16 @@ module.exports = {
     else {
       next(menu);
     }
-
   },
   getText: function(value) {
     return myLocalize.translate(value);
   },
   getMenuObject: function(values) {
     return Object.assign(menu, values);
+  },
+  translateObject: function(obj, next) {
+    const keys = Object.keys(obj);
+    translateObjectHelper(keys, obj, next);
   },
   getLanguageForLocale: function(locale) {
     const langs = {
