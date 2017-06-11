@@ -14,10 +14,11 @@ function isAuthenticated(req, res, next) {
 }
 
 router.get('/', isAuthenticated, function(req, res) {
-  localizer.setLocale(req.user.locale);
-  res.render('dashboard', localizer.getMenuObject({
-    backups_button: localizer.getText("View Backups")
-  }));
+  localizer.setLocale(req.user.locale, function(menu) {
+    console.log("here2");
+    const values = {backups_button: localizer.getText("View Backups")};
+    res.render('dashboard', Object.assign(menu, values));
+  });
 });
 
 module.exports = router;

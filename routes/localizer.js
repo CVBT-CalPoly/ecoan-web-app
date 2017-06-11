@@ -1,6 +1,10 @@
 var Localize = require('localize');
 var myLocalize;
 
+const translate = require('google-translate-api');
+var menu;
+var currentLocale = "";
+
 (function initializeTranslations() {
   myLocalize = new Localize({
     "Log In": {
@@ -93,27 +97,78 @@ var myLocalize;
   });
 })(); // self-invoking function
 
+function translateRaw(phrase, locale, next) {
+  translate(phrase, {from: "en", to: locale, raw: true})
+    .then(res => {
+      next(res.text);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
 module.exports = {
-  setLocale: function(locale) {
+  setLocale: function(locale, next) {
     myLocalize.setLocale(locale);
+    
+    var tablesText = "Tables", testmaterialText = "Test Material", reportsText = "Reports"
+      temptablesText = "Temporary Tables", chartsText = "Charts", monthsText = "Months",
+      testText = "Test", settingsText = "Settings", logoutText = "Logout";
+
+    // only initialize menu for locale changes
+    if (currentLocale !== locale) {
+      currentLocale = locale;
+      translateRaw(tablesText, locale, function(tablesRes) {
+        tablesText = tablesRes;
+        translateRaw(testmaterialText, locale, function(testmaterialRes) {
+          testmaterialText = testmaterialRes;
+          translateRaw(reportsText, locale, function(reportsRes) {
+            reportsText = reportsRes;
+            translateRaw(temptablesText, locale, function(temptablesRes) {
+              temptablesText = temptablesRes;
+              translateRaw(chartsText, locale, function(chartsRes) {
+                chartsText = chartsRes;
+                translateRaw(monthsText, locale, function(monthsRes) {
+                  monthsText = monthsRes;
+                  translateRaw(testText, locale, function(testRes) {
+                    testText = testRes;
+                    translateRaw(settingsText, locale, function(settingsRes) {
+                      settingsText = settingsRes;
+                      translateRaw(logoutText, locale, function(logoutRes) {
+                        logoutText = logoutRes;
+                        menu = {
+                          menu: {
+                            tables: tablesText,
+                            testmaterial: testmaterialText,
+                            reports: reportsText,
+                            temptables: temptablesText,
+                            charts: chartsText,
+                            months: monthsText,
+                            test: testText,
+                            settings: settingsText,
+                            logout: logoutText
+                          }
+                        };
+                        next(menu);
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    }
+    else {
+      next(menu);
+    }
+
   },
   getText: function(value) {
     return myLocalize.translate(value);
   },
   getMenuObject: function(values) {
-    const menu = {
-      menu: {
-        tables: myLocalize.translate("Tables"),
-        testmaterial: myLocalize.translate("Test Material"),
-        reports: myLocalize.translate("Reports"),
-        temptables: myLocalize.translate("Temporary Tables"),
-        charts: myLocalize.translate("Charts"),
-        months: myLocalize.translate("Months"),
-        test: myLocalize.translate("Test"),
-        settings: myLocalize.translate("Settings"),
-        logout: myLocalize.translate("Logout")
-      }
-    };
     return Object.assign(menu, values);
   },
   getLanguageForLocale: function(locale) {
