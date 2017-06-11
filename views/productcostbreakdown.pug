@@ -1,0 +1,24 @@
+extends layout
+
+block header
+  link(rel='stylesheet', href='../css/graph.css')
+  link(rel='stylesheet', href='../css/productcostbreakdown.css')
+
+block graph
+  div(id="graphspace")
+    div(class="graph")
+      h1= "Product Cost Breakdown Chart"
+      br
+      div(class="row")
+        div(class="large-3 columns")
+          div(class="row")
+            div(class="dropbox")  
+              select(id="drop")
+          div(class="row")
+            div(id="code_hierarchy_legend") &nbsp;
+          div(class="row")
+            div(id="code_hierarchy") &nbsp;
+
+  script(data-require="d3@*" data-semver="4.0.0" src="https://d3js.org/d3.v4.min.js")
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+  script(type="text/javascript", src='../graphs/productcostbreakdown.js')

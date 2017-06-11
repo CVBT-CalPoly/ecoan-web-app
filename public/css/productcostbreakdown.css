@@ -1,0 +1,41 @@
+html
+{
+    font-family: Century Gothic, Arial, Helvetica;
+    font-size:1em;
+}
+
+body
+{
+    padding:0px;
+}
+
+form
+{
+
+}
+
+#code_hierarchy
+{
+    width:800px;
+    margin:0 auto;
+}
+
+#drop
+{
+    right:2%;
+}
+
+
+#code_hierarchy_legend
+{
+
+    top:4%; 
+    left:2%;
+    height:0px;
+    font-size:1.4em;
+    text-align:left;
+}
+
+.graph {
+  padding-left: 5%;
+}
