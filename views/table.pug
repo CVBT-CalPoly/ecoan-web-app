@@ -1,7 +1,7 @@
 extends layout
 
 block header
-  title= table_name
+  title= tableObj.table_name
 
 block sources
   link(rel="stylesheet", type="text/css", href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css")
@@ -28,24 +28,24 @@ block table
   
   
   div(id="data-table-container" style="display: none")
-    h2= table_name
+    h2= tableObj.table_name
     div(id="crud-buttons")
-      a(title="Add Database Item" class="button success" id="add-button") Add
-      a(title="Edit Database Item" class="button" id="edit-button" disabled) Edit
-      a(title="Delete Database Item" class="button alert" id="delete-button" disabled) Delete
-      a(title="Advanced Filtering" class="button" id="adv-filter-button" enabled data-open="adv-filter-modal") Advanced Filter
-    div(id="table-name" style="display: none")= table_abrv
+      a(title="Add Database Item" class="button success" id="add-button")= tableObj.add
+      a(title="Edit Database Item" class="button" id="edit-button" disabled)= tableObj.edit
+      a(title="Delete Database Item" class="button alert" id="delete-button" disabled)= tableObj.delete
+      a(title="Advanced Filtering" class="button" id="adv-filter-button" enabled data-open="adv-filter-modal")= tableObj.filtering
+    div(id="table-name" style="display: none")= tableObj.table_abrv
     table(id="data-table" class="cell-border" cellspacing="0" width="100%")
       thead
         tr
-          each header in table_header
+          each header in tableObj.table_header
             td= header
       tfoot
         tr
-          each header in table_header
+          each header in tableObj.table_header
             th= header
       tbody
-        each row, index in table_data
+        each row, index in tableObj.table_data
           tr(row-num=index)
             each value, col in row
               td(id=col row-num=index)= value
