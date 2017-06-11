@@ -124,54 +124,27 @@ function translateObjectHelper(keys, obj, next) {
 module.exports = {
   setLocale: function(locale, next) {
     myLocalize.setLocale(locale);
-    
-    var tablesText = "Tables", testmaterialText = "Test Material", reportsText = "Reports"
-      temptablesText = "Temporary Tables", chartsText = "Charts", monthsText = "Months",
-      testText = "Test", settingsText = "Settings", logoutText = "Logout";
+
+    var menuItems = {
+      tables: "Tables",
+      testmaterial: "Test Material",
+      reports: "Reports",
+      temptables: "Temporary Tables",
+      charts: "Charts",
+      months: "Months",
+      test: "Test",
+      settings: "Settings",
+      logout: "Logout"
+    };
 
     // only initialize menu for locale changes
     if (currentLocale !== locale) {
       currentLocale = locale;
-      translateRaw(tablesText, locale, function(tablesRes) {
-        tablesText = tablesRes;
-        translateRaw(testmaterialText, locale, function(testmaterialRes) {
-          testmaterialText = testmaterialRes;
-          translateRaw(reportsText, locale, function(reportsRes) {
-            reportsText = reportsRes;
-            translateRaw(temptablesText, locale, function(temptablesRes) {
-              temptablesText = temptablesRes;
-              translateRaw(chartsText, locale, function(chartsRes) {
-                chartsText = chartsRes;
-                translateRaw(monthsText, locale, function(monthsRes) {
-                  monthsText = monthsRes;
-                  translateRaw(testText, locale, function(testRes) {
-                    testText = testRes;
-                    translateRaw(settingsText, locale, function(settingsRes) {
-                      settingsText = settingsRes;
-                      translateRaw(logoutText, locale, function(logoutRes) {
-                        logoutText = logoutRes;
-                        menu = {
-                          menu: {
-                            tables: tablesText,
-                            testmaterial: testmaterialText,
-                            reports: reportsText,
-                            temptables: temptablesText,
-                            charts: chartsText,
-                            months: monthsText,
-                            test: testText,
-                            settings: settingsText,
-                            logout: logoutText
-                          }
-                        };
-                        next(menu);
-                      });
-                    });
-                  });
-                });
-              });
-            });
-          });
-        });
+      translateObjectHelper(Object.keys(menuItems), menuItems, function(translations) {
+        menu = {
+          menu: translations
+        };
+        next(menu)
       });
     }
     else {
