@@ -1,9 +1,12 @@
+var user;
+$.getJSON("http://localhost:3000/api/user_data", function(data) {
+  // Make sure the data contains the username as expected before using it
+  if (data.hasOwnProperty('username')) {
+    user = data.username.username;
+  }
+});
+
 $(document).ready( function () {
-  // Setup - add a text input to each footer cell
-  $('#data-table tfoot th').each( function () {
-      var title = $(this).text();
-      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-  });
   // Do not touch, or reuse variable names to reduce namespace pollution.
   var tables;
   var row = {};
@@ -283,6 +286,9 @@ function initButtons() {
         additions_array.push(null);
       }
     });
+
+    additions_array.push(header_array[header_array.length - 1]);
+
     // If there are any changes, make edit request
     if(Object.keys(changes).length !== 0) {
       // Create array with old values, so sequelize knows the difference
@@ -309,6 +315,7 @@ function initButtons() {
     var addition = {};
     var original = {};
     var additions_array = [];
+
     headers.each(function() {
       header_array.push(this.innerHTML);
     });
@@ -331,6 +338,10 @@ function initButtons() {
         additions_array.push(null);
       }
     });
+
+    addition.Owner = user;
+    additions_array.push(user);
+    console.log(addition);
     console.log(additions_array);
 
     var tableName = $('#table-name')[0].innerHTML;
