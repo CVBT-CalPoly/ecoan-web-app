@@ -1,7 +1,6 @@
 var express = require('express');
 var passport = require('passport');
 var localizer = require('./localizer');
-var parser = require('accept-language-parser');
 var router = express.Router();
 
 function isAuthenticated(req, res, next) {

@@ -38,7 +38,16 @@ router.get('/', isAuthenticated, function(req, res) {
         change: "Change",
         defaultselect: "-- " + "Select a new preferred language" + " --",
         english: "English",
-        spanish: "Spanish"
+        spanish: "Spanish",
+        french: "French",
+        german: "German",
+        thai: "Thai",
+        indonesian: "Indonesian",
+        burmese: "Burmese",
+        vietnamese: "Vietnamese",
+        hindi: "Hindi",
+        nepalese: "Nepalese",
+        arabic: "Aravic",
       }
     };
     const otherValues = { shared: sharing };

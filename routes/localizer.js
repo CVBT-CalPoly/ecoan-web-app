@@ -87,7 +87,19 @@ module.exports = {
   getLanguageForLocale: function(locale) {
     const langs = {
       en: "English",
-      es: "Spanish"
+      es: "Spanish",
+      fr: "French",
+      de: "German",
+      th: "Thai",
+      zh: "Chinese",
+      id: "Indonesian",
+      fil: "Tagalog",
+      my: "Burmese",
+      vi: "Vietnamese",
+      cmn: "Mandarin",
+      hi: "Hindi",
+      ne: "Nepalese",
+      ar: "Aravic",
     }
     return langs[locale];
   }
