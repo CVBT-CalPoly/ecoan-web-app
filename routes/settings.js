@@ -2,6 +2,7 @@ var express = require('express');
 var passport = require('passport');
 var db = require('../models/db');
 var helper = require('../routes/tablehelper');
+var localizer = require('./localizer');
 var router = express.Router();
 
 function isAuthenticated(req, res, next) {
@@ -14,7 +15,6 @@ function isAuthenticated(req, res, next) {
 }
 
 router.get('/', isAuthenticated, function(req, res) {
-  console.log(req.user.username);
   var sharing = [];
   helper.getDbObject("sharedWith").findAndCount({
     where: {
@@ -24,8 +24,38 @@ router.get('/', isAuthenticated, function(req, res) {
     for (var index = 0; index < results.rows.length; ++index) {
       sharing.push(results.rows[index].dataValues.share);
     }
-    res.render('settings', {
-      shared: sharing
+    const settings = {
+      settings: {
+        userlangtitle: "User Language",
+        currlang: localizer.getLanguageForLocale(req.user.locale),
+        accountsettings: "Account Settings",
+        tablessharedwith: "Data shared with:",
+        sharetables: "Share your tables with other users",
+        username: "Username",
+        add: "Add",
+        change: "Change",
+        defaultselect: "-- " + "Select a new preferred language" + " --",
+        english: "English",
+        spanish: "Spanish",
+        french: "French",
+        german: "German",
+        thai: "Thai",
+        indonesian: "Indonesian",
+        burmese: "Burmese",
+        vietnamese: "Vietnamese",
+        hindi: "Hindi",
+        nepalese: "Nepalese",
+        arabic: "Aravic",
+      }
+    };
+    const otherValues = { shared: sharing };
+
+    localizer.setLocale(req.user.locale);
+    localizer.translatePage(settings, {
+      values: otherValues,
+      next: function(values) {
+        res.render('settings', values);
+      }
     });
   });
 });

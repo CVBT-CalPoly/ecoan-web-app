@@ -14,7 +14,7 @@ html(class="no-js")
             b
               a(href="/dashboard", id="menu-bar-home")= "CVBT"
           li
-            a(href="#") Tables
+            a(href="#")= menu.tables
             ul(class="menu vertical")
               li
                 a(href="#") History Tables
@@ -56,34 +56,30 @@ html(class="no-js")
               li
                 a(href="../table/unitType") Unit Type
           li
-            a(href="#") Test Material
+            a(href="#")= menu.testmaterial
             ul(class="menu vertical")
               li
                 a(href="#") Price List (Test)
-              li
-                a(href="#") Product Cost Breakdown
           li
-            a(href="#") Reports
+            a(href="#")= menu.reports
             ul(class="menu vertical")
               li
-                a(href="#") Product Cost Breakdown
+                a(href="#") Components Report
+              li
+                a(href="#") Price List
               li
                 a(href="#") Product Group Prices Report
-              li
-                a(href="#") Product Inputs
               li
                 a(href="#") Labor Rates By Group Report
               li
                 a(href="#") Mix Registry Report
-              li
-                a(href="#") Production Weight Report
           li
-            a(href="#") Temporary Tables
+            a(href="#")= menu.temptables
             ul(class="menu vertical")
               li
                 a(href="#") Prodcosts
           li
-            a(href="#") Charts
+            a(href="#")= menu.charts
             ul(class="menu vertical")
               li
                 a(href="../graphs/breakeven") Break Even
@@ -92,15 +88,15 @@ html(class="no-js")
               li
                 a(href="../graphs/productCostBreakdown") Products Chart
           li
-            a(href="#") Months
+            a(href="#")= menu.months
           li
-            a(href="#") Test
+            a(href="#")= menu.test
           li
-            a(href="../settings") Settings
+            a(href="../settings")= menu.settings
       div(class="top-bar-right")
         ul(class="dropdown menu" data-dropdown-menu)
           li
-            a(href="../logout", id="logout")= "Logout"
+            a(href="../logout", id="logout")= menu.logout
 
   body      
       block table

@@ -4,6 +4,7 @@ var db = require('../models/db');
 var helper = require('./tablehelper');
 const tableNames = initTableNames();
 var passport = require('passport');
+var localizer = require('./localizer');
 
 function isAuthenticated(req, res, next) {
   console.log("authing");
@@ -49,11 +50,28 @@ router.get('/:table', isAuthenticated, function(req, res) {
           }
         }
       }).then(function(results) {
-        res.render('table', {
+        const table = {
+          tableObj: {
+            add: "Add",
+            edit: "Edit",
+            delete: "Delete",
+            filtering: "Advanced Filter"
+          }
+        };
+        const otherValues = {
           table_name: tableNames[req.params.table],
           table_abrv: req.params.table,
           table_header: tableColumns,
           table_data: results.rows
+        };
+
+        localizer.setLocale(req.user.locale);
+        localizer.translatePage(table, {
+          values: otherValues,
+          next: function(values) {
+            console.log(JSON.stringify(values));
+            res.render('table', values);
+          }
         });
       });
     }

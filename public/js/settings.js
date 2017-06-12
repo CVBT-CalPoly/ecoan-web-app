@@ -32,4 +32,21 @@ $(document).ready( function () {
       $('#add-button').attr('disabled',true);
     }
   });
+
+  $('#change-lang-button').on('click', function() {
+    var selected = document.getElementById('locales-select');
+    var newLocale = selected.value;
+    console.log(newLocale);
+
+    $.ajax({
+      "url": "http://localhost:3000/api/settings/locale/" + newLocale,
+      "type": "POST",
+      error: function(xhr, status, errorThrown) {
+        alert(xhr.responseText);
+      },
+      success: function(result) {
+        location.reload();
+      }
+    });
+  })
 });

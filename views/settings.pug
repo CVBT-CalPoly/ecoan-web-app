@@ -9,18 +9,43 @@ block sources
 
 block content
   div(class="large-5 large-centered columns" id="settings-container")
-    h2= "Account Settings"
+    h2= settings.accountsettings
     div(class="medium-5" id="shared-table")
       div(class="row")
         table(class="hover")
-          th="Data shared with:"
-          each person in shared
+          th= settings.tablessharedwith
+          each person in settings.shared
             tr  
               td= person  
       div(class="row")
         form
           div(class="medium-7 medium-centered columns" id="add-user-form")
-            label= "Share your tables with other users:"
-              input(type="text" id="newuser" placeholder="username")
+            label= settings.sharetables
+              input(type="text" id="newuser" placeholder= settings.username)
             div(class="medium-12 columns")
-              a(title="Add new shared user", class="button", id="add-button", disabled) Add
+              a(title="Add new shared user", class="button", id="add-button", disabled)= settings.add
+    h2= settings.userlangtitle
+    div(class="medium-5" id="locale-table")
+      div(class="row")
+        table(class="hover")
+          th= Current
+            tr
+              td= settings.currlang
+      div(class="row")
+        div(class="input-group")
+          select(id="locales-select")
+            option(disabled selected value="none" id="unselected-locale")= settings.defaultselect
+            option(value="en")= settings.english
+            option(value="es")= settings.spanish
+            option(value="fr")= settings.french
+            option(value="de")= settings.german
+            option(value="th")= settings.thai
+            option(value="id")= settings.indonesian
+            option(value="my")= settings.burmese
+            option(value="vi")= settings.vietnamese
+            option(value="hi")= settings.hindi
+            option(value="ne")= settings.nepalese
+            option(value="ar")= settings.arabic
+          div(class="input-group-button")
+            input(type="submit" class="button" value= settings.change id="change-lang-button")
+

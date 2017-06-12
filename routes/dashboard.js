@@ -1,5 +1,6 @@
 var express = require('express');
 var passport = require('passport');
+var localizer = require('./localizer');
 var router = express.Router();
 
 function isAuthenticated(req, res, next) {
@@ -12,7 +13,17 @@ function isAuthenticated(req, res, next) {
 }
 
 router.get('/', isAuthenticated, function(req, res) {
-  res.render('dashboard');
+  const dashboard = {
+    dashboard: {
+      backups_button: "View Backups"
+    }
+  };
+  localizer.setLocale(req.user.locale);
+  localizer.translatePage(dashboard, {
+    next: function(values) {
+      res.render('dashboard', values);
+    }}
+  );
 });
 
 module.exports = router;
