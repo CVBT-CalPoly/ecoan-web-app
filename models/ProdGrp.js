@@ -85,6 +85,10 @@ module.exports = function(sequelize, DataTypes) {
     Clerk: {
       type: DataTypes.FLOAT,
       allowNull: false
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'ProdGrp'

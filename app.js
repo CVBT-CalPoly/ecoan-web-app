@@ -54,7 +54,7 @@ app.use('/table', table);
 app.use('/dashboard', dash);
 app.use('/backups', backups);
 app.use('/settings', settings);
-app.use('/graphs', express.static('graphs'))
+app.use('/graphs', graphs);
 // APIs
 app.use('/api/tables/crud', table_api);
 app.use('/api/graph/graph', graph_api);

@@ -19,11 +19,13 @@ block table
       span(aria-hidden="true") &times;
   
   div(id="data-table-container", style="display: none")
-    h2= tableObj.table_name
-    div(id="crud-buttons")
-      a(title="Create Backup" class="button" id="create-backup-button" enabled)= tableObj.backup
-      a(title="Edit Database Item", class="button", id="edit-button", disabled)= tableObj.edit
-      a(href="#", title="Delete Database Item", class="button alert", id="delete-button", disabled)= tableObj.delete
+    div(class="row")
+      h2= tableObj.table_name
+    div(class="row")
+      div(id="crud-buttons")
+        a(title="Create Backup" class="button" id="create-backup-button" enabled)= tableObj.backup
+        a(title="Edit Database Item", class="button", id="edit-button", disabled)= tableObj.edit
+        a(href="#", title="Delete Database Item", class="button alert", id="delete-button", disabled)= tableObj.delete
     div(id="table-name" style="display: none")= tableObj.table_abrv
     table(id="data-table", class="cell-border", cellspacing="0", width="100%")
       thead

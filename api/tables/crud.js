@@ -3,8 +3,16 @@ var router = express.Router();
 var db = require('../../models/db');
 var helper = require('../../routes/tablehelper');
 
+function isAuthenticated(req, res, next) {
+  console.log("authing");
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+}
 /* GET home page. */
-router.post('/delete/:table', function(req, res) {
+router.post('/delete/:table', isAuthenticated, function(req, res) {
   var dbObject = helper.getDbObject(req.params.table);
   var parsed = JSON.parse(Object.keys(req.body)[0]);
 
@@ -26,7 +34,7 @@ router.post('/delete/:table', function(req, res) {
   }
 });
 
-router.post('/edit/:table', function(req, res) {
+router.post('/edit/:table', isAuthenticated, function(req, res) {
   var updateArray = [];
   for(var key in req.body) {
     updateArray.push(JSON.parse(req.body[key]));
@@ -50,7 +58,23 @@ router.post('/edit/:table', function(req, res) {
   } else {
     res.send("No changes");
   }
+});
 
+router.post('/add/:table', isAuthenticated, function(req, res) {
+  for(var key in req.body) {
+    if(req.body[key] === "") {
+      req.body[key] = null;
+    }
+  }
+
+  helper.getDbObject(req.params.table)
+  .create(req.body,
+    {
+      fields: Object.keys(req.body)
+    }
+  );
+
+  res.send("Success");
 });
 
 module.exports = router;

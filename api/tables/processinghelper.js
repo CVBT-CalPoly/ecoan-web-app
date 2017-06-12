@@ -15,21 +15,24 @@ function process(req, res, tableName, filterObject) {
 
   var sharing = [];
 
-  helper.getDbObject("sharedWith").findAndCount({
+  helper.getDbObject("sharedWith").findAll({
     where: {
-      host: req.user.username
+      share: req.user.username
     }
   }).then(function(results) {
-    for (var index = 0; index < results.rows.length; ++index) {
-      console.log(results.rows[index].dataValues.share);
-      sharing.push(results.rows[index].dataValues.share);
-    }
-    console.log(sharing);
+    var users = results.map(function(item) {
+      return item.host;
+    });
+    console.log("users");
+
+    users.push(req.user.username);
+
+    console.log(users);
 
     sharing.push(req.user.username);
     filter["Owner"] = {
       $or: {
-        $in: sharing,
+        $in: users,
         $eq: null
       }
     };
@@ -79,7 +82,7 @@ function process(req, res, tableName, filterObject) {
         });
         dataArray.push(rowData);
       });
-      
+
       response["data"] = dataArray;
       res.send(JSON.stringify(response));
     });

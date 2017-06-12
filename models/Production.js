@@ -21,6 +21,10 @@ module.exports = function(sequelize, DataTypes) {
     ProdComm: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'Production'

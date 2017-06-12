@@ -25,6 +25,10 @@ module.exports = function(sequelize, DataTypes) {
     Status: {
       type: DataTypes.CHAR(1),
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'MixRegistry'

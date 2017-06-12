@@ -15,6 +15,10 @@ module.exports = function(sequelize, DataTypes) {
     Compno: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'Test'

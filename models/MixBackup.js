@@ -17,6 +17,10 @@ module.exports = function(sequelize, DataTypes) {
     UnitOrBucket: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'MixBackup'

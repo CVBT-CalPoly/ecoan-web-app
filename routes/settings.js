@@ -22,16 +22,14 @@ router.get('/', isAuthenticated, function(req, res) {
     }
   }).then(function(results) {
     for (var index = 0; index < results.rows.length; ++index) {
-      console.log(results.rows[index].dataValues.share);
       sharing.push(results.rows[index].dataValues.share);
     }
-
     const settings = {
       settings: {
         userlangtitle: "User Language",
         currlang: localizer.getLanguageForLocale(req.user.locale),
         accountsettings: "Account Settings",
-        tablessharedwith: "Tables Shared With",
+        tablessharedwith: "Data shared with:",
         sharetables: "Share your tables with other users",
         username: "Username",
         add: "Add",

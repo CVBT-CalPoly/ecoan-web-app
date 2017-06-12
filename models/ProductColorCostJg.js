@@ -13,6 +13,10 @@ module.exports = function(sequelize, DataTypes) {
     Cost4: {
       type: "DOUBLE",
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'ProductColorCostJg'

@@ -21,6 +21,10 @@ module.exports = function(sequelize, DataTypes) {
     DryWeight: {
       type: "DOUBLE",
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'Buckets'

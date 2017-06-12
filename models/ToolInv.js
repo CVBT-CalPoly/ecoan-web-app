@@ -9,6 +9,10 @@ module.exports = function(sequelize, DataTypes) {
     CapInv: {
       type: "DOUBLE",
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'ToolInv'

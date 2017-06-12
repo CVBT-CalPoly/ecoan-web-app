@@ -1,0 +1,30 @@
+extends layout
+
+block header
+  link(rel='stylesheet', href='../css/graph.css')
+
+block graph
+  div(id="graphspace")
+    div(class="graph")
+      div(class="row")
+        h1= "BreakEven Chart"
+        svg(id = "graph" width="960" height="500")
+      br
+      div(class="row")
+        div(class="large-3 columns")
+          div(class="row")
+            div(class="dropbox")  
+              label= "Select Product"
+                select(id="drop")
+                    
+          div(class="row")    
+            div(class="login-box")
+              label= "Number of Products Produced"
+                input(type="number" id="numForm" value = "30000")
+          div(class="row")
+            button(class="button" onclick= "deleteGraphAndInit()") Submit
+
+    
+  script(src="https://d3js.org/d3.v4.min.js")
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+  script(type="text/javascript", src='../graphs/breakeven.js')

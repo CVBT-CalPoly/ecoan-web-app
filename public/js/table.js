@@ -1,9 +1,12 @@
+var user;
+$.getJSON("http://localhost:3000/api/user_data", function(data) {
+  // Make sure the data contains the username as expected before using it
+  if (data.hasOwnProperty('username')) {
+    user = data.username.username;
+  }
+});
+
 $(document).ready( function () {
-  // Setup - add a text input to each footer cell
-  $('#data-table tfoot th').each( function () {
-      var title = $(this).text();
-      $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-  });
   // Do not touch, or reuse variable names to reduce namespace pollution.
   var tables;
   var row = {};
@@ -184,16 +187,41 @@ function initButtons() {
     // Generate form with all initial values
     for(var idx in row) {
       // Build form element
-      var label = document.createElement("label");
-      var input = document.createElement("input");
-      // Populates orignal values into newly built form
-      label.innerHTML = headers[idx].innerHTML;
-      input.type = "text";
-      input.placeholder = row[idx];
-      label.appendChild(input);
-      $("#edit-form").append(label);
+      if(headers[idx].innerHTML !== "Owner") {
+        var label = document.createElement("label");
+        var input = document.createElement("input");
+        // Populates orignal values into newly built form
+        label.innerHTML = headers[idx].innerHTML;
+        input.type = "text";
+        input.placeholder = row[idx];
+        label.appendChild(input);
+        $("#edit-form").append(label);
+      }
     }
   });
+
+  $('#add-button').on('click', function() {
+    // clears the edit-form from old values
+    $('#add-form').empty();
+    // Get table headers
+    var headers = $("table tr:eq(0) td");
+    // Generate form with all initial values
+    for(var i = 0; i < headers.length; i++) {
+      // console.log(headers[i])
+      // Build form element
+      if(headers[i].innerHTML !== "Owner") {
+        var label = document.createElement("label");
+        var input = document.createElement("input");
+        // Populates orignal values into newly built form
+        label.innerHTML = headers[i].innerHTML;
+        input.type = "text";
+        input.placeholder = "null";
+        label.appendChild(input);
+        $("#add-form").append(label);
+      }
+    }
+  });
+
   // Listens for clicks on delete button.
   $('#delete-button').on('click', function() {
     var tableName = $('#table-name')[0].innerHTML;
@@ -221,7 +249,7 @@ function initButtons() {
       "type": "POST",
       "data": JSON.stringify(newTable),
       success: function(result) {
-        selectedRow.remove().draw();
+        selectedRow.remove().draw(false);
         row = {};
       }
     });
@@ -236,6 +264,7 @@ function initButtons() {
     var header_array = [];
     var changes = {};
     var original = {};
+    var additions_array = [];
 
     headers.each(function() {
       header_array.push(this.innerHTML);
@@ -245,12 +274,21 @@ function initButtons() {
       var change = $(this).val();
       if(change.length) {
         if(!isNaN(change)) {
-          changes[header_array[index]] = +$(this).val();
+          var newValue = +$(this).val()
+          changes[header_array[index]] = newValue;
+          additions_array.push(newValue);
         } else {
-          changes[header_array[index]] = $(this).val();
+          var newValue = $(this).val()
+          changes[header_array[index]] = newValue;
+          additions_array.push(newValue);
         }
+      } else {
+        additions_array.push(null);
       }
     });
+
+    additions_array.push(header_array[header_array.length - 1]);
+
     // If there are any changes, make edit request
     if(Object.keys(changes).length !== 0) {
       // Create array with old values, so sequelize knows the difference
@@ -265,14 +303,61 @@ function initButtons() {
         "type": "POST",
         "data": updateArray,
         success: function(result) {
-          selectedRow.draw();
+          table.row.add(additions_array).draw(false);
         }
       });
     }
   });
+
+  $('#submit-add').on('click', function() {
+    var headers = $("table tr:eq(0) td");
+    var header_array = [];
+    var addition = {};
+    var original = {};
+    var additions_array = [];
+
+    headers.each(function() {
+      header_array.push(this.innerHTML);
+    });
+    // Create array that contains changes
+    $('#add-form :input').each(function(index){
+      var input = $(this).val();
+
+      if(input.length) {
+        if(!isNaN(input)) {
+          var newValue = +$(this).val()
+          addition[header_array[index]] = newValue;
+          additions_array.push(newValue);
+        } else {
+          var newValue = $(this).val()
+          addition[header_array[index]] = newValue;
+          additions_array.push(newValue);
+        }
+      } else {
+        addition[header_array[index]] = null;
+        additions_array.push(null);
+      }
+    });
+
+    addition.Owner = user;
+    additions_array.push(user);
+    console.log(addition);
+    console.log(additions_array);
+
+    var tableName = $('#table-name')[0].innerHTML;
+    $.ajax({
+      "url": "http://localhost:3000/api/tables/crud/add/" + tableName,
+      "type": "POST",
+      "data": addition,
+      success: function(result) {
+        table.row.add(additions_array).draw(false);
+      }
+    });
+  });
 }
+
 /**
- * Initializes a DataTable
+ * Initializes and show a new DataTable
  * @param  {string} url API endpoint of data
  * @param  {array} data Array of additional data for API endpoint
  */
@@ -280,10 +365,7 @@ function initializeTable(url, data) {
   // Initializes DataTable
   table = $('#data-table').DataTable({
     "scrollX": true,
-    "dom": 'Bfrtip',
-    "buttons": [
-      'print'
-    ],
+    "dom": 'frtip',
     "oLanguage": {
       "sSearch": "Search All Columns"
     },
@@ -302,7 +384,7 @@ function initializeTable(url, data) {
   $('#data-table_filter input').unbind();
   $('#data-table_filter input').bind('keyup', function(e) {
     if(e.keyCode == 13) { // only search upon enter keypress (code 13)
-      table.search(this.value ).draw();
+      table.search(this.value).draw();
     }
   });
 
@@ -315,6 +397,6 @@ function initializeTable(url, data) {
       }
     });
   });
-  
+
   $('#data-table-container').fadeIn("fast");
 }

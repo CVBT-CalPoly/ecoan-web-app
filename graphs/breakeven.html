@@ -64,8 +64,8 @@ function getAllProds() {
       $('#drop option[value=selectedProd]').prop('selected', true);
       var value = document.getElementById('drop').options[document.getElementById('drop').selectedIndex].value;
       getProdCost(value);
-      
-      
+
+
 
     }
   });
@@ -126,7 +126,7 @@ function deleteGraph() {
 
 
 function init() {
-  
+
   var numProd = document.getElementById("numForm").value;
   var drop = document.getElementById("drop");
   var value = drop.options[drop.selectedIndex].value;
@@ -233,7 +233,7 @@ var variableLine = d3.line()
 
 
 
- 
+
 
   console.log("downhere");
   g.append("g")

@@ -11,6 +11,10 @@ module.exports = function(sequelize, DataTypes) {
     Field1: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'Table1'

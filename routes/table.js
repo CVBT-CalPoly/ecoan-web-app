@@ -14,23 +14,25 @@ function isAuthenticated(req, res, next) {
     res.redirect('/login');
   }
 }
+
 router.get('/:table', isAuthenticated, function(req, res) {
   const tableColumns = helper.getTableHeaders(req.params.table);
   console.log(tableColumns);
   var sharing = [];
-  helper.getDbObject("sharedWith").findAndCount({
+  helper.getDbObject("sharedWith").findAll({
     where: {
-      host: req.user.username
+      share: req.user.username
     }
   }).then(function(results) {
-    for (var index = 0; index < results.rows.length; ++index) {
-      console.log(results.rows[index].dataValues.share);
-      sharing.push(results.rows[index].dataValues.share);
-    }
-    console.log(sharing);
 
-    sharing.push(req.user.username);
+    var users = results.map(function(item) {
+      return item.host;
+    });
+    console.log("users");
 
+    users.push(req.user.username);
+
+    console.log(users);
 
     if (tableColumns) {
       console.log(tableNames[req.params.table])
@@ -41,7 +43,7 @@ router.get('/:table', isAuthenticated, function(req, res) {
         where: {
           Owner: {
             $or: {
-              $in: sharing,
+              $in: users,
               $eq: null
             }
 
@@ -78,8 +80,6 @@ router.get('/:table', isAuthenticated, function(req, res) {
       res.render('error');
     }
   });
-
-
 });
 
 function initTableNames() {

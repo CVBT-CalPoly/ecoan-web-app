@@ -15,9 +15,15 @@ block sources
 block table
   //- display attribute it set to show after clientside loading
   div(class="reveal" id="edit-modal" data-reveal)
-    h1= "Edit"
+    h1= "Edit Row"
     form(id="edit-form")
     a(class="button" data-close aria-label="Close modal" id="submit-edits") Submit Changes
+    button(class="close-button" data-close aria-label="Close modal" type="button")
+      span(aria-hidden="true") &times;
+  div(class="reveal" id="add-modal" data-reveal)
+    h1= "Add Row"
+    form(id="add-form")
+    a(class="button" data-close aria-label="Close modal" id="submit-add") Add Row
     button(class="close-button" data-close aria-label="Close modal" type="button")
       span(aria-hidden="true") &times;
   div(class="large reveal" id="adv-filter-modal" data-reveal)
@@ -28,22 +34,20 @@ block table
   
   
   div(id="data-table-container" style="display: none")
-    h2= tableObj.table_name
-    div(id="crud-buttons")
-      a(title="Add Database Item" class="button success" id="add-button")= tableObj.add
-      a(title="Edit Database Item" class="button" id="edit-button" disabled)= tableObj.edit
-      a(title="Delete Database Item" class="button alert" id="delete-button" disabled)= tableObj.delete
-      a(title="Advanced Filtering" class="button" id="adv-filter-button" enabled data-open="adv-filter-modal")= tableObj.filtering
+    div(class="row")
+      h2= tableObj.table_name
+    div(class="row")
+      div(id="crud-buttons")
+        a(title="Add Database Item" class="button success" id="add-button")= tableObj.add
+        a(title="Edit Database Item" class="button" id="edit-button" disabled)= tableObj.edit
+        a(title="Delete Database Item" class="button alert" id="delete-button" disabled)= tableObj.delete
+        a(title="Advanced Filtering" class="button" id="adv-filter-button" enabled data-open="adv-filter-modal")= tableObj.filtering
     div(id="table-name" style="display: none")= tableObj.table_abrv
     table(id="data-table" class="cell-border" cellspacing="0" width="100%")
       thead
         tr
           each header in tableObj.table_header
             td= header
-      tfoot
-        tr
-          each header in tableObj.table_header
-            th= header
       tbody
         each row, index in tableObj.table_data
           tr(row-num=index)

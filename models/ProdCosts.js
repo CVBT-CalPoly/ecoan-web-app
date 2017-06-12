@@ -65,6 +65,10 @@ module.exports = function(sequelize, DataTypes) {
     PercentCost: {
       type: "DOUBLE",
       allowNull: true
+    },
+    Owner: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     tableName: 'ProdCosts'
