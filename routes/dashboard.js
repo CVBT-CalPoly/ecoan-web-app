@@ -16,7 +16,7 @@ function isAuthenticated(req, res, next) {
 router.get('/', isAuthenticated, function(req, res) {
   const dashboard = {
     dashboard: {
-      backups_button: localizer.getText("View Backups")
+      backups_button: "View Backups"
     }
   };
   localizer.setLocale(req.user.locale);
