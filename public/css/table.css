@@ -66,3 +66,7 @@ thead {
 .row {
   margin-left: 0;
 }
+
+#create-backup-button {
+  background-color: green;
+}
