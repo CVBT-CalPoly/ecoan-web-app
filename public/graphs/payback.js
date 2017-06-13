@@ -13,7 +13,7 @@ var listProds = '';
 function getAllProds() {
   $.ajax({
     type: "GET",
-    url: "http://localhost:3000/api/graph/graph/allProducts",
+    url: "/api/graph/graph/allProducts",
     contentType: "application/json",
     success: function(d){
       //console.log(JSON.parse(d));
@@ -41,7 +41,7 @@ function getInvestCosts(id) {
   var myId = {prodId : id};
   $.ajax({
     type: "GET",
-    url: "http://localhost:3000/api/graph/graph/investCosts",
+    url: "/api/graph/graph/investCosts",
     contentType: "application/json",
     datatype: "json",
     data: JSON.stringify(myId),
@@ -58,7 +58,7 @@ function getRetailPrice(id) {
   var myId = {prodId : id};
   $.ajax({
     type: "GET",
-    url: "http://localhost:3000/api/graph/graph/retailPrice",
+    url: "/api/graph/graph/retailPrice",
     contentType: "application/json",
     datatype: "json",
     data: JSON.stringify(myId),
@@ -75,7 +75,7 @@ function getInvestmentPaybackPeriod(id) {
   var myId = {prodId : id};
   $.ajax({
     type: "GET",
-    url: "http://localhost:3000/api/graph/graph/investmentPayback",
+    url: "/api/graph/graph/investmentPayback",
     contentType: "application/json",
     datatype: "json",
     data: JSON.stringify(myId),

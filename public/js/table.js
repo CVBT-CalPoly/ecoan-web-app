@@ -1,5 +1,5 @@
 var user;
-$.getJSON("http://localhost:3000/api/user_data", function(data) {
+$.getJSON("/api/user_data", function(data) {
   // Make sure the data contains the username as expected before using it
   if (data.hasOwnProperty('username')) {
     user = data.username.username;
@@ -12,7 +12,7 @@ $(document).ready( function () {
   var row = {};
   var selectedRow;
 
-  initializeTable("http://localhost:3000/api/tables/processing",
+  initializeTable("/api/tables/processing",
   {
     "table": $('#table-name')[0].innerHTML
   });
@@ -138,7 +138,7 @@ $(document).ready( function () {
           row = null;
           selectedRow = null;
 
-          initializeTable("http://localhost:3000/api/tables/filtering/" + tableName, request);
+          initializeTable("/api/tables/filtering/" + tableName, request);
         }
       }
     });
@@ -245,7 +245,7 @@ function initButtons() {
     }
     // Request the delete API
     $.ajax({
-      "url": "http://localhost:3000/api/tables/crud/delete/" + tableName,
+      "url": "/api/tables/crud/delete/" + tableName,
       "type": "POST",
       "data": JSON.stringify(newTable),
       success: function(result) {
@@ -299,7 +299,7 @@ function initButtons() {
       var updateArray = {"orignal": JSON.stringify(original), "changes": JSON.stringify(changes)};
       var tableName = $('#table-name')[0].innerHTML;
       $.ajax({
-        "url": "http://localhost:3000/api/tables/crud/edit/" + tableName,
+        "url": "/api/tables/crud/edit/" + tableName,
         "type": "POST",
         "data": updateArray,
         success: function(result) {
@@ -346,7 +346,7 @@ function initButtons() {
 
     var tableName = $('#table-name')[0].innerHTML;
     $.ajax({
-      "url": "http://localhost:3000/api/tables/crud/add/" + tableName,
+      "url": "/api/tables/crud/add/" + tableName,
       "type": "POST",
       "data": addition,
       success: function(result) {

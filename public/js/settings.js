@@ -12,7 +12,7 @@ $(document).ready( function () {
     var addition = [user, shareTo];
 
     $.ajax({
-      "url": "http://localhost:3000/api/settings/share/add",
+      "url": "/api/settings/share/add",
       "type": "POST",
       "data": JSON.stringify({"add": addition}),
       error: function(xhr, status, errorThrown) {
@@ -39,7 +39,7 @@ $(document).ready( function () {
     console.log(newLocale);
 
     $.ajax({
-      "url": "http://localhost:3000/api/settings/locale/" + newLocale,
+      "url": "/api/settings/locale/" + newLocale,
       "type": "POST",
       error: function(xhr, status, errorThrown) {
         alert(xhr.responseText);

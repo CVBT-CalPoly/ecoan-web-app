@@ -9,7 +9,7 @@ $(document).ready( function () {
   var row = {};
   var selectedRow;
 
-  initializeTable("http://localhost:3000/api/tables/processing",
+  initializeTable("/api/tables/processing",
   {
     "table": $('#table-name')[0].innerHTML
   });
@@ -26,7 +26,7 @@ function initButtons() {
   $('#create-backup-button').on('click', function() {
     // Request the backup API
     $.ajax({
-      "url": "http://localhost:3000/api/tables/backup",
+      "url": "/api/tables/backup",
       "type": "POST",
       success: function(result) {
         table.ajax.reload();
@@ -99,7 +99,7 @@ function initButtons() {
     }
     // Request the delete API
     $.ajax({
-      "url": "http://localhost:3000/api/tables/crud/delete/" + tableName,
+      "url": "/api/tables/crud/delete/" + tableName,
       "type": "POST",
       "data": JSON.stringify(newTable),
       success: function(result) {
@@ -143,7 +143,7 @@ function initButtons() {
       var updateArray = {"orignal": JSON.stringify(original), "changes": JSON.stringify(changes)};
       var tableName = $('#table-name')[0].innerHTML;
       $.ajax({
-        "url": "http://localhost:3000/api/tables/crud/edit/" + tableName,
+        "url": "/api/tables/crud/edit/" + tableName,
         "type": "POST",
         "data": updateArray,
         success: function(result) {

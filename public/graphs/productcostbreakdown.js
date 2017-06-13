@@ -272,7 +272,7 @@ var listProds = '';
 function getAllProds() {
   $.ajax({
     type: "GET",
-    url: "http://localhost:3000/api/graph/graph/allProducts",
+    url: "/api/graph/graph/allProducts",
     contentType: "application/json",
     success: function(d){
       var data = JSON.parse(d);
@@ -302,7 +302,7 @@ function getPieceCosts(id) {
   var myId = {prodId : id};
   $.ajax({
     type: "GET",
-    url: "http://localhost:3000/api/graph/graph/pieceCosts",
+    url: "/api/graph/graph/pieceCosts",
     contentType: "application/json",
     datatype: "json",
     data: JSON.stringify(myId),
@@ -319,7 +319,7 @@ function getSumPieceCost(id) {
   var myId = {prodId : id};
   $.ajax({
     type: "GET",
-    url: "http://localhost:3000/api/graph/graph/sumPieceCost",
+    url: "/api/graph/graph/sumPieceCost",
     contentType: "application/json",
     datatype: "json",
     data: JSON.stringify(myId),
@@ -334,7 +334,7 @@ function getProdName(id) {
   var myId = {prodId : id};
   $.ajax({
     type: "GET",
-    url: "http://localhost:3000/api/graph/graph/prodName",
+    url: "/api/graph/graph/prodName",
     contentType: "application/json",
     datatype: "json",
     data: JSON.stringify(myId),
