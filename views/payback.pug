@@ -14,13 +14,13 @@ block graph
         div(class="large-3 columns")
           div(class="row")
             div(class="dropbox")  
-              label= "Select Product"
+              label= payback.select
                 select(id="drop")
           div(class="row")
-            label="Number of Products Produced per Month:"
+            label= payback.produced
               input(type="number" id="numForm" value="1000")
           div(class="row")
-            button(class="button" onclick="deleteGraphAndInit()") Submit
+            button(class="button" onclick="deleteGraphAndInit()")= payback.submit
 
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
   script(src="https://d3js.org/d3.v4.min.js")

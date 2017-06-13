@@ -14,15 +14,15 @@ block graph
         div(class="large-3 columns")
           div(class="row")
             div(class="dropbox")  
-              label= "Select Product"
+              label= breakeven.select
                 select(id="drop")
                     
           div(class="row")    
             div(class="login-box")
-              label= "Number of Products Produced"
+              label= breakeven.produced
                 input(type="number" id="numForm" value = "30000")
           div(class="row")
-            button(class="button" onclick= "deleteGraphAndInit()") Submit
+            button(class="button" onclick= "deleteGraphAndInit()")= breakeven.submit
 
     
   script(src="https://d3js.org/d3.v4.min.js")

@@ -37,7 +37,10 @@ function getMenu(next) {
     months: "Months",
     test: "Test",
     settings: "Settings",
-    logout: "Logout"
+    logout: "Logout",
+    breakeven: "Break-even Chart",
+    payback: "Payback Chart",
+    breakdown: "Product Cost Breakdown Chart"
   };
 
   // only initialize menu if haven't yet

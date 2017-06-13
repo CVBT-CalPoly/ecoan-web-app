@@ -20,7 +20,10 @@ router.get('/:graphs', isAuthenticated, function(req, res) {
   if( tableName == "breakeven") {
     const breakeven = {
       breakeven: {
-        chart: "BreakEven Chart"
+        chart: "Break-even Chart",
+        select: "Select Product",
+        produced: "Number of Products Produced",
+        submit: "Submit"
       }
     };
     localizer.translatePage(breakeven, {
@@ -32,7 +35,10 @@ router.get('/:graphs', isAuthenticated, function(req, res) {
   else if( tableName == "payback") {
     const payback = {
       payback: {
-        chart: "Payback Chart"
+        chart: "Payback Chart",
+        select: "Select Product",
+        produced: "Number of Products Produced per Month",
+        submit: "Submit"
       }
     };
     localizer.translatePage(payback, {
